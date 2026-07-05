@@ -1,0 +1,5418 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Minecraft Ten';
+  src: url('/font/minecraft-ten-font/MinecraftTen-VGORe.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Minecraft CHMC';
+  src: url('/font/minecraft-chmc-font/Minecraftchmc-dBlX.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  color: #183044;
+  background: #78c8f2;
+  font-family: 'Minecraft CHMC', ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    linear-gradient(#7ed2ff 0 54%, #77bf4a 54% 62%, #8a5834 62% 100%);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+.app-shell::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.3;
+}
+
+.hero-section {
+  position: relative;
+  min-height: 94vh;
+  display: grid;
+  align-content: center;
+  gap: 28px;
+  padding: 56px 18px 24px;
+}
+
+.hero-content,
+.event-grid,
+.countdown-panel,
+.party-section,
+.card-section {
+  width: min(1120px, calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: #10263a;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: #0d6f65;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 16px;
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: clamp(2.3rem, 7vw, 5.4rem);
+  line-height: 0.95;
+  color: #0f2f28;
+  text-shadow: 0 4px 0 #f7d553, 0 8px 0 rgba(42, 80, 54, 0.18);
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.05;
+  color: #123c34;
+}
+
+.hero-subtitle {
+  margin: 0 auto 18px;
+  max-width: 720px;
+  color: #24445e;
+  font-size: 1.12rem;
+  font-weight: 800;
+}
+
+.hero-copy {
+  margin-bottom: 8px;
+  color: #1b3448;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.muted {
+  color: #3d5f6a;
+}
+
+.primary-button,
+.secondary-button {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  border: 0;
+  border-radius: 0;
+  color: #17301f;
+  font-weight: 950;
+  box-shadow: 0 7px 0 #936012, 0 13px 24px rgba(48, 72, 30, 0.22);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.primary-button {
+  margin-top: 22px;
+  padding: 16px 24px;
+  background: linear-gradient(#ffe278 0 48%, #f4b63f 48% 100%);
+  border: 4px solid #603d0d;
+}
+
+.secondary-button {
+  padding: 10px 14px;
+  background: linear-gradient(#b9efff 0 50%, #24a7d8 50% 100%);
+  border: 3px solid #126c93;
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.birthday-card:hover,
+.secret-chest:hover {
+  transform: translateY(-2px);
+}
+
+.primary-button:active,
+.secondary-button:active,
+.birthday-card:active,
+.secret-chest:active {
+  transform: translateY(4px);
+  box-shadow: 0 3px 0 #936012;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.event-detail {
+  min-height: 104px;
+  padding: 14px;
+  background: #f6e1b4;
+  border: 4px solid #7c4f2c;
+  box-shadow: inset 0 8px 0 rgba(255, 255, 255, 0.2), 0 8px 0 rgba(67, 50, 28, 0.22);
+}
+
+.event-detail dt {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  margin-bottom: 8px;
+  color: #6b3b1f;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.event-detail dd {
+  margin: 0;
+  color: #1d3223;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
+.pixel-cloud {
+  position: absolute;
+  width: 154px;
+  height: 54px;
+  background: #fff;
+  box-shadow: 42px 0 0 #fff, 84px 0 0 #fff, 28px -24px 0 #fff, 68px -24px 0 #fff;
+  opacity: 0.92;
+}
+
+.cloud-one {
+  top: 96px;
+  left: 9%;
+}
+
+.cloud-two {
+  right: 12%;
+  bottom: 190px;
+  transform: scale(0.72);
+}
+
+.music-control {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 8;
+}
+
+.music-icon-button {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  color: #17301f;
+  background: linear-gradient(#b9efff 0 50%, #24a7d8 50% 100%);
+  border: 4px solid #126c93;
+  border-radius: 0;
+  box-shadow: 0 7px 0 #0d526f, 0 13px 24px rgba(48, 72, 30, 0.22);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.music-icon-button:hover {
+  transform: translateY(-2px);
+}
+
+.music-icon-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 3px 0 #0d526f;
+}
+.countdown-panel {
+  margin-top: -26px;
+  margin-bottom: 56px;
+  padding: 20px;
+  text-align: center;
+  background: #fff8d8;
+  border: 5px solid #24445e;
+  box-shadow: 0 9px 0 rgba(22, 52, 72, 0.28);
+}
+
+.countdown-panel p {
+  margin-bottom: 14px;
+  color: #0d6f65;
+  font-weight: 950;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(68px, 1fr));
+  gap: 10px;
+}
+
+.countdown-tile {
+  display: grid;
+  min-height: 92px;
+  place-items: center;
+  padding: 10px;
+  background: #1f6f4a;
+  border: 4px solid #123c34;
+  color: #fff;
+}
+
+.countdown-tile strong {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.countdown-tile small {
+  color: #b9efff;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.section-heading span {
+  color: #24445e;
+  font-size: 0.95rem;
+  font-weight: 850;
+}
+
+.party-section {
+  margin-bottom: 60px;
+}
+
+.party-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 22px 12px 28px;
+  background:
+    linear-gradient(transparent 0 65%, rgba(119, 191, 74, 0.8) 65%),
+    rgba(255, 255, 255, 0.18);
+  border: 5px solid rgba(18, 60, 52, 0.65);
+  scrollbar-color: #f4b63f #123c34;
+}
+
+.party-row {
+  display: grid;
+  grid-template-columns: minmax(250px, 1fr) auto minmax(250px, 1fr);
+  align-items: end;
+  min-width: max(100%, 820px);
+  gap: 18px;
+}
+
+.guest-side {
+  display: flex;
+  align-items: end;
+  gap: 14px;
+  min-width: max-content;
+}
+
+.left-side {
+  justify-content: flex-end;
+}
+
+.right-side {
+  justify-content: flex-start;
+}
+
+.blocky-player {
+  --player-color: #2fb344;
+  --player-dark: #197533;
+  --player-light: #a7f3b8;
+  display: grid;
+  justify-items: center;
+  min-width: 104px;
+  animation: player-pop 520ms ease both;
+}
+
+.hero-player {
+  min-width: 156px;
+  transform: translateY(-8px);
+}
+
+.player-name {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  max-width: 140px;
+  min-height: 28px;
+  padding: 5px 8px;
+  color: #fff;
+  background: #183044;
+  border: 3px solid #0f1c28;
+  font-size: 0.82rem;
+  font-weight: 950;
+  line-height: 1.1;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.hero-player .player-name {
+  max-width: 168px;
+  color: #17301f;
+  background: #ffe278;
+  border-color: #603d0d;
+  font-size: 1rem;
+}
+
+.player-subtitle {
+  margin: 5px 0 7px;
+  color: #fff8d8;
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-shadow: 0 2px 0 #123c34;
+}
+
+.player-sprite {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  margin-top: 10px;
+}
+
+.player-head {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--player-dark);
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 28%, var(--player-light), var(--player-color) 64%);
+}
+
+.hero-player .player-head {
+  width: 68px;
+  height: 68px;
+  border-width: 5px;
+}
+
+.steve-sprite .eye {
+  position: absolute;
+  top: 18px;
+  width: 6px;
+  height: 6px;
+  background: #10263a;
+}
+
+.steve-sprite .left-eye {
+  left: 13px;
+}
+
+.steve-sprite .right-eye {
+  right: 13px;
+}
+
+.hero-player .steve-sprite .eye {
+  top: 26px;
+  width: 8px;
+  height: 8px;
+}
+
+.smile {
+  position: absolute;
+  left: 17px;
+  bottom: 12px;
+  width: 14px;
+  height: 4px;
+  background: #10263a;
+}
+
+.hero-player .smile {
+  left: 25px;
+  bottom: 17px;
+  width: 18px;
+  height: 5px;
+}
+
+.player-body,
+.player-legs {
+  display: flex;
+  justify-content: center;
+}
+
+.torso {
+  width: 38px;
+  height: 50px;
+  background: var(--player-color);
+  border: 4px solid var(--player-dark);
+  border-top: 0;
+}
+
+.arm {
+  width: 15px;
+  height: 46px;
+  margin-top: 4px;
+  background: var(--player-dark);
+}
+
+.left-arm {
+  transform: rotate(5deg);
+}
+
+.right-arm {
+  transform: rotate(-5deg);
+}
+
+.player-legs span {
+  width: 18px;
+  height: 32px;
+  background: #24445e;
+  border-inline: 3px solid #183044;
+}
+
+.hero-player .torso {
+  width: 52px;
+  height: 66px;
+  border-width: 5px;
+}
+
+.hero-player .arm {
+  width: 20px;
+  height: 62px;
+}
+
+.hero-player .player-legs span {
+  width: 24px;
+  height: 42px;
+}
+
+.joined-tag {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  margin-top: 8px;
+  padding: 4px 6px;
+  color: #0f2f28;
+  background: #b9efff;
+  border: 2px solid #126c93;
+  font-size: 0.68rem;
+  font-weight: 950;
+}
+
+.hero-decoration {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+  min-height: 28px;
+  margin-top: 8px;
+}
+
+.cake-piece {
+  width: 24px;
+  height: 18px;
+  background: linear-gradient(#fff 0 34%, #ec5b4e 34% 67%, #f6e1b4 67% 100%);
+  border: 3px solid #7c4f2c;
+}
+
+.diamond-piece {
+  width: 20px;
+  height: 20px;
+  background: #24a7d8;
+  border: 3px solid #126c93;
+  transform: rotate(45deg);
+}
+
+.crown-piece {
+  width: 28px;
+  height: 20px;
+  background: linear-gradient(135deg, transparent 0 18%, #f4b63f 18% 36%, transparent 36% 46%, #f4b63f 46% 64%, transparent 64% 74%, #f4b63f 74% 100%);
+  border-bottom: 6px solid #936012;
+}
+
+.grass-block {
+  width: 86px;
+  height: 38px;
+  margin-top: -2px;
+  background: linear-gradient(#57a93b 0 38%, #8a5834 38% 100%);
+  border: 4px solid #55341f;
+  box-shadow: inset 0 7px 0 #77bf4a;
+}
+
+.large-block {
+  width: 136px;
+  height: 48px;
+}
+
+.card-section {
+  margin-bottom: 70px;
+  text-align: center;
+}
+
+.birthday-card {
+  position: relative;
+  width: min(520px, calc(100vw - 36px));
+  min-height: 320px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  perspective: 1200px;
+  box-shadow: none;
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  border: 6px solid #603d0d;
+  background: #fff8d8;
+  box-shadow: 0 10px 0 rgba(96, 61, 13, 0.25);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 520ms ease;
+}
+
+.card-front {
+  background:
+    linear-gradient(90deg, rgba(47, 179, 68, 0.16) 12px, transparent 12px),
+    linear-gradient(#fff8d8, #ffe39a);
+  background-size: 24px 24px, auto;
+}
+
+.card-front strong,
+.card-inside strong {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  color: #123c34;
+  font-size: 1.7rem;
+}
+
+.card-front em {
+  color: #936012;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 950;
+}
+
+.card-inside {
+  align-content: center;
+  gap: 16px;
+  white-space: pre-line;
+  transform: rotateY(180deg);
+}
+
+.card-inside span {
+  max-width: 390px;
+  color: #24445e;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.birthday-card.open .card-front {
+  transform: rotateY(180deg);
+}
+
+.birthday-card.open .card-inside {
+  transform: rotateY(360deg);
+}
+
+.secret-chest {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 7;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: transform 0.15s ease-in-out;
+}
+
+.secret-chest-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.secret-video {
+  width: 100%;
+  border: 6px solid #123c34;
+  border-radius: 0;
+  box-shadow: 0 6px 0 rgba(10, 25, 30, 0.24);
+  margin-top: 14px;
+  background: #000;
+  display: block;
+}
+
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(16, 38, 58, 0.68);
+}
+
+.modal {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  padding: 24px;
+  background: #fff8d8;
+  border: 6px solid #123c34;
+  box-shadow: 0 12px 0 rgba(10, 25, 30, 0.36);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.icon-button {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 3px solid #123c34;
+  border-radius: 0;
+  color: #fff;
+  background: #ec5b4e;
+  font-weight: 950;
+}
+
+.rsvp-form {
+  display: grid;
+  gap: 16px;
+  text-align: left;
+}
+
+.rsvp-form label,
+.rsvp-form fieldset {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  color: #123c34;
+  font-weight: 950;
+}
+
+.rsvp-form fieldset {
+  padding: 0;
+  border: 0;
+}
+
+.rsvp-form label span {
+  color: #3d5f6a;
+  font-size: 0.78rem;
+}
+
+.rsvp-form input,
+.rsvp-form textarea {
+  width: 100%;
+  border: 4px solid #24445e;
+  border-radius: 0;
+  padding: 12px;
+  color: #10263a;
+  background: #fff;
+  resize: vertical;
+}
+
+.rsvp-form input:focus,
+.rsvp-form textarea:focus,
+button:focus-visible,
+.party-scroll:focus-visible {
+  outline: 4px solid #24a7d8;
+  outline-offset: 3px;
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.color-choice {
+  --swatch: #2fb344;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  gap: 8px;
+  padding: 9px;
+  border: 3px solid #24445e;
+  color: #10263a;
+  background: #fff;
+  font-weight: 850;
+  text-align: left;
+}
+
+.color-choice span {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  background: var(--swatch);
+  border: 3px solid #123c34;
+}
+
+.color-choice.selected {
+  background: #b9efff;
+  border-color: #126c93;
+}
+
+.form-error {
+  margin: 0;
+  padding: 10px;
+  color: #681915;
+  background: #ffc8c2;
+  border: 3px solid #ec5b4e;
+  font-weight: 900;
+}
+
+.secret-modal p {
+  color: #24445e;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.coordinates {
+  padding: 10px;
+  background: #b9efff;
+  border: 3px solid #126c93;
+}
+
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+@keyframes player-pop {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-section {
+    min-height: 88vh;
+    padding-top: 82px;
+  }
+
+  .event-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .event-detail {
+    min-height: 96px;
+  }
+
+  .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section-heading {
+    display: block;
+  }
+
+  .section-heading span {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .party-row {
+    grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+    min-width: 760px;
+  }
+
+  .cloud-one {
+    left: -72px;
+  }
+
+  .cloud-two {
+    right: -84px;
+    bottom: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-grid,
+  .color-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content,
+  .event-grid,
+  .countdown-panel,
+  .party-section,
+  .card-section {
+    width: min(100% - 24px, 1120px);
+  }
+
+  .music-control {
+    top: 14px;
+    right: 14px;
+    left: auto;
+  }
+
+  .modal {
+    padding: 20px;
+  }
+
+  .birthday-card {
+    min-height: 370px;
+  }
+}
+
+
+
+
+
+/* Final polish pass */
+:root {
+  font-size: 20px;
+  line-height: 1.55;
+}
+
+body {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.55) 0 8%, transparent 9%),
+    linear-gradient(#76d1ff 0 50%, #62b944 50% 59%, #7a4b2e 59% 100%);
+}
+
+.app-shell::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  height: 120px;
+  background-image:
+    linear-gradient(90deg, rgba(85, 52, 31, 0.22) 25%, transparent 25% 50%, rgba(85, 52, 31, 0.22) 50% 75%, transparent 75%),
+    linear-gradient(#8a5834, #6f4328);
+  background-size: 64px 64px, auto;
+}
+
+.hero-section {
+  min-height: 90vh;
+  padding-top: 74px;
+}
+
+.hero-content {
+  padding: 22px 10px 8px;
+}
+
+h1 {
+  max-width: 980px;
+  margin-inline: auto;
+  letter-spacing: 0;
+  text-shadow: 0 5px 0 #f7d553, 0 10px 0 rgba(42, 80, 54, 0.18), 0 18px 34px rgba(16, 38, 58, 0.2);
+}
+
+h2 {
+  letter-spacing: 0;
+}
+
+.eyebrow {
+  font-size: 1.05rem;
+}
+
+.hero-subtitle,
+.hero-copy,
+.event-detail dd,
+.countdown-panel p,
+.section-heading span,
+.card-inside span,
+.secret-modal p {
+  font-size: 1.14rem;
+}
+
+.hero-copy {
+  font-weight: 850;
+}
+
+.primary-button {
+  min-height: 64px;
+  padding: 17px 30px 15px;
+  font-size: 1.08rem;
+  letter-spacing: 0;
+  box-shadow: 0 8px 0 #936012, 0 18px 30px rgba(48, 72, 30, 0.28);
+}
+
+.event-grid {
+  gap: 16px;
+}
+
+.event-detail,
+.countdown-panel,
+.party-scroll,
+.card-face,
+.modal {
+  border-image: linear-gradient(135deg, #24445e, #123c34, #7c4f2c) 1;
+}
+
+.event-detail {
+  min-height: 124px;
+  padding: 17px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent 38%),
+    linear-gradient(#fff0c9, #f6d698);
+}
+
+.event-detail dt,
+.countdown-tile small {
+  font-size: 0.88rem;
+}
+
+.countdown-panel {
+  padding: 24px;
+  background:
+    linear-gradient(90deg, rgba(36, 167, 216, 0.08) 12px, transparent 12px),
+    #fff8d8;
+  background-size: 24px 24px, auto;
+}
+
+.countdown-tile {
+  min-height: 106px;
+  box-shadow: inset 0 8px 0 rgba(255, 255, 255, 0.12), 0 6px 0 rgba(18, 60, 52, 0.25);
+}
+
+.countdown-tile strong {
+  font-size: 2.35rem;
+}
+
+.section-heading {
+  padding-inline: 4px;
+}
+
+.section-heading h2 {
+  margin-bottom: 2px;
+}
+
+.party-scroll {
+  padding: 32px 18px 34px;
+  background:
+    linear-gradient(transparent 0 58%, rgba(119, 191, 74, 0.92) 58% 74%, rgba(138, 88, 52, 0.9) 74%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.12));
+  box-shadow: 0 14px 0 rgba(18, 60, 52, 0.2), inset 0 10px 0 rgba(255, 255, 255, 0.16);
+}
+
+.party-row {
+  gap: 24px;
+}
+
+.blocky-player {
+  animation: none;
+}
+
+.player-name {
+  font-size: 0.9rem;
+  min-height: 34px;
+  padding: 7px 9px;
+  box-shadow: 0 4px 0 rgba(15, 28, 40, 0.35);
+}
+
+.hero-player .player-name {
+  font-size: 1.08rem;
+}
+
+.player-subtitle,
+.joined-tag {
+  font-size: 0.86rem;
+}
+
+.grass-block {
+  box-shadow: inset 0 8px 0 #77bf4a, 0 7px 0 rgba(85, 52, 31, 0.28);
+}
+
+.card-section {
+  padding-bottom: 18px;
+}
+
+.birthday-card {
+  min-height: 360px;
+}
+
+.card-face {
+  padding: 34px;
+}
+
+.card-front strong,
+.card-inside strong {
+  font-size: 2rem;
+}
+
+.card-front em {
+  font-size: 1.35rem;
+}
+
+.modal {
+  width: min(580px, 100%);
+  padding: 30px;
+  background:
+    linear-gradient(90deg, rgba(47, 179, 68, 0.08) 12px, transparent 12px),
+    #fff8d8;
+  background-size: 24px 24px, auto;
+}
+
+.rsvp-form {
+  gap: 18px;
+}
+
+.rsvp-form label,
+.rsvp-form fieldset {
+  font-size: 1.08rem;
+}
+
+.rsvp-form input,
+.rsvp-form textarea {
+  min-height: 56px;
+  padding: 14px;
+  font-size: 1.05rem;
+  box-shadow: inset 0 4px 0 rgba(36, 68, 94, 0.08);
+}
+
+.color-choice {
+  min-height: 58px;
+  font-size: 1rem;
+}
+
+.form-error {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.music-icon-button,
+.secret-chest {
+  filter: drop-shadow(0 10px 14px rgba(16, 38, 58, 0.18));
+}
+
+@media (max-width: 760px) {
+  :root {
+    font-size: 18px;
+  }
+
+  .hero-section {
+    min-height: 84vh;
+  }
+
+  .event-detail {
+    min-height: 116px;
+  }
+
+  .party-scroll {
+    padding-inline: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 17px;
+  }
+
+  .primary-button {
+    width: min(100%, 320px);
+  }
+
+  .card-face {
+    padding: 24px;
+  }
+}
+
+/* Section layout redesign */
+body {
+  background: #74cfff;
+}
+
+.app-shell {
+  overflow: visible;
+  padding-bottom: 0;
+  background: #74cfff;
+}
+
+.app-shell::after {
+  display: none;
+}
+
+.hero-section,
+.party-section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background:
+    linear-gradient(#76cfff 0 56%, #d7ecff 56% 66%, #69be45 66% 73%, #865638 73% 100%);
+}
+
+.hero-section::before,
+.party-section::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 220px;
+  background:
+    linear-gradient(180deg, #6bc24a 0 27%, transparent 27%),
+    linear-gradient(90deg, #5eb33f 0 24px, #7bd957 24px 48px, #4f9b35 48px 72px, #6bc24a 72px 96px),
+    linear-gradient(90deg, #6b442d 0 28px, #8a5834 28px 56px, #a06a43 56px 84px, #5c3928 84px 112px);
+  background-size: auto, 96px 56px, 112px 112px;
+  background-position: 0 0, 0 0, 0 58px;
+}
+
+.hero-section::after,
+.party-section::after {
+  content: '';
+  position: absolute;
+  top: 34px;
+  left: 42px;
+  width: 64px;
+  height: 64px;
+  background: #fffef2;
+  box-shadow: 0 0 24px rgba(255, 255, 210, 0.92);
+}
+
+.hero-section {
+  min-height: 100svh;
+  align-content: center;
+  padding: 86px 18px 260px;
+}
+
+.hero-content {
+  max-width: 1000px;
+  padding: 0 10px;
+}
+
+.hero-content .eyebrow {
+  margin-bottom: 22px;
+  color: #0e6a5f;
+  font-size: 1.22rem;
+}
+
+h1 {
+  font-size: clamp(3.8rem, 9vw, 7.6rem);
+  line-height: 0.92;
+  max-width: 980px;
+}
+
+.hero-subtitle {
+  max-width: 860px;
+  margin-bottom: 28px;
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  line-height: 1.35;
+}
+
+.hero-copy {
+  margin-bottom: 18px;
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+  line-height: 1.35;
+}
+
+.primary-button {
+  margin-top: 32px;
+  min-height: 76px;
+  padding: 20px 38px 18px;
+  font-size: 1.28rem;
+}
+
+.pixel-cloud {
+  z-index: 0;
+  width: 132px;
+  height: 44px;
+  background: #f5fbff;
+  box-shadow: 36px 0 0 #f5fbff, 72px 0 0 #f5fbff, 24px -22px 0 #f5fbff, 56px -22px 0 #f5fbff;
+  opacity: 0.96;
+}
+
+.hero-cloud {
+  position: absolute;
+  z-index: 0;
+  animation: cloud-drift linear infinite;
+  will-change: transform;
+  --cloud-scale: 1;
+}
+
+/* Hero Cloud 1 — high sky, left start */
+.hero-cloud-1 {
+  top: 40px;
+  left: -220px;
+  width: 140px;
+  height: 48px;
+  background: #f5fbff;
+  box-shadow: 38px 0 0 #f5fbff, 76px 0 0 #f5fbff, 26px -24px 0 #f5fbff, 58px -24px 0 #f5fbff;
+  opacity: 0.95;
+  animation-duration: 48s;
+  animation-delay: -3s;
+}
+
+/* Hero Cloud 2 — upper-mid sky, right start */
+.hero-cloud-2 {
+  top: 120px;
+  left: -140px;
+  width: 100px;
+  height: 34px;
+  background: #eef8ff;
+  box-shadow: 28px 0 0 #eef8ff, 56px 0 0 #eef8ff, 18px -17px 0 #eef8ff, 42px -17px 0 #eef8ff;
+  opacity: 0.88;
+  animation-duration: 32s;
+  animation-delay: -22s;
+}
+
+/* Hero Cloud 3 — lower sky, middle start */
+.hero-cloud-3 {
+  top: 440px;
+  left: -260px;
+  width: 160px;
+  height: 54px;
+  background: #f8fdff;
+  box-shadow: 44px 0 0 #f8fdff, 88px 0 0 #f8fdff, 30px -28px 0 #f8fdff, 68px -28px 0 #f8fdff;
+  opacity: 0.92;
+  animation-duration: 56s;
+  animation-delay: -15s;
+}
+
+/* Hero Cloud 4 — high-mid sky, center-left start */
+.hero-cloud-4 {
+  top: 210px;
+  left: -100px;
+  width: 80px;
+  height: 28px;
+  background: #f0f9ff;
+  box-shadow: 22px 0 0 #f0f9ff, 44px 0 0 #f0f9ff, 14px -14px 0 #f0f9ff, 34px -14px 0 #f0f9ff;
+  opacity: 0.84;
+  animation-duration: 25s;
+  animation-delay: -10s;
+}
+
+/* Hero Cloud 5 — very low sky, far right start */
+.hero-cloud-5 {
+  top: 550px;
+  left: -180px;
+  width: 120px;
+  height: 40px;
+  background: #eef8ff;
+  box-shadow: 32px 0 0 #eef8ff, 64px 0 0 #eef8ff, 22px -20px 0 #eef8ff, 50px -20px 0 #eef8ff;
+  opacity: 0.90;
+  animation-duration: 40s;
+  animation-delay: -35s;
+}
+
+/* Hero Cloud 6 — mid sky, far right start */
+.hero-cloud-6 {
+  top: 310px;
+  left: -200px;
+  width: 150px;
+  height: 50px;
+  background: #f5fbff;
+  box-shadow: 40px 0 0 #f5fbff, 80px 0 0 #f5fbff, 28px -25px 0 #f5fbff, 62px -25px 0 #f5fbff;
+  opacity: 0.87;
+  animation-duration: 50s;
+  animation-delay: -45s;
+}
+
+.party-section {
+  min-height: 760px;
+  margin: 0;
+  padding: 74px 0 0;
+}
+
+.party-section::before {
+  height: 285px;
+}
+
+.party-section::after {
+  display: none;
+}
+
+/* ── Lobby floating clouds ────────────────────────────────── */
+@keyframes cloud-drift {
+  from { transform: translateX(0) scale(var(--cloud-scale, 1)); }
+  to   { transform: translateX(110vw) scale(var(--cloud-scale, 1)); }
+}
+
+.lobby-cloud {
+  position: absolute;
+  z-index: 0;
+  animation: cloud-drift linear infinite;
+  will-change: transform;
+  --cloud-scale: 1;
+}
+
+/* Cloud 1 — large, slow, high sky */
+.lobby-cloud-1 {
+  top: 40px;
+  left: -200px;
+  width: 160px;
+  height: 52px;
+  background: #f5fbff;
+  box-shadow: 44px 0 0 #f5fbff, 88px 0 0 #f5fbff, 30px -26px 0 #f5fbff, 66px -26px 0 #f5fbff;
+  opacity: 0.94;
+  animation-duration: 42s;
+  animation-delay: -10s;
+}
+
+/* Cloud 2 — medium, faster, upper-mid sky */
+.lobby-cloud-2 {
+  top: 150px;
+  left: -120px;
+  width: 110px;
+  height: 36px;
+  background: #eef8ff;
+  box-shadow: 30px 0 0 #eef8ff, 60px 0 0 #eef8ff, 20px -18px 0 #eef8ff, 46px -18px 0 #eef8ff;
+  opacity: 0.88;
+  animation-duration: 28s;
+  animation-delay: -24s;
+}
+
+/* Cloud 3 — small, quick, lower-mid sky */
+.lobby-cloud-3 {
+  top: 270px;
+  left: -80px;
+  width: 80px;
+  height: 26px;
+  background: #f0f9ff;
+  box-shadow: 22px 0 0 #f0f9ff, 44px 0 0 #f0f9ff, 14px -13px 0 #f0f9ff, 34px -13px 0 #f0f9ff;
+  opacity: 0.78;
+  animation-duration: 22s;
+  animation-delay: -7s;
+}
+
+/* Cloud 4 — large, slow, low sky */
+.lobby-cloud-4 {
+  top: 360px;
+  left: -240px;
+  width: 180px;
+  height: 60px;
+  background: #f8fdff;
+  box-shadow: 50px 0 0 #f8fdff, 100px 0 0 #f8fdff, 34px -30px 0 #f8fdff, 76px -30px 0 #f8fdff;
+  opacity: 0.85;
+  animation-duration: 52s;
+  animation-delay: -42s;
+}
+
+/* ── Mobile Cloud Scale & Position Tuning ────────────────── */
+@media (max-width: 760px) {
+  .hero-cloud {
+    --cloud-scale: 0.55;
+  }
+  .hero-cloud-1 { top: 20px; animation-delay: -5s; }
+  .hero-cloud-2 { top: 140px; animation-delay: -26s; }
+  .hero-cloud-3 { top: 380px; animation-delay: -12s; }
+  .hero-cloud-4 { top: 80px; animation-delay: -8s; }
+  .hero-cloud-5 { top: 480px; animation-delay: -38s; }
+  .hero-cloud-6 { top: 230px; animation-delay: -18s; }
+
+  .lobby-cloud {
+    --cloud-scale: 0.55;
+  }
+  .lobby-cloud-1 { top: 30px; animation-delay: -8s; }
+  .lobby-cloud-2 { top: 200px; animation-delay: -20s; }
+  .lobby-cloud-3 { top: 110px; animation-delay: -14s; }
+  .lobby-cloud-4 { top: 290px; animation-delay: -35s; }
+}
+
+
+.party-section .section-heading {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  width: min(1120px, calc(100vw - 32px));
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+.party-section .section-heading h2 {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+}
+
+.party-section .section-heading span {
+  font-size: 1.25rem;
+  color: #143b34;
+}
+
+.party-scroll {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  min-height: 520px;
+  padding: 110px 0 40px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.party-row {
+  width: min(1220px, 100%);
+  min-width: max(100%, 900px);
+  margin: 0 auto;
+  padding: 0 28px;
+  gap: 26px;
+}
+
+.guest-side {
+  gap: 18px;
+}
+
+.blocky-player {
+  transform-origin: bottom center;
+}
+
+.player-name {
+  max-width: 170px;
+  min-height: 38px;
+  font-size: 1.02rem;
+}
+
+.hero-player .player-name {
+  font-size: 1.25rem;
+}
+
+.player-subtitle,
+.joined-tag {
+  font-size: 0.96rem;
+}
+
+.grass-block {
+  width: 96px;
+  height: 44px;
+  margin-top: 0;
+}
+
+.large-block {
+  width: 154px;
+  height: 54px;
+}
+
+.details-section {
+  position: relative;
+  width: 100%;
+  padding: 72px 18px;
+  background: linear-gradient(#f6e1b4, #ffeab8);
+}
+
+.details-section .section-heading,
+.details-section .event-grid {
+  width: min(1120px, calc(100vw - 32px));
+  margin-inline: auto;
+}
+
+.stacked-heading {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.stacked-heading h2 {
+  font-size: clamp(2.1rem, 5vw, 4rem);
+}
+
+.event-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.event-detail {
+  min-height: 148px;
+  padding: 22px;
+}
+
+.event-detail dt {
+  font-size: 1rem;
+}
+
+.event-detail dd {
+  font-size: 1.26rem;
+  line-height: 1.35;
+}
+
+.countdown-panel,
+.card-section {
+  width: 100%;
+  margin: 0;
+  padding: 72px max(18px, calc((100vw - 1120px) / 2));
+  border-inline: 0;
+}
+
+.countdown-panel {
+  border-top: 6px solid #24445e;
+  border-bottom: 6px solid #24445e;
+}
+
+.card-section {
+  background: linear-gradient(#74cfff, #d7ecff 58%, #69be45 58% 66%, #865638 66% 100%);
+}
+
+@media (max-width: 760px) {
+  .hero-section {
+    padding-bottom: 230px;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 17vw, 5.1rem);
+  }
+
+  .party-section {
+    min-height: 700px;
+  }
+
+  .party-row {
+    min-width: 820px;
+  }
+
+  .event-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding-top: 96px;
+  }
+
+  .event-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .party-row {
+    min-width: 760px;
+  }
+}
+
+/* Hero sky-only and centered lobby ground correction */
+.hero-section {
+  min-height: 100svh;
+  padding: 92px 18px 110px;
+  background: linear-gradient(#76cfff 0%, #83d8ff 62%, #d8f0ff 100%);
+}
+
+.hero-section::before {
+  display: none;
+}
+
+.hero-section::after {
+  top: 48px;
+  left: 48px;
+  width: 58px;
+  height: 58px;
+}
+
+.hero-content {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: calc(100svh - 220px);
+}
+
+.hero-content .eyebrow {
+  margin-bottom: 28px;
+  font-size: clamp(1.75rem, 4.4vw, 3.2rem);
+  color: #0f3d35;
+  text-shadow: 0 3px 0 #f7d553, 0 6px 0 rgba(15, 61, 53, 0.16);
+}
+
+.hero-content h1 {
+  font-size: clamp(4rem, 10vw, 8.2rem);
+}
+
+.hero-subtitle {
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+}
+
+.hero-copy {
+  font-size: clamp(1.45rem, 2.8vw, 2.1rem);
+}
+
+.party-section {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100svh;
+  padding: 74px 0 0;
+  background: linear-gradient(#76cfff 0 58%, #d8f0ff 58% 68%, #61bc43 68% 78%, #7a4d32 78% 100%);
+}
+
+.party-section::before {
+  display: block;
+  top: auto;
+  bottom: 0;
+  height: 32svh;
+  background:
+    linear-gradient(180deg, #62bd43 0 24%, transparent 24%),
+    linear-gradient(90deg, #55a83a 0 24px, #7ade55 24px 48px, #4b9531 48px 72px, #62bd43 72px 96px),
+    linear-gradient(90deg, #5b3928 0 26px, #8a5834 26px 52px, #a06a43 52px 78px, #6b442d 78px 104px);
+  background-size: auto, 96px 58px, 104px 112px;
+  background-position: 0 0, 0 0, 0 58px;
+}
+
+.party-section .section-heading {
+  align-self: start;
+  margin-bottom: 0;
+}
+
+.party-scroll {
+  align-self: end;
+  min-height: 0;
+  height: 56svh;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.party-row {
+  position: absolute;
+  left: 50%;
+  bottom: calc(32svh - 12px);
+  transform: translateX(-50%);
+  align-items: end;
+  width: min(1180px, 100%);
+  min-width: max(100%, 860px);
+  margin: 0;
+  padding: 0 28px;
+}
+
+.guest-side {
+  align-items: end;
+}
+
+.blocky-player,
+.hero-player {
+  transform: none;
+}
+
+.hero-player .player-subtitle {
+  color: #0f3d35;
+  text-shadow: none;
+}
+
+.grass-block {
+  margin-top: 0;
+}
+
+@media (max-width: 760px) {
+  .hero-section {
+    padding-bottom: 90px;
+  }
+
+  .party-section {
+    min-height: 92svh;
+  }
+
+  .party-scroll {
+    height: 58svh;
+  }
+
+  .party-row {
+    bottom: calc(32svh - 8px);
+    min-width: 800px;
+  }
+}
+
+/* Hero headline fit correction */
+.hero-section {
+  min-height: 100svh;
+  padding: 58px 18px 54px;
+}
+
+.hero-content {
+  min-height: calc(100svh - 112px);
+  align-content: center;
+  gap: 0;
+}
+
+.hero-title-two-line {
+  display: grid;
+  justify-items: center;
+  gap: 0.06em;
+  margin-bottom: 22px;
+  font-size: clamp(3.8rem, 8vw, 6.8rem);
+  line-height: 0.9;
+}
+
+.hero-title-two-line span {
+  display: block;
+  white-space: nowrap;
+}
+
+.hero-subtitle {
+  margin-bottom: 22px;
+}
+
+.hero-copy {
+  margin-bottom: 13px;
+}
+
+.primary-button {
+  margin-top: 20px;
+}
+
+@media (max-width: 760px) {
+  .hero-section {
+    padding-top: 74px;
+    padding-bottom: 48px;
+  }
+
+  .hero-content {
+    min-height: calc(100svh - 122px);
+  }
+
+  .hero-title-two-line {
+    font-size: clamp(2.85rem, 14vw, 5.2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title-two-line {
+    font-size: clamp(2.4rem, 13vw, 4rem);
+  }
+}
+
+/* Hero centering, clouds, and subtext hierarchy */
+.hero-content {
+  width: min(1180px, calc(100vw - 32px));
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.hero-title-two-line {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  text-align: center;
+  transform: translateX(0);
+}
+
+.hero-title-two-line span {
+  width: 100%;
+  text-align: center;
+}
+
+.hero-subtitle,
+.hero-copy {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.hero-subtitle {
+  margin-bottom: 12px;
+  font-size: clamp(1.28rem, 2.1vw, 1.75rem);
+  color: #21485d;
+}
+
+.hero-copy {
+  margin-bottom: 8px;
+  font-size: clamp(1.22rem, 2.25vw, 1.85rem);
+}
+
+.hero-copy:first-of-type {
+  display: inline-block;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  padding: 8px 14px 6px;
+  color: #0f3d35;
+  background: rgba(255, 226, 120, 0.62);
+  border: 3px solid rgba(96, 61, 13, 0.58);
+  box-shadow: 0 5px 0 rgba(96, 61, 13, 0.18);
+  font-weight: 950;
+}
+
+.hero-copy.muted {
+  margin-bottom: 0;
+  color: #345a6b;
+}
+
+.primary-button {
+  margin-top: 22px;
+}
+
+.pixel-cloud {
+  height: 50px;
+  background: #f7fbff;
+  filter: drop-shadow(0 7px 0 rgba(72, 149, 184, 0.12));
+  box-shadow:
+    34px 0 0 #f7fbff,
+    68px 0 0 #f7fbff,
+    102px 0 0 #f7fbff,
+    22px -22px 0 #f7fbff,
+    56px -22px 0 #f7fbff,
+    90px -22px 0 #f7fbff;
+}
+
+.cloud-one {
+  top: 160px;
+  left: 10%;
+  transform: scale(0.92);
+}
+
+.cloud-two {
+  top: 136px;
+  right: 13%;
+  bottom: auto;
+  transform: scale(1.06);
+}
+
+.cloud-three {
+  right: 9%;
+  top: auto;
+  bottom: 94px;
+  transform: scale(0.72);
+  opacity: 0.9;
+}
+
+@media (max-width: 760px) {
+  .cloud-one {
+    top: 150px;
+    left: -28px;
+  }
+
+  .cloud-two {
+    top: 112px;
+    right: -10px;
+    transform: scale(0.82);
+  }
+
+  .cloud-three {
+    bottom: 82px;
+    right: -36px;
+  }
+}
+
+/* Hard center hero stack */
+.hero-section {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100svh !important;
+  padding: 52px 18px 60px !important;
+}
+
+.hero-content {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  display: flex !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: auto !important;
+  margin: 0 auto !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.hero-title-two-line {
+  display: flex !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto 18px !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.04em !important;
+  text-align: center !important;
+  font-size: clamp(3.6rem, 6.9vw, 6.7rem) !important;
+  line-height: 0.9 !important;
+}
+
+.hero-title-two-line span {
+  display: block !important;
+  width: auto !important;
+  max-width: calc(100vw - 72px) !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+.hero-subtitle,
+.hero-copy {
+  width: fit-content !important;
+  max-width: min(920px, calc(100vw - 56px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.hero-content .eyebrow {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+@media (max-width: 760px) {
+  .hero-title-two-line {
+    font-size: clamp(2.75rem, 13vw, 4.8rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title-two-line {
+    font-size: clamp(2.2rem, 11.5vw, 3.5rem) !important;
+  }
+}
+
+/* Hero spacing and type rhythm balance */
+.hero-content {
+  transform: translateY(-26px) !important;
+}
+
+.hero-content .eyebrow {
+  margin-bottom: 14px !important;
+  letter-spacing: 0.02em !important;
+  word-spacing: 0.08em !important;
+}
+
+.hero-title-two-line {
+  gap: 0.1em !important;
+  margin-bottom: 34px !important;
+  letter-spacing: 0.015em !important;
+  word-spacing: 0.08em !important;
+}
+
+.hero-title-two-line span {
+  letter-spacing: 0.015em !important;
+  word-spacing: 0.08em !important;
+}
+
+.hero-subtitle {
+  margin-bottom: 10px !important;
+  letter-spacing: 0.01em !important;
+  word-spacing: 0.12em !important;
+  line-height: 1.38 !important;
+}
+
+.hero-copy {
+  margin-bottom: 9px !important;
+  letter-spacing: 0.01em !important;
+  word-spacing: 0.12em !important;
+  line-height: 1.38 !important;
+}
+
+.hero-copy:first-of-type {
+  margin-top: 8px !important;
+  margin-bottom: 12px !important;
+}
+
+.hero-copy.muted {
+  margin-bottom: 0 !important;
+}
+
+.primary-button {
+  margin-top: 26px !important;
+  letter-spacing: 0.01em !important;
+  word-spacing: 0.08em !important;
+}
+
+@media (max-width: 760px) {
+  .hero-content {
+    transform: translateY(-12px) !important;
+  }
+
+  .hero-title-two-line {
+    margin-bottom: 26px !important;
+  }
+}
+
+/* Extra space below hero headline */
+.hero-title-two-line {
+  margin-bottom: 48px !important;
+}
+
+@media (max-width: 760px) {
+  .hero-title-two-line {
+    margin-bottom: 36px !important;
+  }
+}
+
+/* Smooth hero-to-lobby transition and 100vh sections */
+.hero-section {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  background: linear-gradient(#76cfff 0%, #82d7ff 70%, #b9e8ff 100%) !important;
+}
+
+.party-section {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(#b9e8ff 0%, #76cfff 16%, #76cfff 60%, #64bd43 60%, #64bd43 74%, #7a4d32 74%, #5f3a28 100%) !important;
+}
+
+.party-section::before {
+  height: 40vh !important;
+  background:
+    linear-gradient(180deg, #64bd43 0 18%, transparent 18%),
+    linear-gradient(90deg, #55a83a 0 24px, #7ade55 24px 48px, #4b9531 48px 72px, #62bd43 72px 96px),
+    linear-gradient(90deg, #5b3928 0 26px, #8a5834 26px 52px, #a06a43 52px 78px, #6b442d 78px 104px) !important;
+  background-size: auto, 96px 64px, 104px 118px !important;
+  background-position: 0 0, 0 0, 0 64px !important;
+}
+
+.party-scroll {
+  height: 70vh !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.party-row {
+  bottom: calc(40vh - 18px) !important;
+}
+
+@media (max-width: 760px) {
+  .party-row {
+    bottom: calc(40vh - 14px) !important;
+  }
+}
+
+/* Birthday lobby rebuild */
+.party-section {
+  display: grid !important;
+  grid-template-rows: auto 1fr !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  padding: 82px 0 0 !important;
+  overflow: hidden !important;
+  background: linear-gradient(#b9e8ff 0%, #77d2ff 14%, #77d2ff 100%) !important;
+}
+
+.party-section::before {
+  display: block !important;
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  height: 34vh !important;
+  background:
+    linear-gradient(180deg, #62bd43 0 15%, transparent 15%),
+    linear-gradient(90deg, #5fba40 0 18px, #7ee057 18px 36px, #4f9f35 36px 54px, #70cd4d 54px 72px),
+    linear-gradient(90deg, rgba(71, 45, 32, 0.9) 0 14px, transparent 14px 28px, rgba(151, 99, 63, 0.9) 28px 42px, transparent 42px 56px),
+    linear-gradient(0deg, rgba(92, 57, 39, 0.85) 0 16px, transparent 16px 32px, rgba(167, 112, 71, 0.75) 32px 48px, transparent 48px 64px),
+    linear-gradient(90deg, #6a422d 0 24px, #8a5834 24px 48px, #a36b43 48px 72px, #533423 72px 96px) !important;
+  background-size: auto, 72px 56px, 56px 56px, 64px 64px, 96px 96px !important;
+  background-position: 0 0, 0 0, 0 54px, 16px 70px, 0 54px !important;
+}
+
+.lobby-heading,
+.party-section .section-heading.lobby-heading {
+  position: relative !important;
+  z-index: 2 !important;
+  display: grid !important;
+  width: min(1120px, calc(100vw - 32px)) !important;
+  margin: 0 auto !important;
+  justify-items: center !important;
+  text-align: center !important;
+}
+
+.lobby-heading .eyebrow {
+  margin: 0 0 16px !important;
+  color: #0f6e65 !important;
+  font-size: clamp(1.45rem, 2.4vw, 2.2rem) !important;
+  text-shadow: 0 3px 0 rgba(255, 226, 120, 0.75) !important;
+}
+
+.lobby-heading h2 {
+  margin: 0 0 16px !important;
+  color: #0f3d35 !important;
+  font-size: clamp(3.8rem, 8vw, 7.2rem) !important;
+  line-height: 0.92 !important;
+  text-align: center !important;
+  text-shadow: 0 5px 0 #f7d553, 0 10px 0 rgba(16, 61, 53, 0.18) !important;
+}
+
+.lobby-heading span {
+  color: #173d4d !important;
+  font-size: 1.24rem !important;
+  font-weight: 900 !important;
+}
+
+.party-scroll {
+  position: relative !important;
+  z-index: 2 !important;
+  align-self: stretch !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+}
+
+.party-row {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: calc(34vh - 2px) !important;
+  display: grid !important;
+  grid-template-columns: minmax(250px, 1fr) auto minmax(250px, 1fr) !important;
+  align-items: end !important;
+  width: min(1120px, 100%) !important;
+  min-width: max(100%, 900px) !important;
+  padding: 0 32px !important;
+  gap: 30px !important;
+  transform: translateX(-50%) !important;
+}
+
+.guest-side {
+  display: flex !important;
+  align-items: end !important;
+  gap: 26px !important;
+}
+
+.blocky-player {
+  --skin: #b98262;
+  --skin-dark: #8f6048;
+  --hair: #352a22;
+  --pants: #3f3aa4;
+  --shoe: #5d6461;
+  display: grid !important;
+  min-width: 118px !important;
+  justify-items: center !important;
+  transform-origin: bottom center !important;
+}
+
+.hero-player {
+  min-width: 168px !important;
+}
+
+.player-name {
+  min-height: auto !important;
+  max-width: 190px !important;
+  margin-bottom: 12px !important;
+  padding: 7px 12px 6px !important;
+  color: #fffdf0 !important;
+  background: rgba(98, 91, 66, 0.64) !important;
+  border: 3px solid rgba(255, 255, 230, 0.72) !important;
+  box-shadow: 0 4px 0 rgba(68, 57, 39, 0.28), inset 0 0 0 2px rgba(255, 255, 255, 0.18) !important;
+  font-size: 1.02rem !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-shadow: 2px 2px 0 rgba(45, 38, 27, 0.58) !important;
+}
+
+.hero-player .player-name {
+  font-size: 1.18rem !important;
+  color: #fffdf0 !important;
+  background: rgba(98, 91, 66, 0.7) !important;
+  border-color: rgba(255, 255, 230, 0.78) !important;
+}
+
+.player-subtitle {
+  margin: -5px 0 12px !important;
+  color: #123c34 !important;
+  font-size: 0.94rem !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+}
+
+.player-sprite {
+  display: grid !important;
+  justify-items: center !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  image-rendering: pixelated !important;
+}
+
+.steve-sprite .player-head {
+  position: relative !important;
+  width: 58px !important;
+  height: 58px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.16) 0 25%, transparent 25% 50%, rgba(0,0,0,0.08) 50% 75%, transparent 75%),
+    linear-gradient(var(--hair) 0 22%, var(--skin) 22% 100%) !important;
+  background-size: 18px 18px, auto !important;
+  box-shadow: inset 0 -10px 0 var(--skin-dark), inset 0 10px 0 var(--hair) !important;
+}
+
+.hero-player .steve-sprite .player-head {
+  width: 72px !important;
+  height: 72px !important;
+}
+
+.hair-top,
+.steve-sprite .hair-left {
+  position: absolute;
+  display: block;
+  background: var(--hair);
+}
+
+.steve-sprite .hair-top {
+  inset: 0 0 auto 0;
+  height: 15px;
+}
+
+.steve-sprite .hair-left {
+  left: 0;
+  top: 9px;
+  width: 10px;
+  height: 22px;
+}
+
+.steve-sprite .eye {
+  top: 28px !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: #ffffff !important;
+  box-shadow: inset 4px 0 0 #4e3da1 !important;
+}
+
+.steve-sprite .left-eye {
+  left: 14px !important;
+}
+
+.steve-sprite .right-eye {
+  right: 14px !important;
+}
+
+.hero-player .steve-sprite .eye {
+  top: 34px !important;
+  width: 10px !important;
+  height: 10px !important;
+}
+
+.nose {
+  position: absolute;
+  left: 50%;
+  top: 34px;
+  width: 8px;
+  height: 10px;
+  background: rgba(120, 76, 58, 0.5);
+  transform: translateX(-50%);
+}
+
+.hero-player .nose {
+  top: 42px;
+  width: 10px;
+  height: 12px;
+}
+
+.smile {
+  left: 21px !important;
+  bottom: 9px !important;
+  width: 16px !important;
+  height: 6px !important;
+  background: #6f4435 !important;
+}
+
+.hero-player .smile {
+  left: 27px !important;
+  bottom: 12px !important;
+  width: 18px !important;
+  height: 7px !important;
+}
+
+.player-body {
+  display: grid !important;
+  grid-template-columns: 18px 50px 18px !important;
+  align-items: start !important;
+  justify-content: center !important;
+}
+
+.hero-player .player-body {
+  grid-template-columns: 22px 62px 22px !important;
+}
+
+.torso {
+  width: 50px !important;
+  height: 74px !important;
+  border: 0 !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.12) 0 25%, transparent 25% 50%, rgba(0,0,0,0.1) 50% 75%, transparent 75%),
+    var(--player-color) !important;
+  background-size: 18px 18px, auto !important;
+  box-shadow: inset 0 0 0 6px rgba(255,255,255,0.08), inset -10px 0 0 var(--player-dark) !important;
+}
+
+.hero-player .torso {
+  width: 62px !important;
+  height: 90px !important;
+}
+
+.arm {
+  width: 18px !important;
+  height: 70px !important;
+  margin-top: 5px !important;
+  background:
+    linear-gradient(var(--player-color) 0 32%, var(--skin) 32% 100%) !important;
+  box-shadow: inset -5px 0 0 rgba(0,0,0,0.16) !important;
+  transform: none !important;
+}
+
+.hero-player .arm {
+  width: 22px !important;
+  height: 86px !important;
+}
+
+.player-legs {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.player-legs span {
+  width: 22px !important;
+  height: 64px !important;
+  border: 0 !important;
+  background:
+    linear-gradient(var(--pants) 0 82%, var(--shoe) 82% 100%) !important;
+  box-shadow: inset -5px 0 0 rgba(0,0,0,0.18) !important;
+}
+
+.hero-player .player-legs span {
+  width: 28px !important;
+  height: 76px !important;
+}
+
+.joined-tag,
+.grass-block,
+.hero-decoration {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .lobby-heading h2 {
+    font-size: clamp(3rem, 12vw, 5rem) !important;
+  }
+
+  .party-row {
+    min-width: 840px !important;
+    gap: 22px !important;
+  }
+}
+
+/* Requested lobby/form refinements */
+.lobby-heading .eyebrow {
+  font-size: clamp(1.9rem, 3.2vw, 3rem) !important;
+  margin-bottom: 20px !important;
+}
+
+.lobby-heading span {
+  font-size: clamp(1.45rem, 2.2vw, 2rem) !important;
+}
+
+.party-section::before {
+  height: 30vh !important;
+  background-image: url('./assets/block.jpg') !important;
+  background-repeat: repeat !important;
+  background-size: 190px 190px !important;
+  background-position: left top !important;
+  image-rendering: pixelated !important;
+}
+
+.party-row {
+  bottom: calc(30vh - 4px) !important;
+}
+
+.blocky-player {
+  --girl-hair: #a06019;
+  --skin: #ad8063;
+  --skin-dark: #865f49;
+  --hair: #352a22;
+}
+
+.player-name {
+  margin-bottom: 10px !important;
+}
+
+.steve-sprite .player-head {
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.12) 0 25%, transparent 25% 50%, rgba(0,0,0,0.08) 50% 75%, transparent 75%),
+    linear-gradient(var(--hair) 0 22%, var(--skin) 22% 100%) !important;
+}
+
+.blocky-player:has(.player-name) .player-head .steve-sprite .hair-top {
+  left: 0;
+  right: 0;
+}
+
+.steve-sprite .eye {
+  top: 28px !important;
+  width: 7px !important;
+  height: 7px !important;
+  background: #ffffff !important;
+  box-shadow: inset 3px 0 0 #4e3da1 !important;
+}
+
+.steve-sprite .left-eye {
+  left: 15px !important;
+}
+
+.steve-sprite .right-eye {
+  right: 15px !important;
+}
+
+.hero-player .steve-sprite .left-eye {
+  left: 19px !important;
+}
+
+.hero-player .steve-sprite .right-eye {
+  right: 19px !important;
+}
+
+.nose {
+  left: 50% !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.smile {
+  left: 50% !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.blocky-player[style*="--player-color: #f06cb7"] .player-head,
+.blocky-player[style*="--player-color: #f4b63f"] .player-head {
+  --hair: var(--girl-hair);
+}
+
+.blocky-player[style*="--player-color: #f06cb7"] .hair-top,
+.blocky-player[style*="--player-color: #f4b63f"] .steve-sprite .hair-top {
+  height: 20px;
+  background: var(--girl-hair);
+}
+
+.blocky-player[style*="--player-color: #f06cb7"] .hair-left,
+.blocky-player[style*="--player-color: #f4b63f"] .steve-sprite .hair-left {
+  top: 8px;
+  width: 14px;
+  height: 34px;
+  background: var(--girl-hair);
+}
+
+.blocky-player[style*="--player-color: #f06cb7"] .player-head::after,
+.blocky-player[style*="--player-color: #f4b63f"] .steve-sprite .player-head::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 18px;
+  width: 16px;
+  height: 32px;
+  background: var(--girl-hair);
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 42% 100%, 42% 82%, 0 82%);
+}
+
+.blocky-player[style*="--player-color: #f06cb7"] .player-legs span,
+.blocky-player[style*="--player-color: #f4b63f"] .player-legs span {
+  background: linear-gradient(#5f3415 0 66%, #22272d 66% 78%, #4d443f 78% 100%) !important;
+}
+
+.blocky-player[style*="--player-color: #20242b"] .player-name {
+  background: rgba(18, 20, 25, 0.78) !important;
+}
+
+.style-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.style-choice {
+  min-height: 54px;
+  border: 3px solid #24445e;
+  border-radius: 0;
+  color: #10263a;
+  background: #fff;
+  font-family: 'Minecraft CHMC', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.style-choice.selected {
+  background: #ffe278;
+  border-color: #936012;
+  box-shadow: inset 0 -6px 0 rgba(147, 96, 18, 0.22);
+}
+
+.rsvp-form input {
+  text-transform: uppercase;
+}
+
+.color-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+@media (max-width: 760px) {
+  .party-row {
+    bottom: calc(30vh - 2px) !important;
+  }
+}
+
+/* Explicit girl character variant */
+.girl-player .player-head {
+  --hair: var(--girl-hair);
+}
+
+.girl-player .steve-sprite .hair-top {
+  height: 20px !important;
+  background: var(--girl-hair) !important;
+}
+
+.girl-player .steve-sprite .hair-left {
+  top: 8px !important;
+  width: 14px !important;
+  height: 34px !important;
+  background: var(--girl-hair) !important;
+}
+
+.girl-player .steve-sprite .player-head::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 18px;
+  width: 16px;
+  height: 32px;
+  background: var(--girl-hair);
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 42% 100%, 42% 82%, 0 82%);
+}
+
+.girl-player .player-legs span {
+  background: linear-gradient(#5f3415 0 66%, #22272d 66% 78%, #4d443f 78% 100%) !important;
+}
+
+/* Final character-style cascade: form choice controls the model, not color. */
+.boy-player .player-head {
+  --hair: #352a22;
+}
+
+.boy-player .steve-sprite .hair-top {
+  height: 14px !important;
+  background: var(--hair) !important;
+}
+
+.boy-player .steve-sprite .hair-left {
+  top: 0 !important;
+  width: 9px !important;
+  height: 23px !important;
+  background: var(--hair) !important;
+}
+
+.boy-player .steve-sprite .player-head::after {
+  content: none !important;
+}
+
+.boy-player .player-legs span {
+  background: linear-gradient(var(--pants) 0 82%, var(--shoe) 82% 100%) !important;
+}
+
+/* Final lobby polish requested on latest pass */
+.party-section {
+  --ground-height: clamp(148px, 22vh, 204px);
+  padding-top: clamp(34px, 5vh, 52px) !important;
+}
+
+.lobby-heading .eyebrow {
+  margin-bottom: 10px !important;
+  font-size: clamp(2rem, 3.5vw, 3.25rem) !important;
+}
+
+.lobby-heading h2 {
+  margin-bottom: 12px !important;
+}
+
+.lobby-heading span {
+  font-size: clamp(1.55rem, 2.45vw, 2.2rem) !important;
+}
+
+.party-section::before {
+  height: var(--ground-height) !important;
+  background-image: url('./assets/block.jpg') !important;
+  background-repeat: repeat-x !important;
+  background-size: 174px 174px !important;
+  background-position: left top !important;
+  image-rendering: pixelated !important;
+}
+
+.party-row {
+  bottom: calc(var(--ground-height) - 2px) !important;
+}
+
+.hero-player .player-name {
+  display: block !important;
+  margin-bottom: 8px !important;
+  color: #ffffff !important;
+  background: rgba(22, 45, 59, 0.82) !important;
+  border-color: #24445e !important;
+  box-shadow: 0 4px 0 rgba(36, 68, 94, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.45) !important;
+}
+
+.hero-player .player-subtitle {
+  margin-bottom: 10px !important;
+}
+
+.player-head {
+  overflow: visible !important;
+}
+
+.birthday-hat {
+  position: absolute;
+  left: 50%;
+  top: -32px;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  background:
+    linear-gradient(135deg, transparent 0 18%, #ff5a6a 18% 42%, #ffe278 42% 57%, #24a7d8 57% 82%, transparent 82% 100%);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transform: translateX(-50%);
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.22));
+  image-rendering: pixelated;
+}
+
+.birthday-hat::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: -3px;
+  width: 10px;
+  height: 10px;
+  background: #ffe278;
+  box-shadow: 0 0 0 3px #fff3ad;
+}
+
+.steve-sprite .eye {
+  background: linear-gradient(90deg, #ffffff 0 28%, #4e3da1 28% 72%, #ffffff 72% 100%) !important;
+  box-shadow: none !important;
+}
+
+.girl-player .steve-sprite .eye {
+  background: linear-gradient(90deg, #dce9eb 0 28%, #2f7b2e 28% 72%, #dce9eb 72% 100%) !important;
+}
+
+.left-eye,
+.hero-player .steve-sprite .left-eye {
+  left: 15px !important;
+}
+
+.right-eye,
+.hero-player .steve-sprite .right-eye {
+  right: 15px !important;
+}
+
+.hero-player .steve-sprite .left-eye {
+  left: 20px !important;
+}
+
+.hero-player .steve-sprite .right-eye {
+  right: 20px !important;
+}
+
+.smile,
+.hero-player .smile {
+  left: 50% !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.hero-player .smile {
+  width: 20px !important;
+}
+
+.girl-player .player-body {
+  position: relative !important;
+}
+
+.girl-player .player-body::before,
+.girl-player .player-body::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: -2px;
+  width: 18px;
+  height: 56px;
+  background: var(--girl-hair);
+  box-shadow: inset -5px 0 0 rgba(84, 44, 12, 0.22);
+  pointer-events: none;
+}
+
+.girl-player .player-body::before {
+  left: calc(50% - 28px);
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 44% 100%, 44% 72%, 0 72%);
+}
+
+.girl-player .player-body::after {
+  right: calc(50% - 28px);
+  clip-path: polygon(0 0, 100% 0, 100% 72%, 56% 72%, 56% 100%, 0 80%);
+}
+
+.girl-player .torso {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+@media (max-width: 760px) {
+  .party-section {
+    --ground-height: clamp(132px, 24vh, 180px);
+    padding-top: 30px !important;
+  }
+
+  .party-row {
+    bottom: calc(var(--ground-height) - 2px) !important;
+  }
+}
+
+/* Keep Wiswis label readable above the birthday hat. */
+.hero-player .player-name {
+  position: relative !important;
+  z-index: 8 !important;
+  margin-bottom: 42px !important;
+}
+
+.hero-player .player-subtitle {
+  display: none !important;
+}
+
+.birthday-hat {
+  top: -30px !important;
+}
+
+/* Sprite-level Wiswis label so it stays visible with the hat. */
+.hero-player > .player-name {
+  visibility: hidden !important;
+}
+
+.hero-player .player-sprite {
+  position: relative !important;
+}
+
+.hero-player .player-sprite::before {
+  content: 'WISWIS';
+  position: absolute;
+  left: 50%;
+  top: -92px;
+  z-index: 10;
+  min-width: 108px;
+  padding: 5px 10px 6px;
+  color: #ffffff;
+  background: rgba(22, 45, 59, 0.88);
+  border: 3px solid #24445e;
+  box-shadow: 0 4px 0 rgba(36, 68, 94, 0.35), inset 0 0 0 2px rgba(255, 255, 255, 0.45);
+  font-family: 'Minecraft Ten', 'Minecraft CHMC', ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-align: center;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%);
+}
+
+/* Nudge Wiswis name below the title but above the hat. */
+.party-scroll {
+  z-index: 5 !important;
+}
+
+.hero-player .player-sprite::before {
+  top: -68px !important;
+}
+
+/* Final lobby adjustment: closer title, lower ground, dirt layer, mirrored faces. */
+.party-section {
+  --ground-height: clamp(104px, 16vh, 150px);
+  padding-top: clamp(26px, 4vh, 42px) !important;
+}
+
+.lobby-heading .eyebrow {
+  margin-bottom: 0 !important;
+}
+
+.lobby-heading h2 {
+  margin-top: 0 !important;
+  margin-bottom: 10px !important;
+}
+
+.party-section::before {
+  height: var(--ground-height) !important;
+  background-image: url('./assets/block.jpg'), url('./assets/dirt.jpg') !important;
+  background-repeat: repeat-x, repeat !important;
+  background-size: 138px 138px, 96px 96px !important;
+  background-position: left top, left 58px !important;
+  image-rendering: pixelated !important;
+}
+
+.party-row {
+  bottom: calc(var(--ground-height) - 2px) !important;
+}
+
+.player-subtitle {
+  display: none !important;
+}
+
+.boy-player .steve-sprite .hair-top {
+  height: 15px !important;
+  background:
+    linear-gradient(90deg, var(--hair) 0 18%, #47362b 18% 82%, var(--hair) 82% 100%) !important;
+}
+
+.boy-player .steve-sprite .hair-left {
+  top: 0 !important;
+  left: 0 !important;
+  width: 10px !important;
+  height: 24px !important;
+  background: var(--hair) !important;
+}
+
+.boy-player .steve-sprite .player-head::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 10px !important;
+  height: 24px !important;
+  background: var(--hair) !important;
+  clip-path: none !important;
+}
+
+.steve-sprite .left-eye {
+  background: linear-gradient(90deg, #ffffff 0 42%, #4e3da1 42% 78%, #ffffff 78% 100%) !important;
+}
+
+.steve-sprite .right-eye {
+  background: linear-gradient(90deg, #ffffff 0 22%, #4e3da1 22% 58%, #ffffff 58% 100%) !important;
+}
+
+.girl-player .steve-sprite .left-eye {
+  background: linear-gradient(90deg, #dce9eb 0 42%, #2f7b2e 42% 78%, #dce9eb 78% 100%) !important;
+}
+
+.girl-player .steve-sprite .right-eye {
+  background: linear-gradient(90deg, #dce9eb 0 22%, #2f7b2e 22% 58%, #dce9eb 58% 100%) !important;
+}
+
+.smile,
+.hero-player .smile {
+  left: 50% !important;
+  bottom: 8px !important;
+  width: 18px !important;
+  height: 10px !important;
+  background: transparent !important;
+  border: 0 !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.smile::before,
+.hero-player .smile::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 12px;
+  height: 5px;
+  background: #5a2b1f;
+  box-shadow: 0 5px 0 #5a2b1f, -3px 2px 0 #5a2b1f, 12px 2px 0 #5a2b1f;
+}
+
+.girl-player .player-body::before,
+.girl-player .player-body::after {
+  z-index: 4 !important;
+  top: -7px !important;
+  width: 20px !important;
+  height: 74px !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.08) 0 35%, transparent 35%),
+    var(--girl-hair) !important;
+}
+
+.girl-player .player-body::before {
+  left: calc(50% - 34px) !important;
+  clip-path: polygon(0 0, 100% 0, 100% 82%, 70% 82%, 70% 100%, 0 100%) !important;
+}
+
+.girl-player .player-body::after {
+  right: calc(50% - 34px) !important;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 100%, 30% 82%, 0 82%) !important;
+}
+
+.girl-player .torso {
+  z-index: 3 !important;
+}
+
+.hero-player .player-sprite::before {
+  top: -62px !important;
+}
+
+@media (max-width: 760px) {
+  .party-section {
+    --ground-height: clamp(96px, 17vh, 136px);
+    padding-top: 24px !important;
+  }
+}
+
+/* Face cleanup: friendlier Minecraft face and one-sided girl hair. */
+.steve-sprite .player-head {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 24%, transparent 24% 50%, rgba(0, 0, 0, 0.08) 50% 76%, transparent 76%),
+    linear-gradient(var(--hair) 0 23%, var(--skin) 23% 100%) !important;
+}
+
+.boy-player .steve-sprite .hair-top {
+  height: 15px !important;
+  background:
+    linear-gradient(90deg, #24190f 0 20%, #342416 20% 50%, #24190f 50% 80%, #342416 80% 100%) !important;
+}
+
+.boy-player .hair-left,
+.boy-player .steve-sprite .player-head::after {
+  top: 0 !important;
+  width: 10px !important;
+  height: 24px !important;
+  background: #24190f !important;
+}
+
+.left-eye,
+.hero-player .steve-sprite .left-eye {
+  background: linear-gradient(90deg, #ffffff 0 45%, #5a46a0 45% 82%, #ffffff 82% 100%) !important;
+  box-shadow: none !important;
+}
+
+.right-eye,
+.hero-player .steve-sprite .right-eye {
+  background: linear-gradient(90deg, #ffffff 0 18%, #5a46a0 18% 55%, #ffffff 55% 100%) !important;
+  box-shadow: none !important;
+}
+
+.girl-player .steve-sprite .left-eye {
+  background: linear-gradient(90deg, #dfe8e8 0 45%, #2f752f 45% 82%, #dfe8e8 82% 100%) !important;
+}
+
+.girl-player .steve-sprite .right-eye {
+  background: linear-gradient(90deg, #dfe8e8 0 18%, #2f752f 18% 55%, #dfe8e8 55% 100%) !important;
+}
+
+.nose,
+.hero-player .nose {
+  left: 50% !important;
+  top: 34px !important;
+  width: 9px !important;
+  height: 8px !important;
+  background: rgba(121, 73, 51, 0.42) !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.hero-player .nose {
+  top: 42px !important;
+  width: 11px !important;
+  height: 9px !important;
+}
+
+.smile,
+.hero-player .smile {
+  left: 50% !important;
+  bottom: 9px !important;
+  width: 19px !important;
+  height: 8px !important;
+  background: #804738 !important;
+  border: 0 !important;
+  box-shadow: inset 0 3px 0 #5a2b1f !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.hero-player .smile {
+  bottom: 12px !important;
+  width: 22px !important;
+  height: 9px !important;
+}
+
+.smile::before,
+.hero-player .smile::before {
+  content: none !important;
+  display: none !important;
+}
+
+.girl-player .steve-sprite .hair-top {
+  height: 22px !important;
+  background: #a46419 !important;
+}
+
+.girl-player .steve-sprite .hair-left {
+  top: 0 !important;
+  left: 0 !important;
+  width: 8px !important;
+  height: 22px !important;
+  background: #a46419 !important;
+}
+
+.girl-player .steve-sprite .player-head::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 8px !important;
+  width: 18px !important;
+  height: 44px !important;
+  background: #a46419 !important;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 58% 100%, 58% 72%, 0 72%) !important;
+}
+
+.girl-player .player-body::before {
+  content: none !important;
+  display: none !important;
+}
+
+.girl-player .player-body::after {
+  content: '' !important;
+  right: calc(50% - 35px) !important;
+  top: -9px !important;
+  width: 22px !important;
+  height: 78px !important;
+  z-index: 4 !important;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0 30%, transparent 30%),
+    #a46419 !important;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 36% 100%, 36% 78%, 0 78%) !important;
+}
+
+/* Sketch-style friendly face: split eyes, small nose, wide U smile. */
+.eye,
+.hero-player .steve-sprite .eye {
+  top: 28px !important;
+  width: 14px !important;
+  height: 12px !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.left-eye,
+.hero-player .steve-sprite .left-eye {
+  left: 12px !important;
+  background: linear-gradient(90deg, #ffffff 0 50%, #14110d 50% 100%) !important;
+}
+
+.right-eye,
+.hero-player .steve-sprite .right-eye {
+  right: 12px !important;
+  background: linear-gradient(90deg, #14110d 0 50%, #ffffff 50% 100%) !important;
+}
+
+.hero-player .steve-sprite .eye {
+  top: 35px !important;
+  width: 16px !important;
+  height: 13px !important;
+}
+
+.hero-player .steve-sprite .left-eye {
+  left: 18px !important;
+}
+
+.hero-player .steve-sprite .right-eye {
+  right: 18px !important;
+}
+
+.girl-player .left-eye,
+.girl-player .steve-sprite .right-eye {
+  background: inherit !important;
+}
+
+.girl-player .steve-sprite .left-eye {
+  background: linear-gradient(90deg, #ffffff 0 50%, #14110d 50% 100%) !important;
+}
+
+.girl-player .steve-sprite .right-eye {
+  background: linear-gradient(90deg, #14110d 0 50%, #ffffff 50% 100%) !important;
+}
+
+.nose,
+.hero-player .nose {
+  left: 50% !important;
+  top: 43px !important;
+  width: 13px !important;
+  height: 7px !important;
+  background: #14110d !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.hero-player .nose {
+  top: 52px !important;
+  width: 15px !important;
+  height: 8px !important;
+}
+
+.smile,
+.hero-player .smile {
+  left: 50% !important;
+  bottom: 8px !important;
+  width: 38px !important;
+  height: 17px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.hero-player .smile {
+  bottom: 10px !important;
+  width: 46px !important;
+  height: 20px !important;
+}
+
+.smile::before,
+.hero-player .smile::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  left: 7px !important;
+  right: 7px !important;
+  bottom: 0 !important;
+  height: 7px !important;
+  background: #14110d !important;
+  box-shadow: none !important;
+}
+
+.smile::after,
+.hero-player .smile::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 5px !important;
+  height: 12px !important;
+  background:
+    linear-gradient(90deg, #14110d 0 9px, transparent 9px calc(100% - 9px), #14110d calc(100% - 9px) 100%) !important;
+}
+
+/* Final face style: match the dark-hair Minecraft reference. */
+.steve-sprite .player-head {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0 24%, transparent 24% 50%, rgba(0, 0, 0, 0.08) 50% 76%, transparent 76%),
+    linear-gradient(var(--hair) 0 44%, var(--skin) 44% 100%) !important;
+}
+
+.boy-player .hair-top,
+.hero-player.boy-player .steve-sprite .hair-top {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 31px !important;
+  background:
+    linear-gradient(90deg, #16110d 0 22%, #24201b 22% 50%, #16110d 50% 78%, #24201b 78% 100%) !important;
+}
+
+.boy-player .hair-left,
+.hero-player.boy-player .steve-sprite .hair-left {
+  left: 0 !important;
+  top: 0 !important;
+  width: 13px !important;
+  height: 51px !important;
+  background: #16110d !important;
+}
+
+.boy-player .player-head::after,
+.hero-player.boy-player .steve-sprite .player-head::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 13px !important;
+  height: 51px !important;
+  background: #16110d !important;
+  clip-path: none !important;
+}
+
+.hero-player.boy-player .steve-sprite .hair-top {
+  height: 38px !important;
+}
+
+.hero-player.boy-player .hair-left,
+.hero-player.boy-player .steve-sprite .player-head::after {
+  width: 16px !important;
+  height: 61px !important;
+}
+
+.eye,
+.hero-player .steve-sprite .eye {
+  top: 36px !important;
+  width: 16px !important;
+  height: 24px !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.left-eye,
+.hero-player .steve-sprite .left-eye {
+  left: 13px !important;
+  background:
+    linear-gradient(180deg, #050505 0 42%, #1d1d1f 42% 66%, #606872 66% 100%) !important;
+}
+
+.right-eye,
+.hero-player .steve-sprite .right-eye {
+  right: 13px !important;
+  background:
+    linear-gradient(180deg, #050505 0 42%, #1d1d1f 42% 66%, #606872 66% 100%) !important;
+}
+
+.left-eye::before,
+.right-eye::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 12px;
+  background: #f4f4f1;
+}
+
+.left-eye::before {
+  left: -8px;
+}
+
+.right-eye::before {
+  right: -8px;
+}
+
+.hero-player .steve-sprite .eye {
+  top: 43px !important;
+  width: 19px !important;
+  height: 29px !important;
+}
+
+.hero-player .steve-sprite .left-eye {
+  left: 18px !important;
+}
+
+.hero-player .steve-sprite .right-eye {
+  right: 18px !important;
+}
+
+.hero-player .left-eye::before,
+.hero-player .right-eye::before {
+  width: 10px;
+  height: 14px;
+}
+
+.hero-player .left-eye::before {
+  left: -10px;
+}
+
+.hero-player .right-eye::before {
+  right: -10px;
+}
+
+.nose,
+.hero-player .nose {
+  left: 50% !important;
+  top: 28px !important;
+  width: 14px !important;
+  height: 37px !important;
+  background: linear-gradient(90deg, #d3b98d 0 52%, #c7aa7d 52% 100%) !important;
+  opacity: 1 !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.hero-player .nose {
+  top: 34px !important;
+  width: 17px !important;
+  height: 45px !important;
+}
+
+.smile,
+.hero-player .smile,
+.smile::before,
+.hero-player .smile::before,
+.smile::after,
+.hero-player .smile::after {
+  display: none !important;
+  content: none !important;
+}
+
+.girl-player .player-head {
+  --hair: #a46419;
+}
+
+.girl-player .steve-sprite .eye {
+  background:
+    linear-gradient(180deg, #163d16 0 42%, #285f25 42% 66%, #8aa18a 66% 100%) !important;
+}
+
+.girl-player .left-eye::before,
+.girl-player .right-eye::before {
+  background: #dfe8e8 !important;
+}
+
+/* Final face style: soft square Minecraft face reference. */
+.blocky-player {
+  --skin: #ffd9a0;
+  --skin-dark: #ffc28e;
+  --hair: #2c211d;
+}
+
+.steve-sprite .player-head {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 24%, transparent 24% 52%, rgba(0, 0, 0, 0.07) 52% 76%, transparent 76%),
+    linear-gradient(var(--hair) 0 60%, var(--skin) 60% 100%) !important;
+}
+
+.boy-player .hair-top,
+.hero-player.boy-player .hair-top,
+.girl-player .steve-sprite .hair-top {
+  left: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 35px !important;
+  background:
+    linear-gradient(90deg, #171210 0 24%, #241a17 24% 50%, #342621 50% 76%, #171210 76% 100%) !important;
+}
+
+.boy-player .hair-left,
+.hero-player.boy-player .hair-left,
+.girl-player .steve-sprite .hair-left {
+  left: 0 !important;
+  top: 0 !important;
+  width: 17px !important;
+  height: 59px !important;
+  background:
+    linear-gradient(180deg, #171210 0 45%, #2c211d 45% 100%) !important;
+}
+
+.boy-player .player-head::after,
+.hero-player.boy-player .player-head::after,
+.girl-player .steve-sprite .player-head::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  width: 17px !important;
+  height: 59px !important;
+  background:
+    linear-gradient(180deg, #171210 0 45%, #2c211d 45% 100%) !important;
+  clip-path: none !important;
+}
+
+.hero-player.boy-player .hair-top,
+.hero-player .steve-sprite .hair-top {
+  height: 43px !important;
+}
+
+.hero-player.boy-player .hair-left,
+.hero-player.boy-player .player-head::after,
+.hero-player .hair-left,
+.hero-player .steve-sprite .player-head::after {
+  width: 21px !important;
+  height: 70px !important;
+}
+
+.eye,
+.hero-player .eye,
+.girl-player .steve-sprite .eye {
+  top: 42px !important;
+  width: 20px !important;
+  height: 34px !important;
+  box-shadow: none !important;
+}
+
+.left-eye,
+.hero-player .left-eye,
+.girl-player .steve-sprite .left-eye {
+  left: 21px !important;
+  background:
+    linear-gradient(180deg, transparent 0 8px, #d7d7d4 8px 18px, #f3f2ee 18px 34px),
+    linear-gradient(90deg, transparent 0 50%, #030303 50% 100%) !important;
+}
+
+.right-eye,
+.hero-player .right-eye,
+.girl-player .steve-sprite .right-eye {
+  right: 21px !important;
+  background:
+    linear-gradient(180deg, transparent 0 8px, #030303 8px 18px, #32363a 18px 34px),
+    linear-gradient(90deg, #030303 0 50%, transparent 50% 100%) !important;
+}
+
+.left-eye::before,
+.right-eye::before {
+  content: none !important;
+  display: none !important;
+}
+
+.hero-player .steve-sprite .eye {
+  top: 51px !important;
+  width: 24px !important;
+  height: 40px !important;
+}
+
+.hero-player .steve-sprite .left-eye {
+  left: 27px !important;
+}
+
+.hero-player .steve-sprite .right-eye {
+  right: 27px !important;
+}
+
+.nose,
+.hero-player .nose {
+  left: 50% !important;
+  top: 36px !important;
+  width: 26px !important;
+  height: 40px !important;
+  background:
+    linear-gradient(180deg, #ffba94 0 48%, #ffd79d 48% 100%) !important;
+  opacity: 1 !important;
+  transform: translateX(calc(-50% - 44px)) !important;
+}
+
+.hero-player .nose {
+  top: 43px !important;
+  width: 31px !important;
+  height: 49px !important;
+}
+
+.smile,
+.hero-player .smile,
+.smile::before,
+.hero-player .smile::before,
+.smile::after,
+.hero-player .smile::after {
+  display: none !important;
+  content: none !important;
+}
+
+.girl-player .player-body::before,
+.girl-player .player-body::after {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 30%, transparent 30%),
+    #2c211d !important;
+}
+
+/* Final visibility fix: eyes on top and shirt closer to the face. */
+.steve-sprite .player-head {
+  overflow: visible !important;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.06) 0 25%, transparent 25% 50%, rgba(0,0,0,0.06) 50% 75%, transparent 75%),
+    linear-gradient(var(--hair) 0 50%, var(--skin) 50% 100%) !important;
+}
+
+.hair,
+.hair-top,
+.steve-sprite .hair-left,
+.steve-sprite .player-head::after {
+  z-index: 3 !important;
+}
+
+.eye,
+.hero-player .eye,
+.girl-player .steve-sprite .eye {
+  position: absolute !important;
+  z-index: 9 !important;
+  top: 38px !important;
+  width: 17px !important;
+  height: 24px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.left-eye,
+.hero-player .left-eye,
+.girl-player .steve-sprite .left-eye {
+  left: 19px !important;
+  background: linear-gradient(90deg, #f2f2ef 0 50%, #050505 50% 100%) !important;
+}
+
+.right-eye,
+.hero-player .right-eye,
+.girl-player .steve-sprite .right-eye {
+  right: 19px !important;
+  background: linear-gradient(90deg, #050505 0 50%, #f2f2ef 50% 100%) !important;
+}
+
+.hero-player .steve-sprite .eye {
+  top: 47px !important;
+  width: 21px !important;
+  height: 29px !important;
+}
+
+.hero-player .steve-sprite .left-eye {
+  left: 25px !important;
+}
+
+.hero-player .steve-sprite .right-eye {
+  right: 25px !important;
+}
+
+.left-eye::before,
+.right-eye::before,
+.hero-player .left-eye::before,
+.hero-player .right-eye::before {
+  content: none !important;
+  display: none !important;
+}
+
+.nose,
+.hero-player .nose {
+  z-index: 6 !important;
+  top: 34px !important;
+  width: 20px !important;
+  height: 38px !important;
+  background: linear-gradient(180deg, #ffbe96 0 48%, #ffdca9 48% 100%) !important;
+}
+
+.hero-player .nose {
+  top: 41px !important;
+  width: 25px !important;
+  height: 47px !important;
+}
+
+.player-body {
+  margin-top: -10px !important;
+}
+
+.hero-player .player-body {
+  margin-top: -12px !important;
+}
+
+.boy-player .torso,
+.hero-player.boy-player .torso {
+  margin-top: 0 !important;
+}
+
+.arm,
+.hero-player .arm {
+  margin-top: 0 !important;
+}
+
+/* Simple face: hair and two eyes only. */
+.steve-sprite .player-head,
+.hero-player .steve-sprite .player-head,
+.girl-player .steve-sprite .player-head {
+  --hair-color: #2a211d;
+  background: #ffd9a0 !important;
+  border-radius: 0 !important;
+  image-rendering: pixelated;
+  overflow: visible !important;
+  box-shadow: none !important;
+}
+
+.girl-player .steve-sprite .player-head {
+  --hair-color: #a46419;
+}
+
+.player-head > .hair,
+.player-head > .eye {
+  display: block !important;
+  position: absolute !important;
+}
+
+.steve-sprite .hair-top {
+  background: var(--hair-color) !important;
+  inset: 0 0 auto !important;
+  width: 100% !important;
+  height: 42% !important;
+}
+
+.steve-sprite .hair-left,
+.steve-sprite .player-head::after {
+  background: var(--hair-color) !important;
+  top: 0 !important;
+  width: 18% !important;
+  height: 62% !important;
+}
+
+.steve-sprite .hair-left {
+  left: 0 !important;
+}
+
+.steve-sprite .player-head::after {
+  content: '' !important;
+  position: absolute !important;
+  right: 0 !important;
+}
+
+.steve-sprite .eye {
+  background: #101010 !important;
+  width: 14% !important;
+  height: 20% !important;
+  top: 50% !important;
+  box-shadow: none !important;
+}
+
+.steve-sprite .left-eye {
+  left: 32% !important;
+}
+
+.steve-sprite .right-eye {
+  right: 32% !important;
+}
+/* Sketchfab character embeds. */
+.sketchfab-player {
+  width: 112px !important;
+  height: 168px !important;
+  margin-top: 8px !important;
+  background: transparent !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.hero-player .sketchfab-player {
+  width: 154px !important;
+  height: 226px !important;
+  margin-top: 0 !important;
+}
+
+.sketchfab-frame {
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  display: block !important;
+  background: transparent !important;
+}
+
+.sketchfab-credit {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Local Three.js character models. */
+.model-player {
+  width: 118px !important;
+  height: 178px !important;
+  margin-top: 6px !important;
+  position: relative !important;
+  place-items: center end !important;
+  overflow: visible !important;
+}
+
+.hero-player .model-player {
+  width: 168px !important;
+  height: 238px !important;
+  margin-top: -8px !important;
+}
+
+.minecraft-model,
+.minecraft-model canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+.minecraft-model canvas {
+  cursor: grab;
+  image-rendering: auto;
+  touch-action: none;
+}
+
+.minecraft-model canvas.is-dragging {
+  cursor: grabbing;
+}
+
+.minecraft-model canvas.is-context-lost {
+  opacity: 0;
+}
+
+
+/* Responsive local Three.js character sizing. */
+.blocky-player {
+  min-width: clamp(82px, 18vw, 104px);
+}
+
+.hero-player {
+  min-width: clamp(126px, 26vw, 156px);
+}
+
+.model-player {
+  width: clamp(92px, 16vw, 118px) !important;
+  height: clamp(138px, 24vw, 178px) !important;
+}
+
+.hero-player .model-player {
+  width: clamp(132px, 22vw, 168px) !important;
+  height: clamp(188px, 31vw, 238px) !important;
+}
+
+.player-name {
+  max-width: clamp(98px, 18vw, 140px);
+}
+
+.hero-player .player-name {
+  max-width: clamp(132px, 24vw, 168px);
+}
+
+/* Level countdown and birthday greetings chat. */
+.greetings-section,
+.level-countdown {
+  width: min(1120px, calc(100vw - 32px));
+  margin: 0 auto 70px;
+}
+
+.level-countdown {
+  text-align: center;
+}
+
+.level-countdown .section-heading {
+  display: block;
+  margin-bottom: 18px;
+  padding: 0;
+}
+
+.level-countdown .section-heading h2 {
+  margin-bottom: 0;
+}
+
+.chat-panel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.26) 12px, transparent 12px),
+    #fff8d8;
+  background-size: 24px 24px, auto;
+  border: 5px solid #24445e;
+  box-shadow: 0 9px 0 rgba(22, 52, 72, 0.28);
+}
+
+.chat-window {
+  display: grid;
+  align-content: start;
+  min-height: 280px;
+  max-height: 420px;
+  gap: 12px;
+  overflow-y: auto;
+  padding: 12px;
+  background: rgba(185, 239, 255, 0.45);
+  border: 4px solid #126c93;
+  scrollbar-color: #f4b63f #123c34;
+}
+
+.chat-message {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+}
+
+.chat-avatar {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #fff;
+  background: #183044;
+  border: 3px solid #0f1c28;
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.chat-bubble {
+  min-width: 0;
+  padding: 10px 12px;
+  color: #10263a;
+  background: #fff;
+  border: 3px solid #24445e;
+  box-shadow: 4px 4px 0 rgba(18, 60, 52, 0.18);
+}
+
+.chat-bubble header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 5px;
+}
+
+.chat-bubble strong {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  color: #123c34;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.chat-bubble time {
+  flex: 0 0 auto;
+  color: #3d5f6a;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.chat-bubble p {
+  margin: 0;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.chat-form {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.75fr) minmax(180px, 1.5fr) auto;
+  gap: 10px;
+}
+
+.chat-form input {
+  width: 100%;
+  min-height: 50px;
+  padding: 10px 12px;
+  color: #10263a;
+  background: #fff;
+  border: 4px solid #24445e;
+  border-radius: 0;
+  font-weight: 900;
+}
+
+.chat-form input:focus {
+  outline: 4px solid #24a7d8;
+  outline-offset: 3px;
+}
+
+.chat-form .secondary-button {
+  min-width: 104px;
+  padding-inline: 16px;
+}
+
+@media (max-width: 760px) {
+  .chat-form {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-window {
+    max-height: 360px;
+  }
+}
+
+/* Final section layout: lower lobby, full-height countdown, Firebase chat identity. */
+.party-section {
+  margin-top: clamp(56px, 9vh, 120px) !important;
+}
+
+.countdown-section {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: clamp(72px, 10vh, 118px) max(18px, calc((100vw - 1120px) / 2));
+  text-align: center;
+  background:
+    linear-gradient(90deg, rgba(36, 167, 216, 0.08) 12px, transparent 12px),
+    #fff8d8;
+  background-size: 24px 24px, auto;
+  border-top: none;
+  border-bottom: none;
+}
+
+.countdown-heading,
+.countdown-section .section-heading.countdown-heading {
+  display: grid !important;
+  justify-items: center !important;
+  gap: 10px !important;
+  width: min(1120px, 100%) !important;
+  margin: 0 0 20px !important;
+  padding: 0 !important;
+}
+
+.countdown-heading .eyebrow {
+  margin: 0 !important;
+  color: #0f6e65 !important;
+  font-size: clamp(1.1rem, 2vw, 1.7rem) !important;
+  text-shadow: 0 2px 0 rgba(255, 226, 120, 0.7) !important;
+}
+
+.countdown-heading h2 {
+  margin: 0 !important;
+  color: #0f3d35 !important;
+  font-size: clamp(3.8rem, 10vw, 8.2rem) !important;
+  line-height: 0.92 !important;
+}
+
+.countdown-heading span {
+  color: #173d4d !important;
+  font-size: clamp(1.1rem, 2vw, 1.65rem) !important;
+  font-weight: 950 !important;
+  text-transform: uppercase;
+}
+
+.countdown-section .countdown-panel,
+.countdown-section .level-countdown {
+  width: min(560px, 100%) !important;
+  margin: 0 auto !important;
+  padding: 18px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.countdown-section .countdown-grid {
+  grid-template-columns: repeat(4, minmax(68px, 1fr));
+  gap: 10px;
+}
+
+.countdown-section .countdown-tile {
+  min-height: 106px;
+  background: #1f6f4a;
+  border: 5px solid #123c34;
+  box-shadow: inset 0 8px 0 rgba(255, 255, 255, 0.12), 0 7px 0 rgba(18, 60, 52, 0.32);
+}
+
+.chat-form {
+  grid-template-columns: minmax(136px, auto) minmax(180px, 1fr) auto;
+  align-items: stretch;
+}
+
+.device-name {
+  display: grid;
+  place-items: center;
+  min-height: 50px;
+  padding: 10px 12px;
+  color: #fff;
+  background: #183044;
+  border: 4px solid #0f1c28;
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: 0.75rem;
+  line-height: 1;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .party-section {
+    margin-top: clamp(38px, 8vh, 74px) !important;
+  }
+
+  .countdown-section {
+    padding-block: 66px;
+  }
+
+  .countdown-section .countdown-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .countdown-heading h2 {
+    font-size: clamp(3rem, 15vw, 5.2rem) !important;
+  }
+
+  .chat-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.countdown-heading > .eyebrow,
+.countdown-heading > h2,
+.countdown-heading > span {
+  justify-self: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.countdown-heading > h2 {
+  width: max-content !important;
+  max-width: 100% !important;
+}
+
+.countdown-section .section-heading.countdown-heading {
+  grid-template-columns: 1fr !important;
+  align-items: center !important;
+  justify-content: center !important;
+  place-items: center !important;
+}
+
+/* Smooth hero-to-lobby join and shared lobby-style section headings. */
+.hero-section {
+  margin-bottom: 0 !important;
+}
+
+.hero-section + .party-section,
+.party-section {
+  margin-top: 0 !important;
+  background:
+    linear-gradient(180deg, #aee7fb 0%, #78d3f6 18%, #69c9ef 48%, #64c6ed 100%) !important;
+}
+
+.hero-section + .party-section {
+  border-top: 0 !important;
+  box-shadow: inset 0 62px 52px rgba(185, 239, 255, 0.4) !important;
+}
+
+.countdown-section .lobby-heading,
+.greetings-section .lobby-heading {
+  position: relative !important;
+  z-index: 2 !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: min(1120px, 100%) !important;
+  margin: 0 auto 22px !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.countdown-section .lobby-heading .eyebrow,
+.greetings-section .lobby-heading .eyebrow {
+  justify-self: center !important;
+  margin: 0 !important;
+  color: #0f6e65 !important;
+  font-size: clamp(1.45rem, 2.6vw, 2.45rem) !important;
+  text-shadow: 0 3px 0 rgba(255, 226, 120, 0.78) !important;
+}
+
+.countdown-section .lobby-heading h2,
+.greetings-section .lobby-heading h2 {
+  justify-self: center !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  color: #0f3d35 !important;
+  font-size: clamp(3.8rem, 8vw, 7.2rem) !important;
+  line-height: 0.92 !important;
+  text-align: center !important;
+}
+
+.countdown-section .lobby-heading span,
+.greetings-section .lobby-heading span {
+  justify-self: center !important;
+  margin: 0 !important;
+  color: #173d4d !important;
+  font-size: clamp(1.2rem, 2vw, 1.85rem) !important;
+  font-weight: 950 !important;
+  text-transform: uppercase;
+  text-align: center !important;
+}
+
+/* Countdown mining-layer background: dirt into cobblestone into bedrock, with diamond blocks. */
+.countdown-section {
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    url('./assets/diamond.png') 9% 82% / 46px 46px no-repeat,
+    url('./assets/diamond.png') 91% 74% / 34px 34px no-repeat,
+    linear-gradient(180deg, rgba(255, 248, 216, 0.74), rgba(255, 248, 216, 0.2) 42%, rgba(12, 18, 22, 0.36) 100%),
+    url('./assets/bedrock.jpg') center bottom / 112px 112px repeat !important;
+  border-top: 0 !important;
+}
+
+.countdown-section::before,
+.countdown-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.countdown-section::before {
+  clip-path: polygon(0 0, 100% 0, 100% 38%, 0 49%);
+  background:
+    url('./assets/diamond.png') 18% 24% / 42px 42px no-repeat,
+    url('./assets/diamond.png') 76% 31% / 34px 34px no-repeat,
+    linear-gradient(180deg, rgba(185, 239, 255, 0.58), rgba(255, 248, 216, 0.52)),
+    url('./assets/dirt.jpg') center top / 96px 96px repeat;
+  opacity: 0.5;
+}
+
+.countdown-section::after {
+  clip-path: polygon(0 34%, 100% 25%, 100% 74%, 0 84%);
+  background:
+    url('./assets/diamond.png') 31% 58% / 36px 36px no-repeat,
+    url('./assets/diamond.png') 67% 52% / 48px 48px no-repeat,
+    linear-gradient(180deg, rgba(255, 248, 216, 0.42), rgba(20, 32, 38, 0.22)),
+    url('./assets/cobblestone.jpg') center center / 104px 104px repeat;
+  opacity: 0.54;
+}
+
+.countdown-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.countdown-section .countdown-panel,
+.countdown-section .level-countdown {
+  background: rgba(255, 248, 216, 0.14) !important;
+  backdrop-filter: none;
+}
+
+.chat-form {
+  grid-template-columns: minmax(136px, auto) minmax(180px, 1fr) auto;
+  align-items: stretch;
+}
+
+.chat-sender-name {
+  display: grid;
+  place-items: center;
+  min-height: 50px;
+  padding: 10px 12px;
+  color: #fff;
+  background: #183044;
+  border: 4px solid #0f1c28;
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: 0.75rem;
+  line-height: 1;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .countdown-section .lobby-heading h2,
+  .greetings-section .lobby-heading h2 {
+    font-size: clamp(3rem, 12vw, 5rem) !important;
+  }
+
+  .chat-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Strengthen the countdown mine strata so the texture order reads clearly. */
+.countdown-section::before {
+  clip-path: polygon(0 0, 100% 0, 100% 34%, 0 44%) !important;
+  background:
+    url('./assets/diamond.png') 18% 24% / 42px 42px no-repeat,
+    url('./assets/diamond.png') 76% 28% / 34px 34px no-repeat,
+    linear-gradient(180deg, rgba(255, 248, 216, 0.16), rgba(126, 78, 45, 0.18)),
+    url('./assets/dirt.jpg') center top / 96px 96px repeat !important;
+  opacity: 0.94 !important;
+}
+
+.countdown-section::after {
+  clip-path: polygon(0 39%, 100% 33%, 100% 72%, 0 83%) !important;
+  background:
+    url('./assets/diamond.png') 31% 58% / 36px 36px no-repeat,
+    url('./assets/diamond.png') 67% 52% / 48px 48px no-repeat,
+    linear-gradient(180deg, rgba(255, 248, 216, 0.18), rgba(20, 32, 38, 0.2)),
+    url('./assets/cobblestone.jpg') center center / 104px 104px repeat !important;
+  opacity: 0.9 !important;
+}
+
+/* Requested cleanup: revert countdown background, shared heading rhythm, grounded feet. */
+.party-section .lobby-heading,
+.countdown-section .lobby-heading,
+.greetings-section .lobby-heading {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: min(1120px, calc(100vw - 32px)) !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.party-section .lobby-heading {
+  margin-bottom: 0 !important;
+}
+
+.countdown-section .lobby-heading,
+.greetings-section .lobby-heading {
+  margin-bottom: 22px !important;
+}
+
+.party-section .lobby-heading .eyebrow,
+.countdown-section .lobby-heading .eyebrow,
+.greetings-section .lobby-heading .eyebrow {
+  justify-self: center !important;
+  margin: 0 !important;
+  color: #0f6e65 !important;
+  font-size: clamp(1.05rem, 1.8vw, 1.55rem) !important;
+  line-height: 1.05 !important;
+  text-shadow: 0 3px 0 rgba(255, 226, 120, 0.75) !important;
+}
+
+.party-section .lobby-heading h2,
+.countdown-section .lobby-heading h2,
+.greetings-section .lobby-heading h2 {
+  justify-self: center !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  color: #0f3d35 !important;
+  font-size: clamp(3.8rem, 8vw, 7.2rem) !important;
+  line-height: 0.92 !important;
+  text-align: center !important;
+}
+
+.party-section .lobby-heading span,
+.countdown-section .lobby-heading span,
+greetings-section .lobby-heading span,
+.greetings-section .lobby-heading span {
+  justify-self: center !important;
+  margin: 0 !important;
+  color: #173d4d !important;
+  font-size: clamp(1.15rem, 1.95vw, 1.65rem) !important;
+  line-height: 1.15 !important;
+  font-weight: 950 !important;
+  text-transform: none !important;
+  text-align: center !important;
+}
+
+.countdown-section {
+  position: relative !important;
+  isolation: auto !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(90deg, rgba(36, 167, 216, 0.08) 12px, transparent 12px),
+    #fff8d8 !important;
+  background-size: 24px 24px, auto !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.countdown-section::before,
+.countdown-section::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+.countdown-section .countdown-panel,
+.countdown-section .level-countdown {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.party-row {
+  bottom: var(--ground-height) !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .lobby-heading h2,
+  .countdown-section .lobby-heading h2,
+  .greetings-section .lobby-heading h2 {
+    font-size: clamp(3rem, 12vw, 5rem) !important;
+  }
+
+  .party-section .lobby-heading,
+  .countdown-section .lobby-heading {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    text-align: center !important;
+    gap: 0 !important;
+    padding-inline: 18px !important;
+  }
+
+  .party-section .lobby-heading .eyebrow,
+  .countdown-section .lobby-heading .eyebrow {
+    font-size: clamp(0.88rem, 3.8vw, 1.1rem) !important;
+    margin-bottom: 10px !important;
+    letter-spacing: 0.06em !important;
+  }
+
+  .party-section .lobby-heading h2,
+  .countdown-section .lobby-heading h2 {
+    font-size: clamp(2.75rem, 13vw, 4.8rem) !important;
+    line-height: 0.92 !important;
+    margin-bottom: 0 !important;
+    letter-spacing: 0.015em !important;
+  }
+
+  .party-section .lobby-heading span,
+  .countdown-section .lobby-heading span {
+    font-size: clamp(1rem, 3.8vw, 1.25rem) !important;
+    margin-top: 18px !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .party-row {
+    bottom: var(--ground-height) !important;
+  }
+}
+
+
+/* Heading spacing tune: larger eyebrow, tighter title gap, roomier subheadline. */
+.party-section .lobby-heading,
+.countdown-section .lobby-heading,
+.greetings-section .lobby-heading {
+  gap: 0 !important;
+}
+
+.party-section .lobby-heading .eyebrow,
+.countdown-section .lobby-heading .eyebrow,
+.greetings-section .lobby-heading .eyebrow {
+  margin-bottom: 4px !important;
+  font-size: clamp(1.75rem, 4.4vw, 3.2rem) !important;
+  line-height: 0.95 !important;
+}
+
+.party-section .lobby-heading h2,
+.countdown-section .lobby-heading h2,
+.greetings-section .lobby-heading h2 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.party-section .lobby-heading span,
+.countdown-section .lobby-heading span,
+.greetings-section .lobby-heading span {
+  margin-top: clamp(14px, 1.7vw, 22px) !important;
+  font-size: clamp(1.35rem, 2.25vw, 1.95rem) !important;
+  line-height: 1.12 !important;
+}
+
+/* Greetings full-screen section and latest-message-first viewport. */
+.party-section .lobby-heading span,
+.countdown-section .lobby-heading span,
+.greetings-section .lobby-heading span {
+  margin-top: clamp(24px, 3vw, 38px) !important;
+  font-size: clamp(1.45rem, 2.45vw, 2.1rem) !important;
+}
+
+.greetings-section {
+  position: relative !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  align-content: start !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: clamp(44px, 7vh, 74px) max(18px, calc((100vw - 1120px) / 2)) clamp(28px, 4vh, 42px) !important;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)),
+    url('./assets/mcbg.jpg') center center / cover no-repeat !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  isolation: isolate !important;
+}
+
+
+.greetings-section .lobby-heading {
+  margin-bottom: clamp(26px, 4vh, 42px) !important;
+}
+
+.greetings-section .chat-panel {
+  align-self: stretch !important;
+  width: min(1120px, 100%) !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 14px !important;
+}
+
+.greetings-section .chat-window {
+  min-height: 0 !important;
+  max-height: none !important;
+  height: auto !important;
+  align-content: start !important;
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 760px) {
+  .greetings-section {
+    min-height: 100svh !important;
+    padding: 34px 12px 24px !important;
+  }
+
+  .party-section .lobby-heading span,
+  .countdown-section .lobby-heading span,
+  .greetings-section .lobby-heading span {
+    margin-top: 18px !important;
+  }
+}
+/* Party lobby cleanup: guests flank Wiswis and all name tags share the same pixel plate. */
+.party-section {
+    --ground-height: clamp(168px, 31vh, 224px);
+--lobby-edge: clamp(18px, 4vw, 56px);
+  --lobby-center-gap: clamp(8px, 1vw, 12px);
+}
+
+.party-section .lobby-heading {
+  opacity: 1 !important;
+  pointer-events: none !important;
+}
+.party-section .party-scroll {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 5 !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-end !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  background: transparent !important;
+}
+
+.party-section .party-row {
+  margin: 0 auto !important;
+  bottom: var(--ground-height) !important;
+  display: grid !important;
+  grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr) !important;
+  align-items: flex-end !important;
+  width: min(1120px, 100%) !important;
+  min-width: max-content !important;
+  gap: var(--lobby-center-gap) !important;
+  padding: 0 var(--lobby-edge) !important;
+  flex-shrink: 0 !important;
+}
+
+.party-section .guest-side {
+  display: flex !important;
+  align-items: flex-end !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+
+.party-section .left-side {
+  justify-content: flex-end !important;
+}
+
+.party-section .right-side {
+  justify-content: flex-start !important;
+}
+
+.party-section .blocky-player,
+.party-section .hero-player {
+  position: relative !important;
+  flex: 0 0 auto !important;
+}
+
+.party-section .blocky-player {
+  z-index: 1 !important;
+}
+.party-section .blocky-player:not(.hero-player) {
+  min-width: 116px !important;
+}
+
+.party-section .blocky-player:not(.hero-player) .model-player {
+  width: 116px !important;
+  height: 174px !important;
+}
+
+
+.party-section .hero-player {
+  z-index: 4 !important;
+}
+
+.party-section .player-name,
+.party-section .hero-player .player-name,
+.party-section .blocky-player[style*="--player-color: #20242b"] .player-name {
+  visibility: visible !important;
+  display: block !important;
+  min-height: auto !important;
+  max-width: 150px !important;
+  margin: 0 0 10px !important;
+  padding: 5px 10px 6px !important;
+  color: #fffdf0 !important;
+  background: #84988f !important;
+  border: 3px solid #d9d4ad !important;
+  box-shadow:
+    0 3px 0 rgba(70, 86, 82, 0.48),
+    inset 0 0 0 2px rgba(74, 91, 87, 0.5),
+    inset 0 4px 0 rgba(255, 255, 255, 0.16) !important;
+  font-family: 'Minecraft Ten', 'Minecraft CHMC', ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 1.02rem !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  text-shadow: 2px 2px 0 rgba(55, 69, 65, 0.68) !important;
+  overflow-wrap: anywhere !important;
+}
+
+.party-section .hero-player .player-name {
+  max-width: 168px !important;
+  font-size: 1.18rem !important;
+}
+
+.party-section .hero-player .player-sprite::before {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .party-section {
+    --ground-height: clamp(148px, 28vh, 190px);
+  }
+
+  .party-section .party-row {
+    bottom: var(--ground-height) !important;
+    grid-template-columns: 1fr auto 1fr !important;
+    min-width: max-content !important;
+    width: 100% !important;
+    gap: 12px !important;
+    padding: 0 10px !important;
+  }
+
+  .party-section .guest-side {
+    gap: 14px !important;
+  }
+}
+@media (max-height: 650px) and (min-width: 900px) {
+  .party-section .lobby-heading {
+    gap: 0 !important;
+    transform: translateY(-34px) !important;
+  }
+
+  .party-section .lobby-heading .eyebrow {
+    margin-bottom: 2px !important;
+    font-size: clamp(1rem, 1.5vw, 1.45rem) !important;
+  }
+
+  .party-section .lobby-heading h2 {
+    font-size: clamp(3rem, 4vw, 3.85rem) !important;
+    line-height: 0.9 !important;
+  }
+
+  .party-section .lobby-heading span {
+    margin-top: 2px !important;
+    font-size: clamp(0.9rem, 1.2vw, 1.08rem) !important;
+  }
+}
+.countdown-cake-button {
+  width: min(260px, 62vw) !important;
+  margin: clamp(16px, 3vh, 28px) auto 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  border: 5px solid #24445e !important;
+  border-radius: 0 !important;
+  background: #fff8d8 !important;
+  box-shadow: 0 8px 0 rgba(18, 60, 52, 0.35), inset 0 0 0 4px rgba(255, 255, 255, 0.45) !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  image-rendering: pixelated !important;
+  transition: transform 140ms ease, box-shadow 140ms ease !important;
+}
+
+.countdown-cake-button:hover,
+.countdown-cake-button:focus-visible {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 11px 0 rgba(18, 60, 52, 0.35), inset 0 0 0 4px rgba(255, 255, 255, 0.45) !important;
+}
+
+.countdown-cake-button:active {
+  transform: translateY(4px) !important;
+  box-shadow: 0 4px 0 rgba(18, 60, 52, 0.35), inset 0 0 0 4px rgba(255, 255, 255, 0.45) !important;
+}
+
+.countdown-cake-button img {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 4 / 3 !important;
+  object-fit: cover !important;
+}
+
+@media (max-width: 760px) {
+  .countdown-cake-button {
+    width: min(220px, 74vw) !important;
+  }
+}
+
+/* Final countdown and cake polish. */
+.countdown-section .countdown-panel,
+.countdown-section .level-countdown {
+  width: min(720px, 100%) !important;
+}
+
+.countdown-section .countdown-grid {
+  grid-template-columns: repeat(4, minmax(120px, 1fr)) !important;
+  gap: clamp(10px, 1.4vw, 16px) !important;
+}
+
+.countdown-section .countdown-tile {
+  min-height: 78px !important;
+  padding: 10px 16px !important;
+  display: grid !important;
+  align-content: center !important;
+}
+
+.countdown-section .countdown-tile strong {
+  font-size: clamp(2rem, 4vw, 3rem) !important;
+  line-height: 0.9 !important;
+}
+
+.countdown-section .countdown-tile small {
+  margin-top: 4px !important;
+  font-size: clamp(0.58rem, 1vw, 0.78rem) !important;
+}
+
+.countdown-cake-button,
+.countdown-cake-button:hover,
+.countdown-cake-button:focus-visible,
+.countdown-cake-button:active {
+  width: min(260px, 62vw) !important;
+  margin: clamp(16px, 3vh, 28px) auto 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  overflow: visible !important;
+  image-rendering: pixelated !important;
+}
+
+.countdown-cake-button:hover,
+.countdown-cake-button:focus-visible {
+  transform: translateY(-3px) !important;
+}
+
+.countdown-cake-button:active {
+  transform: translateY(3px) !important;
+}
+
+.countdown-cake-button img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 760px) {
+  .countdown-section .countdown-grid {
+    grid-template-columns: repeat(2, minmax(118px, 1fr)) !important;
+  }
+}
+
+/* Characters grounded: feet sit on the grass surface. */
+.party-section {
+  --ground-height: clamp(132px, 24vh, 180px);
+  padding-top: clamp(80px, 12vh, 140px) !important;
+}
+
+.party-section::before {
+  height: var(--ground-height) !important;
+}
+
+.party-section .party-row {
+  bottom: var(--ground-height) !important;
+}
+
+@media (max-width: 760px) {
+  .party-section {
+    --ground-height: clamp(116px, 22vh, 160px);
+    padding-top: clamp(40px, 6vh, 60px) !important;
+  }
+}
+
+/* Greetings section: heading colors on light PixelBlast background */
+.greetings-section .lobby-heading .eyebrow {
+  color: #0f6e65 !important;
+  text-shadow: 0 2px 0 rgba(255, 226, 120, 0.7) !important;
+}
+
+.greetings-section .lobby-heading h2 {
+  color: #0f3d35 !important;
+  text-shadow: none !important;
+}
+
+.greetings-section .lobby-heading span {
+  color: #173d4d !important;
+  text-shadow: none !important;
+}
+
+/* Wiswis celebrant profile card above chat */
+.chat-celebrant-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(1120px, 100%);
+  margin: 0 auto 14px;
+  padding: 14px 16px;
+  background: #fff8d8;
+  border: 4px solid #24445e;
+  box-shadow: 0 4px 0 rgba(18, 60, 52, 0.22);
+  image-rendering: pixelated;
+}
+
+.chat-celebrant-dp {
+  width: 62px;
+  height: 62px;
+  object-fit: cover;
+  border: 3px solid #24445e;
+  box-shadow: 2px 2px 0 rgba(18, 60, 52, 0.3);
+  flex-shrink: 0;
+  image-rendering: auto;
+}
+
+.chat-celebrant-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.chat-celebrant-name {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: 1.15rem;
+  color: #0f3d35;
+  line-height: 1;
+}
+
+.chat-celebrant-badge {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: 0.72rem;
+  color: #fff;
+  background: #1f6f4a;
+  border: 2px solid #123c34;
+  padding: 3px 8px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* Final greetings chat polish: countdown-style heading, fixed composer, scrollable messages. */
+.greetings-section {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  width: 100% !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: clamp(34px, 5vh, 58px) max(18px, calc((100vw - 1120px) / 2)) clamp(20px, 3vh, 32px) !important;
+  overflow: hidden !important;
+}
+
+.greetings-section .chat-heading {
+  margin-bottom: clamp(18px, 2.6vh, 30px) !important;
+}
+
+.greetings-section .chat-heading span {
+  margin-top: clamp(12px, 1.8vw, 22px) !important;
+}
+
+.greetings-section .chat-panel {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto auto !important;
+  align-self: stretch !important;
+  width: min(1120px, 100%) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: clamp(14px, 1.8vw, 20px) !important;
+  gap: clamp(10px, 1.4vw, 14px) !important;
+  overflow: hidden !important;
+}
+
+.greetings-section .chat-celebrant-card {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 12px 14px !important;
+  background: rgba(255, 248, 216, 0.86) !important;
+  border: 4px solid #24445e !important;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.5), 0 4px 0 rgba(18, 60, 52, 0.22) !important;
+}
+
+.greetings-section .chat-celebrant-dp {
+  width: clamp(50px, 5vw, 62px) !important;
+  height: clamp(50px, 5vw, 62px) !important;
+}
+
+.greetings-section .chat-celebrant-info {
+  min-width: 0 !important;
+  gap: 6px !important;
+}
+
+.greetings-section .chat-celebrant-name {
+  font-size: clamp(1.05rem, 2vw, 1.35rem) !important;
+}
+
+.greetings-section .chat-celebrant-badge {
+  width: max-content !important;
+  max-width: 100% !important;
+  color: #fffdf0 !important;
+  background: #1f6f4a !important;
+  border: 3px solid #123c34 !important;
+  box-shadow: 0 3px 0 rgba(18, 60, 52, 0.28) !important;
+  overflow-wrap: anywhere !important;
+}
+
+.greetings-section .chat-window {
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: none !important;
+  padding: clamp(10px, 1.5vw, 14px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+}
+
+.greetings-section .chat-message {
+  grid-template-columns: 50px minmax(0, 1fr) !important;
+  gap: 12px !important;
+}
+
+.greetings-section .chat-avatar {
+  width: 50px !important;
+  height: 50px !important;
+  font-size: 0.85rem !important;
+}
+
+.greetings-section .chat-bubble {
+  min-height: 88px !important;
+  display: grid !important;
+  align-content: start !important;
+  padding: 14px 16px !important;
+}
+
+.greetings-section .chat-bubble strong {
+  font-size: 0.98rem !important;
+}
+
+.greetings-section .chat-bubble time {
+  font-size: 0.88rem !important;
+}
+
+.greetings-section .chat-bubble p {
+  font-size: 1.3rem !important;
+  line-height: 1.55 !important;
+}
+
+.greetings-section .chat-form {
+  position: relative !important;
+  z-index: 2 !important;
+  display: grid !important;
+  grid-template-columns: minmax(128px, 170px) minmax(0, 1fr) 112px !important;
+  align-items: stretch !important;
+  margin: 0 !important;
+  gap: 10px !important;
+  background: transparent !important;
+}
+
+.greetings-section .chat-sender-name,
+.greetings-section .chat-form input,
+.greetings-section .chat-form .secondary-button {
+  min-height: 68px !important;
+  font-size: 1rem !important;
+}
+
+.greetings-section .chat-form input {
+  min-width: 0 !important;
+  padding: 14px 16px !important;
+}
+
+.greetings-section .chat-form .secondary-button {
+  min-width: 0 !important;
+  padding-inline: 12px !important;
+}
+
+.greetings-section .form-error {
+  margin: 0 !important;
+  align-self: start !important;
+}
+
+@media (max-width: 760px) {
+  .greetings-section {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    padding: 28px 12px 18px !important;
+  }
+
+  .greetings-section .chat-heading {
+    margin-bottom: 16px !important;
+  }
+
+  .greetings-section .chat-celebrant-card {
+    padding: 10px !important;
+    gap: 10px !important;
+  }
+
+  .greetings-section .chat-window {
+    padding: 10px !important;
+  }
+
+  .greetings-section .chat-message {
+    grid-template-columns: 36px minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .greetings-section .chat-avatar {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .greetings-section .chat-form {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Final greetings restyle: border only — background is set in main declaration */
+.greetings-section {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.greetings-section .chat-heading,
+.greetings-section .section-heading.chat-heading {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  gap: 10px !important;
+  width: min(1120px, 100%) !important;
+  margin: 0 auto clamp(18px, 2.6vh, 30px) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.greetings-section .chat-heading .eyebrow {
+  margin: 0 !important;
+  color: #0f6e65 !important;
+  font-size: clamp(1.1rem, 2vw, 1.7rem) !important;
+  line-height: 1.05 !important;
+  text-shadow: 0 2px 0 rgba(255, 226, 120, 0.7) !important;
+}
+
+.greetings-section .chat-heading h2 {
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  color: #0f3d35 !important;
+  font-size: clamp(3.4rem, 7.5vw, 7.2rem) !important;
+  line-height: 0.92 !important;
+  text-align: center !important;
+  text-shadow: 0 8px 0 rgba(255, 226, 120, 0.78) !important;
+}
+
+.greetings-section .chat-heading span {
+  margin: 0 !important;
+  color: #173d4d !important;
+  font-size: clamp(1.1rem, 2vw, 1.65rem) !important;
+  line-height: 1.15 !important;
+  font-weight: 950 !important;
+  text-align: center !important;
+  text-transform: none !important;
+}
+
+.greetings-section .chat-panel,
+.greetings-section .chat-celebrant-card,
+.greetings-section .chat-window {
+  background: #fffbef !important;
+}
+
+.greetings-section .chat-celebrant-card {
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.48), 0 4px 0 rgba(18, 60, 52, 0.22) !important;
+}
+
+.greetings-section .form-error {
+  padding: 12px 14px !important;
+  color: #7a3c1b !important;
+  background: #fff4c9 !important;
+  border: 3px solid #f4b63f !important;
+  box-shadow: 0 4px 0 rgba(122, 60, 27, 0.16) !important;
+  font-weight: 900 !important;
+}
+
+@media (max-width: 760px) {
+  .greetings-section .chat-heading h2 {
+    font-size: clamp(2.75rem, 11vw, 4.8rem) !important;
+  }
+}
+
+/* Final heading alignment: center greetings and restore compact eyebrow/subheadline rhythm. */
+.greetings-section .chat-heading,
+.greetings-section .section-heading.chat-heading {
+  place-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.greetings-section .chat-heading .eyebrow {
+  justify-self: center !important;
+  margin: 0 !important;
+  font-size: clamp(1.1rem, 2vw, 1.7rem) !important;
+  line-height: 1.05 !important;
+}
+
+.greetings-section .chat-heading h2 {
+  justify-self: center !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.greetings-section .chat-heading span {
+  justify-self: center !important;
+  margin: 0 !important;
+  font-size: clamp(1.1rem, 2vw, 1.65rem) !important;
+  line-height: 1.15 !important;
+}
+
+/* Keep the longer Birthday Greetings title centered within the available viewport. */
+.greetings-section .chat-heading h2 {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-wrap: normal !important;
+}
+
+/* Greetings heading: exact lobby format, h2 scaled to stay on one row */
+.greetings-section .chat-heading,
+.greetings-section .section-heading.chat-heading {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  align-items: center !important;
+  gap: 0 !important;
+  width: min(1120px, calc(100vw - 32px)) !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.greetings-section .chat-heading .eyebrow {
+  justify-self: center !important;
+  margin: 0 0 8px !important;
+  color: #fffdf0 !important;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem) !important;
+  line-height: 1.05 !important;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8) !important;
+}
+
+.greetings-section .chat-heading h2 {
+  justify-self: center !important;
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  color: #ffffff !important;
+  font-size: clamp(3rem, 6.2vw, 6rem) !important;
+  line-height: 0.92 !important;
+  text-align: center !important;
+  text-shadow: 0 6px 0 rgba(255, 226, 120, 0.6), 0 2px 16px rgba(0, 0, 0, 0.7) !important;
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+}
+
+
+
+.greetings-section .chat-heading span {
+  justify-self: center !important;
+  margin-top: clamp(14px, 1.5vw, 20px) !important;
+  color: #fff8d8 !important;
+  font-size: clamp(1.05rem, 1.8vw, 1.55rem) !important;
+  font-weight: 950 !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+  text-transform: none !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Countdown dividers: single-color solid */
+.countdown-section {
+  border-width: 6px 0 !important;
+  border-style: solid !important;
+  border-color: #24445e !important;
+  border-image: none !important;
+}
+
+/* Home screen brainrot 3D model — peeking from bottom-left corner */
+.hero-section {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.home-brainrot-wrapper {
+  position: absolute !important;
+  left: -30px !important;
+  bottom: -20px !important;
+  width: clamp(180px, 22vw, 300px) !important;
+  height: clamp(180px, 22vw, 300px) !important;
+  z-index: 10 !important;
+  pointer-events: auto !important;
+  transform: rotate(-30deg) !important;
+  transform-origin: bottom left !important;
+}
+
+.brainrot-3d-model {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.brainrot-3d-model canvas {
+  width: 100% !important;
+  height: 100% !important;
+  cursor: grab !important;
+  touch-action: none !important;
+}
+
+.brainrot-3d-model canvas.is-dragging {
+  cursor: grabbing !important;
+}
+
+@media (max-width: 760px) {
+  .home-brainrot-wrapper {
+    left: -20px !important;
+    bottom: -10px !important;
+    width: clamp(130px, 32vw, 200px) !important;
+    height: clamp(130px, 32vw, 200px) !important;
+  }
+}
+
+/* ── Mobile hero: centered text, safe font sizes ── */
+@media (max-width: 760px) {
+  .hero-content {
+    align-items: center !important;
+    text-align: center !important;
+    padding-inline: 8px !important;
+  }
+
+  .hero-content .eyebrow {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .hero-title-two-line {
+    align-items: center !important;
+    text-align: center !important;
+    font-size: clamp(2.5rem, 11.5vw, 4.4rem) !important;
+  }
+
+  .hero-title-two-line span {
+    white-space: normal !important;
+    word-break: break-word !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: calc(100vw - 32px) !important;
+  }
+
+  .hero-subtitle,
+  .hero-copy {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: calc(100vw - 48px) !important;
+  }
+}
+
+.party-section .mobile-party-title-break {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .party-section .mobile-party-title-break {
+    display: block;
+  }
+}
+/* Mobile lobby tune: selectable heading, lower title, larger characters. */
+.party-section .lobby-heading {
+  z-index: 8 !important;
+  pointer-events: auto !important;
+  user-select: text !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .lobby-heading {
+    transform: translateY(clamp(28px, 7vh, 58px)) !important;
+  }
+
+  .party-section .blocky-player:not(.hero-player) {
+    min-width: 136px !important;
+  }
+
+  .party-section .blocky-player:not(.hero-player) .model-player {
+    width: 136px !important;
+    height: 204px !important;
+  }
+
+  .party-section .hero-player {
+    min-width: 190px !important;
+  }
+
+  .party-section .hero-player .model-player {
+    width: 190px !important;
+    height: 270px !important;
+  }
+
+  .party-section .player-name,
+  .party-section .hero-player .player-name,
+  .party-section .blocky-player[style*="--player-color: #20242b"] .player-name {
+    max-width: 172px !important;
+    margin-bottom: 8px !important;
+    font-size: 1.08rem !important;
+  }
+
+  .party-section .hero-player .player-name {
+    max-width: 190px !important;
+    font-size: 1.22rem !important;
+  }
+}
+/* Lobby character scrolling controls. */
+.party-section .party-scroll {
+  scroll-behavior: smooth !important;
+  overscroll-behavior-x: contain !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lobby-scroll-controls {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.lobby-scroll-button {
+  position: absolute;
+  bottom: calc(var(--ground-height) + clamp(92px, 13vw, 148px));
+  width: 52px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  color: #123c34;
+  background: #fff8d8;
+  border: 4px solid #24445e;
+  border-radius: 0;
+  box-shadow:
+    0 5px 0 rgba(18, 60, 52, 0.45),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  pointer-events: auto;
+  image-rendering: pixelated;
+  transition: transform 140ms ease, opacity 140ms ease, box-shadow 140ms ease;
+}
+
+.lobby-scroll-button svg {
+  width: 30px;
+  height: 30px;
+}
+
+.lobby-scroll-button-left {
+  left: clamp(10px, 2vw, 24px);
+}
+
+.lobby-scroll-button-right {
+  right: clamp(10px, 2vw, 24px);
+}
+
+.lobby-scroll-button:hover:not(:disabled),
+.lobby-scroll-button:focus-visible:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 0 rgba(18, 60, 52, 0.45),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.lobby-scroll-button:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow:
+    0 2px 0 rgba(18, 60, 52, 0.45),
+    inset 0 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.lobby-scroll-button:disabled {
+  opacity: 0.34;
+  cursor: default;
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) - 16px) !important;
+    padding: 0 18px 0 82px !important;
+  }
+
+  .lobby-scroll-button {
+    bottom: calc(var(--ground-height) + 122px);
+    width: 44px;
+    height: 52px;
+  }
+
+  .lobby-scroll-button svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .lobby-scroll-button-left {
+    left: 8px;
+  }
+
+  .lobby-scroll-button-right {
+    right: 8px;
+  }
+}
+/* Final mobile spacing polish. */
+.greetings-section .mobile-greetings-title-break {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    padding: 0 18px 0 124px !important;
+  }
+
+  .countdown-cake-button,
+  .countdown-cake-button:hover,
+  .countdown-cake-button:focus-visible,
+  .countdown-cake-button:active {
+    width: min(180px, 56vw) !important;
+    margin-top: clamp(10px, 2vh, 18px) !important;
+  }
+
+  .greetings-section {
+    padding-top: 44px !important;
+  }
+
+  .greetings-section .chat-heading,
+  .greetings-section .section-heading.chat-heading {
+    margin-top: 8px !important;
+  }
+
+  .greetings-section .chat-heading h2 {
+    width: max-content !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    line-height: 0.88 !important;
+  }
+
+  .greetings-section .mobile-greetings-title-break {
+    display: block;
+  }
+
+  .greetings-section .chat-heading span {
+    margin-top: 16px !important;
+  }
+}
+/* Final mobile chat heading scale. */
+@media (max-width: 760px) {
+  .greetings-section .chat-heading span {
+    font-size: clamp(1.45rem, 2.45vw, 2.1rem) !important;
+    line-height: 1.12 !important;
+  }
+}
