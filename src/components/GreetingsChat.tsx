@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { Send } from 'lucide-react'
 import type { Greeting } from '../data/birthdayData'
 import wiswisDP from '../assets/wiswisdp.jpg'
 
@@ -10,14 +11,7 @@ type GreetingsChatProps = {
   onSend: (data: Omit<Greeting, 'id' | 'createdAt'>) => Promise<void>
 }
 
-const getInitials = (name: string) =>
-  name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase()
+const getInitials = (name: string) => name.trim().charAt(0).toUpperCase()
 
 const getFriendlyGreetingError = (error: unknown) => {
   const message = error instanceof Error ? error.message : ''
@@ -116,9 +110,6 @@ export function GreetingsChat({ greetings, demoMode, senderName, onSend }: Greet
         </div>
 
         <form className="chat-form" onSubmit={handleSubmit}>
-          <span className="chat-sender-name" aria-label={`Sending as ${normalizedSenderName || 'no player name yet'}`}>
-            {normalizedSenderName || 'JOIN FIRST'}
-          </span>
           <input
             value={message}
             onChange={(event) => setMessage(event.target.value.slice(0, 140))}
@@ -126,8 +117,14 @@ export function GreetingsChat({ greetings, demoMode, senderName, onSend }: Greet
             placeholder="TYPE A GREETING"
             aria-label="Greeting message"
           />
-          <button className="secondary-button" type="submit" disabled={isSending}>
-            {isSending ? 'Sending...' : 'Send'}
+          <button
+            className="secondary-button chat-send-button"
+            type="submit"
+            disabled={isSending}
+            aria-label={isSending ? 'Sending greeting' : 'Send greeting'}
+            title={isSending ? 'Sending greeting' : 'Send greeting'}
+          >
+            <Send aria-hidden="true" size={24} strokeWidth={3.5} />
           </button>
         </form>
         {error ? <p className="form-error">{error}</p> : null}

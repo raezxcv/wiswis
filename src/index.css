@@ -5416,3 +5416,179 @@ greetings-section .lobby-heading span,
     line-height: 1.12 !important;
   }
 }
+/* Requested mobile updates: title scale, lobby spacing, countdown row, and chat composer. */
+.greetings-section .chat-sender-name {
+  display: none !important;
+}
+
+.greetings-section .chat-form {
+  grid-template-columns: minmax(0, 1fr) 72px !important;
+  align-items: stretch !important;
+}
+
+.greetings-section .chat-form input {
+  min-width: 0 !important;
+}
+
+.greetings-section .chat-send-button,
+.greetings-section .chat-form .chat-send-button {
+  display: grid !important;
+  place-items: center !important;
+  min-width: 0 !important;
+  width: 72px !important;
+  padding: 0 !important;
+}
+
+.greetings-section .chat-send-button svg {
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.party-section .tung-player .brainrot-3d-model {
+  width: 100% !important;
+  height: 100% !important;
+  transform: translateY(-6%) scale(1.22) !important;
+  transform-origin: center bottom !important;
+}
+
+.party-section .tung-player .brainrot-3d-model canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 760px) {
+  .hero-title-two-line {
+    font-size: clamp(3rem, 14.5vw, 5.35rem) !important;
+    line-height: 0.9 !important;
+  }
+
+  .party-section .lobby-heading h2 {
+    font-size: clamp(3rem, 14.5vw, 5.6rem) !important;
+    line-height: 0.88 !important;
+  }
+
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) + 26px) !important;
+    padding: 0 28px 0 188px !important;
+  }
+
+  .party-section .guest-side {
+    gap: 18px !important;
+  }
+
+  .party-section .tung-player .model-player {
+    width: 154px !important;
+    height: 224px !important;
+  }
+
+  .countdown-section {
+    padding-inline: 8px !important;
+  }
+
+  .countdown-section .lobby-heading h2 {
+    font-size: clamp(3.45rem, 16vw, 6.1rem) !important;
+    line-height: 0.88 !important;
+  }
+
+  .countdown-section .countdown-panel,
+  .countdown-section .level-countdown {
+    width: min(100%, calc(100vw - 16px)) !important;
+    padding: 8px 0 !important;
+  }
+
+  .countdown-section .countdown-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .countdown-section .countdown-tile {
+    min-height: 96px !important;
+    padding: 8px 3px !important;
+    border-width: 4px !important;
+  }
+
+  .countdown-section .countdown-tile strong {
+    font-size: clamp(1.75rem, 8.4vw, 2.65rem) !important;
+  }
+
+  .countdown-section .countdown-tile small {
+    font-size: clamp(0.7rem, 2.6vw, 0.88rem) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  .greetings-section {
+    height: auto !important;
+    min-height: 118svh !important;
+    overflow: visible !important;
+    padding-top: 36px !important;
+  }
+
+  .greetings-section .chat-heading h2 {
+    font-size: clamp(3.25rem, 14vw, 5.5rem) !important;
+    line-height: 0.86 !important;
+  }
+
+  .greetings-section .chat-panel {
+    grid-template-rows: auto minmax(clamp(360px, 54svh, 560px), 1fr) auto auto !important;
+    min-height: 0 !important;
+  }
+
+  .greetings-section .chat-window {
+    min-height: clamp(360px, 54svh, 560px) !important;
+  }
+
+  .greetings-section .chat-message {
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .greetings-section .chat-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1rem !important;
+  }
+
+  .greetings-section .chat-form {
+    grid-template-columns: minmax(0, 1fr) 62px !important;
+    gap: 8px !important;
+  }
+
+  .greetings-section .chat-form input,
+  .greetings-section .chat-form .chat-send-button {
+    min-height: 62px !important;
+  }
+
+  .greetings-section .chat-form .chat-send-button {
+    width: 62px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    left: 0 !important;
+    right: auto !important;
+    transform: none !important;
+    width: max-content !important;
+    min-width: max-content !important;
+    grid-template-columns: max-content auto max-content !important;
+    padding: 0 188px 0 44px !important;
+  }
+}
+@media (max-width: 760px) {
+  .greetings-section {
+    min-height: 108svh !important;
+  }
+
+  .greetings-section .chat-panel {
+    grid-template-rows: auto minmax(clamp(420px, 48svh, 520px), 1fr) auto auto !important;
+  }
+
+  .greetings-section .chat-window {
+    min-height: clamp(420px, 48svh, 520px) !important;
+  }
+}
+.greetings-section .chat-panel {
+  position: relative !important;
+  z-index: 9 !important;
+}

@@ -8,6 +8,7 @@ import boySteveTextureUrl from '../assets/minecraft-player/steve.png?url'
 import girlModelUrl from '../assets/minecraft-player-slim/PlayerSkinny.fbx?url'
 import girlAlexTextureUrl from '../assets/minecraft-player-slim/alex.png?url'
 import { avatarChoices, type CharacterStyle, type Rsvp } from '../data/birthdayData'
+import { BrainrotModel } from './BrainrotModel'
 
 type BlockyPlayerProps = {
   player: Rsvp
@@ -360,9 +361,10 @@ function MinecraftModel({
 export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const color = avatarChoices.find((choice) => choice.id === player.characterColor) ?? avatarChoices[0]
   const characterStyle = player.characterStyle ?? 'boy'
+  const isTungCharacter = player.name.toUpperCase().includes('TUNG')
   const playerClassName = `${hero ? 'blocky-player hero-player' : 'blocky-player'} ${
     characterStyle === 'girl' ? 'girl-player' : 'boy-player'
-  }`
+  } ${isTungCharacter ? 'tung-player' : ''}`
   const style: PlayerStyle = {
     '--player-color': color.hex,
     '--player-dark': color.dark,
@@ -379,7 +381,11 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     >
       <div className="player-name">{hero ? 'WISWIS' : player.name}</div>
       <div className="player-sprite model-player" aria-label={`${player.name} character`}>
-        <MinecraftModel characterStyle={characterStyle} hero={hero} shirtColor={color.hex} />
+        {isTungCharacter ? (
+          <BrainrotModel />
+        ) : (
+          <MinecraftModel characterStyle={characterStyle} hero={hero} shirtColor={color.hex} />
+        )}
       </div>
     </motion.div>
   )

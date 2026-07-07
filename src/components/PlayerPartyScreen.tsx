@@ -93,8 +93,9 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
     const scrollRect = scrollElement.getBoundingClientRect()
     const heroRect = heroElement.getBoundingClientRect()
     const maxScrollLeft = Math.max(0, scrollElement.scrollWidth - scrollElement.clientWidth)
+    const mobileHeroAnchor = scrollRect.width * 0.68
     const centeredScrollLeft =
-      scrollElement.scrollLeft + heroRect.left - scrollRect.left + heroRect.width / 2 - scrollRect.width / 2
+      scrollElement.scrollLeft + heroRect.left - scrollRect.left + heroRect.width / 2 - mobileHeroAnchor
 
     scrollElement.scrollLeft = Math.max(0, Math.min(maxScrollLeft, centeredScrollLeft))
     window.setTimeout(updateScrollState, 0)
