@@ -5729,3 +5729,17 @@ greetings-section .lobby-heading span,
     box-shadow: 0 5px 0 rgba(18, 60, 52, 0.2) !important;
   }
 }
+
+/* Mobile scroll handoff: keep chat readable without trapping page swipes. */
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) - 6px) !important;
+  }
+
+  .greetings-section .chat-window {
+    overscroll-behavior-x: contain !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
