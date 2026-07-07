@@ -55,7 +55,7 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
   const { leftGuests, rightGuests } = flankGuestsByNewest(guests)
   const partyScrollRef = useRef<HTMLDivElement>(null)
   const knownGuestKeysRef = useRef<Set<string>>(new Set())
-  const hasLoadedGuestKeysRef = useRef(false)
+  const canShowJoinToastsRef = useRef(false)
   const [joinedName, setJoinedName] = useState('')
   const [scrollState, setScrollState] = useState<LobbyScrollState>({
     hasOverflow: false,
@@ -154,11 +154,18 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
   }, [centerWiswisOnMobile, guests.length, updateScrollState])
 
   useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      canShowJoinToastsRef.current = true
+    }, 1400)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [])
+
+  useEffect(() => {
     const nextGuestKeys = new Set(guests.map(getGuestKey))
 
-    if (!hasLoadedGuestKeysRef.current) {
+    if (!canShowJoinToastsRef.current) {
       knownGuestKeysRef.current = nextGuestKeys
-      hasLoadedGuestKeysRef.current = true
       return undefined
     }
 
