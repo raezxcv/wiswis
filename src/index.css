@@ -5592,3 +5592,88 @@ greetings-section .lobby-heading span,
   position: relative !important;
   z-index: 9 !important;
 }
+.greetings-section {
+  z-index: 8 !important;
+}
+
+/* Lobby controls and joined-player feedback. */
+.music-control,
+.secret-chest {
+  position: fixed !important;
+  z-index: 90 !important;
+}
+
+.modal-backdrop {
+  z-index: 120 !important;
+}
+
+.join-toast {
+  position: absolute;
+  left: 50%;
+  top: clamp(170px, 24vh, 230px);
+  z-index: 12;
+  width: max-content;
+  max-width: min(92vw, 520px);
+  padding: 10px 14px 11px;
+  color: #fffdf0;
+  background: rgba(24, 48, 68, 0.9);
+  border: 4px solid #ffe278;
+  box-shadow: 0 5px 0 rgba(18, 60, 52, 0.48), inset 0 0 0 2px rgba(255, 255, 255, 0.28);
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: clamp(0.98rem, 2.2vw, 1.35rem);
+  line-height: 1;
+  text-align: center;
+  text-shadow: 2px 2px 0 rgba(15, 28, 40, 0.68);
+  transform: translateX(-50%);
+  animation: join-toast-pop 3.2s ease both;
+  pointer-events: none;
+}
+
+@keyframes join-toast-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 18px) scale(0.82);
+  }
+  12%, 78% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -16px) scale(0.96);
+  }
+}
+
+.party-section .tung-player .brainrot-3d-model,
+.party-section .buff-steve-player .brainrot-3d-model {
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+  transform-origin: center bottom !important;
+}
+
+.party-section .buff-steve-player .model-player {
+  width: 132px !important;
+  height: 188px !important;
+}
+
+.party-section .buff-steve-player .player-name {
+  max-width: 168px !important;
+}
+
+@media (max-width: 760px) {
+  .join-toast {
+    top: clamp(160px, 24svh, 220px);
+    font-size: clamp(0.9rem, 4vw, 1.18rem);
+  }
+
+  .party-section .tung-player .model-player {
+    width: 156px !important;
+    height: 224px !important;
+  }
+
+  .party-section .buff-steve-player .model-player {
+    width: 148px !important;
+    height: 214px !important;
+  }
+}

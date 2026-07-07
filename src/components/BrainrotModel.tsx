@@ -3,6 +3,15 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import brainrotModelUrl from '../assets/tung-tung-tung-sahur-brainrot-italian/source/tripo_pbr_model_09e9005a-9efe-43d0-b58a-f9916d7260a5.glb?url'
 
+type BrainrotModelProps = {
+  className?: string
+  modelUrl?: string
+  baseRotationY?: number
+  scale?: number
+  groundOffset?: number
+  float?: boolean
+}
+
 type SceneChild = {
   castShadow?: boolean
   receiveShadow?: boolean
@@ -15,7 +24,14 @@ type LoadedModel = {
   scene: any
 }
 
-export function BrainrotModel() {
+export function BrainrotModel({
+  className = 'brainrot-3d-model',
+  modelUrl = brainrotModelUrl,
+  baseRotationY = -Math.PI / 2,
+  scale = 2.2,
+  groundOffset = -0.34,
+  float = false,
+}: BrainrotModelProps) {
   const mountRef = useRef<HTMLDivElement>(null)
   const [renderKey, setRenderKey] = useState(0)
 
@@ -33,12 +49,11 @@ export function BrainrotModel() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     mount.appendChild(renderer.domElement)
 
-    // Add bright lighting
     scene.add(new THREE.HemisphereLight(0xffffff, 0x444444, 2.8))
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.5)
     dirLight1.position.set(2, 4, 4)
     scene.add(dirLight1)
-    
+
     const dirLight2 = new THREE.DirectionalLight(0xffeedd, 1.5)
     dirLight2.position.set(-2, -2, 2)
     scene.add(dirLight2)
@@ -123,24 +138,25 @@ export function BrainrotModel() {
     resizeObserver.observe(mount)
     resize()
 
-    loader.load(brainrotModelUrl, (gltf: LoadedModel) => {
+    loader.load(modelUrl, (gltf: LoadedModel) => {
       if (disposed) return
 
       const object = gltf.scene
-      object.traverse((child: SceneChild) => {
-        child.castShadow = true
-        child.receiveShadow = true
-        child.frustumCulled = false
+      object.traverse((child: unknown) => {
+        const sceneChild = child as SceneChild
+        sceneChild.castShadow = true
+        sceneChild.receiveShadow = true
+        sceneChild.frustumCulled = false
       })
 
-      // Center model
       const box = new THREE.Box3().setFromObject(object)
       const center = box.getCenter(new THREE.Vector3())
       const size = box.getSize(new THREE.Vector3())
       const maxAxis = Math.max(size.x, size.y, size.z) || 1
 
       object.position.sub(center)
-      modelGroup.scale.setScalar(2.2 / maxAxis)
+      modelGroup.scale.setScalar(scale / maxAxis)
+      modelGroup.position.y = groundOffset
       modelGroup.add(object)
     })
 
@@ -148,7 +164,6 @@ export function BrainrotModel() {
       if (contextLost) return
       const now = performance.now()
 
-      // Return to default rotation after some idle time
       if (returnToFrontAt > 0 && now >= returnToFrontAt) {
         if (isDragging) {
           isDragging = false
@@ -164,15 +179,11 @@ export function BrainrotModel() {
         }
       }
 
-      // Subtle float when idle
-      if (!isDragging && returnToFrontAt === 0) {
-        modelGroup.position.y = Math.sin(now * 0.0018) * 0.05
-      } else {
-        modelGroup.position.y = 0
-      }
-
+      modelGroup.position.y = float && !isDragging && returnToFrontAt === 0
+        ? groundOffset + Math.sin(now * 0.0018) * 0.05
+        : groundOffset
       modelGroup.rotation.x = rotationX
-      modelGroup.rotation.y = rotationY
+      modelGroup.rotation.y = baseRotationY + rotationY
       renderer.render(scene, camera)
       animationFrame = requestAnimationFrame(animate)
     }
@@ -190,14 +201,15 @@ export function BrainrotModel() {
       renderer.domElement.removeEventListener('webglcontextlost', onContextLost)
       renderer.dispose()
       renderer.forceContextLoss()
-      scene.traverse((child: SceneChild) => {
-        child.geometry?.dispose()
-        const materials = Array.isArray(child.material) ? child.material : [child.material]
+      scene.traverse((child: unknown) => {
+        const sceneChild = child as SceneChild
+        sceneChild.geometry?.dispose()
+        const materials = Array.isArray(sceneChild.material) ? sceneChild.material : [sceneChild.material]
         materials.forEach((material) => material?.dispose())
       })
       renderer.domElement.remove()
     }
-  }, [renderKey])
+  }, [baseRotationY, float, groundOffset, modelUrl, renderKey, scale])
 
-  return <div className="brainrot-3d-model" ref={mountRef} aria-hidden="true" />
+  return <div className={className} ref={mountRef} aria-hidden="true" />
 }

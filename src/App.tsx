@@ -7,6 +7,7 @@ import { PlayerPartyScreen } from './components/PlayerPartyScreen'
 import { RSVPModal } from './components/RSVPModal'
 import { Secret67Chest } from './components/Secret67Chest'
 import { type Greeting, type Rsvp } from './data/birthdayData'
+import clickSoundUrl from './assets/minecraft_click.mp3?url'
 import { addGreeting, listenToGreetings } from './firebase/greetingService'
 import { addRsvp, isFirebaseConfigured, listenToRsvps } from './firebase/rsvpService'
 
@@ -30,6 +31,23 @@ function App() {
 
   useEffect(() => listenToRsvps(setRsvps), [])
   useEffect(() => listenToGreetings(setGreetings), [])
+
+  useEffect(() => {
+    const playClickSound = (event: MouseEvent) => {
+      const target = event.target
+      const clickedButton = target instanceof Element ? target.closest('button') : null
+
+      if (!(clickedButton instanceof HTMLButtonElement) || clickedButton.disabled) return
+
+      const clickAudio = new Audio(clickSoundUrl)
+      clickAudio.volume = 0.42
+      clickAudio.currentTime = 0
+      void clickAudio.play().catch(() => undefined)
+    }
+
+    document.addEventListener('click', playClickSound, true)
+    return () => document.removeEventListener('click', playClickSound, true)
+  }, [])
 
   const rememberPlayerName = (name: string) => {
     const normalizedName = normalizePlayerName(name)

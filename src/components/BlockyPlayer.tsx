@@ -7,6 +7,7 @@ import boyAlexTextureUrl from '../assets/minecraft-player/alex.png?url'
 import boySteveTextureUrl from '../assets/minecraft-player/steve.png?url'
 import girlModelUrl from '../assets/minecraft-player-slim/PlayerSkinny.fbx?url'
 import girlAlexTextureUrl from '../assets/minecraft-player-slim/alex.png?url'
+import buffSteveModelUrl from '../assets/buff-steve/source/model.gltf?url'
 import { avatarChoices, type CharacterStyle, type Rsvp } from '../data/birthdayData'
 import { BrainrotModel } from './BrainrotModel'
 
@@ -361,10 +362,12 @@ function MinecraftModel({
 export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const color = avatarChoices.find((choice) => choice.id === player.characterColor) ?? avatarChoices[0]
   const characterStyle = player.characterStyle ?? 'boy'
-  const isTungCharacter = player.name.toUpperCase().includes('TUNG')
+  const normalizedPlayerName = player.name.toUpperCase()
+  const isTungCharacter = normalizedPlayerName.includes('TUNG')
+  const isIvanCharacter = !isTungCharacter && normalizedPlayerName.includes('IVAN')
   const playerClassName = `${hero ? 'blocky-player hero-player' : 'blocky-player'} ${
     characterStyle === 'girl' ? 'girl-player' : 'boy-player'
-  } ${isTungCharacter ? 'tung-player' : ''}`
+  } ${isTungCharacter ? 'tung-player' : ''} ${isIvanCharacter ? 'buff-steve-player' : ''}`
   const style: PlayerStyle = {
     '--player-color': color.hex,
     '--player-dark': color.dark,
@@ -382,7 +385,20 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
       <div className="player-name">{hero ? 'WISWIS' : player.name}</div>
       <div className="player-sprite model-player" aria-label={`${player.name} character`}>
         {isTungCharacter ? (
-          <BrainrotModel />
+          <BrainrotModel
+            className="brainrot-3d-model tung-3d-model"
+            baseRotationY={-Math.PI / 2}
+            groundOffset={-0.54}
+            scale={2.45}
+          />
+        ) : isIvanCharacter ? (
+          <BrainrotModel
+            className="brainrot-3d-model buff-steve-3d-model"
+            modelUrl={buffSteveModelUrl}
+            baseRotationY={Math.PI}
+            groundOffset={-0.46}
+            scale={2.55}
+          />
         ) : (
           <MinecraftModel characterStyle={characterStyle} hero={hero} shirtColor={color.hex} />
         )}

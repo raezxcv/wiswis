@@ -14,6 +14,16 @@ type LobbyScrollState = {
   canScrollRight: boolean
 }
 
+const getGuestKey = (guest: Rsvp) => guest.id ?? `${guest.name}-${guest.createdAt ?? ''}`
+
+const formatJoinedName = (name: string) =>
+  name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join(' ')
+
 const wiswis: Rsvp = {
   id: 'wiswis',
   name: birthdayData.childName,
@@ -44,6 +54,9 @@ const flankGuestsByNewest = (guests: Rsvp[]) => {
 export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) {
   const { leftGuests, rightGuests } = flankGuestsByNewest(guests)
   const partyScrollRef = useRef<HTMLDivElement>(null)
+  const knownGuestKeysRef = useRef<Set<string>>(new Set())
+  const hasLoadedGuestKeysRef = useRef(false)
+  const [joinedName, setJoinedName] = useState('')
   const [scrollState, setScrollState] = useState<LobbyScrollState>({
     hasOverflow: false,
     canScrollLeft: false,
@@ -75,6 +88,25 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
     )
   }, [])
 
+  const centerCharacter = useCallback(
+    (characterElement: HTMLElement, behavior: ScrollBehavior = 'smooth') => {
+      const scrollElement = partyScrollRef.current
+
+      if (!scrollElement) return
+
+      const scrollRect = scrollElement.getBoundingClientRect()
+      const characterRect = characterElement.getBoundingClientRect()
+      const maxScrollLeft = Math.max(0, scrollElement.scrollWidth - scrollElement.clientWidth)
+      const characterCenter =
+        scrollElement.scrollLeft + characterRect.left - scrollRect.left + characterRect.width / 2
+      const nextScrollLeft = characterCenter - scrollRect.width / 2
+
+      scrollElement.scrollTo({ left: Math.max(0, Math.min(maxScrollLeft, nextScrollLeft)), behavior })
+      window.setTimeout(updateScrollState, behavior === 'smooth' ? 360 : 0)
+    },
+    [updateScrollState],
+  )
+
   const centerWiswisOnMobile = useCallback(() => {
     const scrollElement = partyScrollRef.current
 
@@ -90,16 +122,8 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
       return
     }
 
-    const scrollRect = scrollElement.getBoundingClientRect()
-    const heroRect = heroElement.getBoundingClientRect()
-    const maxScrollLeft = Math.max(0, scrollElement.scrollWidth - scrollElement.clientWidth)
-    const mobileHeroAnchor = scrollRect.width * 0.68
-    const centeredScrollLeft =
-      scrollElement.scrollLeft + heroRect.left - scrollRect.left + heroRect.width / 2 - mobileHeroAnchor
-
-    scrollElement.scrollLeft = Math.max(0, Math.min(maxScrollLeft, centeredScrollLeft))
-    window.setTimeout(updateScrollState, 0)
-  }, [updateScrollState])
+    centerCharacter(heroElement, 'auto')
+  }, [centerCharacter, updateScrollState])
 
   useEffect(() => {
     const scrollElement = partyScrollRef.current
@@ -129,19 +153,54 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
     }
   }, [centerWiswisOnMobile, guests.length, updateScrollState])
 
+  useEffect(() => {
+    const nextGuestKeys = new Set(guests.map(getGuestKey))
+
+    if (!hasLoadedGuestKeysRef.current) {
+      knownGuestKeysRef.current = nextGuestKeys
+      hasLoadedGuestKeysRef.current = true
+      return undefined
+    }
+
+    const newGuests = guests.filter((guest) => !knownGuestKeysRef.current.has(getGuestKey(guest)))
+    knownGuestKeysRef.current = nextGuestKeys
+
+    if (newGuests.length === 0) return undefined
+
+    const latestGuest = newGuests[newGuests.length - 1]
+    setJoinedName(formatJoinedName(latestGuest.name))
+
+    const timeoutId = window.setTimeout(() => setJoinedName(''), 3200)
+    return () => window.clearTimeout(timeoutId)
+  }, [guests])
+
   const scrollLobby = (direction: -1 | 1) => {
     const scrollElement = partyScrollRef.current
 
     if (!scrollElement) return
 
-    const scrollDistance = Math.max(220, scrollElement.clientWidth * 0.72)
-    scrollElement.scrollBy({ left: scrollDistance * direction, behavior: 'smooth' })
-    window.setTimeout(updateScrollState, 260)
+    const playerElements = Array.from(scrollElement.querySelectorAll('.blocky-player')).filter(
+      (element): element is HTMLElement => element instanceof HTMLElement,
+    )
+
+    if (playerElements.length === 0) return
+
+    const scrollRect = scrollElement.getBoundingClientRect()
+    const viewportCenter = scrollRect.left + scrollRect.width / 2
+    const currentIndex = playerElements.reduce((closestIndex, element, index) => {
+      const rect = element.getBoundingClientRect()
+      const closestRect = playerElements[closestIndex].getBoundingClientRect()
+      const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter)
+      const closestDistance = Math.abs(closestRect.left + closestRect.width / 2 - viewportCenter)
+      return distance < closestDistance ? index : closestIndex
+    }, 0)
+    const targetIndex = Math.max(0, Math.min(playerElements.length - 1, currentIndex + direction))
+
+    centerCharacter(playerElements[targetIndex])
   }
 
   return (
     <section className="party-section" aria-labelledby="party-title">
-      {/* Floating pixel clouds */}
       <div className="pixel-cloud lobby-cloud lobby-cloud-1" aria-hidden="true" />
       <div className="pixel-cloud lobby-cloud lobby-cloud-2" aria-hidden="true" />
       <div className="pixel-cloud lobby-cloud lobby-cloud-3" aria-hidden="true" />
@@ -154,6 +213,12 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
         </h2>
         <span>{demoMode ? 'Demo guests showing until Firebase env is added' : `${guests.length} players joined`}</span>
       </div>
+
+      {joinedName ? (
+        <div className="join-toast" role="status" aria-live="polite">
+          {joinedName} joined the party!
+        </div>
+      ) : null}
 
       <div ref={partyScrollRef} className="party-scroll" tabIndex={0} aria-label="RSVP party lobby">
         <div className="party-row">
@@ -178,7 +243,7 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
             className="lobby-scroll-button lobby-scroll-button-left"
             onClick={() => scrollLobby(-1)}
             disabled={!scrollState.canScrollLeft}
-            aria-label="Show previous party characters"
+            aria-label="Center previous party character"
           >
             <ChevronLeft aria-hidden="true" strokeWidth={3.4} />
           </button>
@@ -187,7 +252,7 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
             className="lobby-scroll-button lobby-scroll-button-right"
             onClick={() => scrollLobby(1)}
             disabled={!scrollState.canScrollRight}
-            aria-label="Show next party characters"
+            aria-label="Center next party character"
           >
             <ChevronRight aria-hidden="true" strokeWidth={3.4} />
           </button>
