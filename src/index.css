@@ -5677,3 +5677,55 @@ greetings-section .lobby-heading span,
     height: 214px !important;
   }
 }
+/* Final requested mobile polish: edge centering, lower lobby, countdown labels, and chat clearance. */
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) + 10px) !important;
+    padding: 0 clamp(176px, 48vw, 220px) 0 clamp(152px, 44vw, 204px) !important;
+  }
+
+  .countdown-section .countdown-tile strong {
+    font-size: clamp(1.95rem, 9.3vw, 3rem) !important;
+    line-height: 0.9 !important;
+  }
+
+  .countdown-section .countdown-tile small {
+    font-size: clamp(0.86rem, 3.35vw, 1.08rem) !important;
+    line-height: 1 !important;
+    letter-spacing: 0 !important;
+  }
+
+  .greetings-section {
+    padding-bottom: max(132px, calc(env(safe-area-inset-bottom) + 112px)) !important;
+  }
+
+  .greetings-section .chat-heading .eyebrow {
+    color: #0f6e65 !important;
+    text-shadow: 0 2px 0 rgba(255, 226, 120, 0.7) !important;
+  }
+
+  .greetings-section .chat-heading h2 {
+    color: #0f3d35 !important;
+    text-shadow: 0 8px 0 rgba(255, 226, 120, 0.78) !important;
+  }
+
+  .greetings-section .chat-heading span {
+    color: #173d4d !important;
+    text-shadow: none !important;
+  }
+
+  .greetings-section .chat-panel {
+    margin-bottom: 36px !important;
+  }
+
+  .greetings-section .chat-form {
+    padding: 6px !important;
+    background: rgba(255, 251, 239, 0.92) !important;
+    box-shadow: 0 9px 0 rgba(18, 60, 52, 0.22), 0 16px 28px rgba(18, 60, 52, 0.18) !important;
+  }
+
+  .greetings-section .chat-form input,
+  .greetings-section .chat-form .chat-send-button {
+    box-shadow: 0 5px 0 rgba(18, 60, 52, 0.2) !important;
+  }
+}
