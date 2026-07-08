@@ -301,7 +301,7 @@ function MinecraftModel({
       object.position.sub(center)
       object.rotation.y = -Math.PI / 2
       modelGroup.scale.setScalar((hero ? 3.2 : 2.85) / maxAxis)
-      modelGroup.position.y = hero ? -0.62 : -0.55
+      modelGroup.position.y = hero ? -0.44 : -0.36
       modelGroup.add(object)
     })
 
@@ -388,15 +388,15 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
           <BrainrotModel
             className="brainrot-3d-model tung-3d-model"
             baseRotationY={-Math.PI / 2}
-            groundOffset={-0.54}
-            scale={2.45}
+            groundOffset={-0.28}
+            scale={2.35}
           />
         ) : isIvanCharacter ? (
           <BrainrotModel
             className="brainrot-3d-model buff-steve-3d-model"
             modelUrl={buffSteveModelUrl}
             baseRotationY={Math.PI}
-            groundOffset={-0.46}
+            groundOffset={-0.34}
             scale={2.55}
           />
         ) : (
@@ -406,3 +406,4 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     </motion.div>
   )
 }
+

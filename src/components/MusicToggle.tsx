@@ -6,14 +6,23 @@ type MusicStatus = 'playing' | 'paused' | 'blocked' | 'missing'
 export function MusicToggle() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const userPausedRef = useRef(false)
+  const pausedBySystemRef = useRef(false)
+  const idleTimeoutRef = useRef<number | undefined>(undefined)
   const [status, setStatus] = useState<MusicStatus>('paused')
 
-  const playMusic = useCallback(async () => {
+  const playMusic = useCallback(async (userRequested = false) => {
     const audio = audioRef.current
     if (!audio) return
 
+    if (document.visibilityState === 'hidden') {
+      pausedBySystemRef.current = true
+      setStatus('paused')
+      return
+    }
+
     try {
-      userPausedRef.current = false
+      if (userRequested) userPausedRef.current = false
+      pausedBySystemRef.current = false
       audio.volume = 0.35
       audio.muted = false
       await audio.play()
@@ -21,6 +30,17 @@ export function MusicToggle() {
     } catch (error) {
       const name = error instanceof DOMException ? error.name : ''
       setStatus(name === 'NotAllowedError' ? 'blocked' : 'missing')
+    }
+  }, [])
+
+  const pauseForSystem = useCallback(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (!audio.paused) {
+      audio.pause()
+      pausedBySystemRef.current = true
+      setStatus('paused')
     }
   }, [])
 
@@ -43,7 +63,7 @@ export function MusicToggle() {
 
     function shouldRetryPlayback() {
       const audio = audioRef.current
-      return Boolean(audio && audio.paused && !userPausedRef.current)
+      return Boolean(audio && audio.paused && !userPausedRef.current && document.visibilityState === 'visible')
     }
 
     function startOnInteraction() {
@@ -62,21 +82,63 @@ export function MusicToggle() {
       if (!isDisposed && shouldRetryPlayback()) addInteractionListeners()
     }
 
-    function retryWhenVisible() {
-      if (document.visibilityState === 'visible' && shouldRetryPlayback()) {
+    function handleVisibilityChange() {
+      if (document.visibilityState === 'hidden') {
+        pauseForSystem()
+        return
+      }
+
+      if ((pausedBySystemRef.current || shouldRetryPlayback()) && !userPausedRef.current) {
         void tryAutoplay()
       }
     }
 
     void tryAutoplay()
-    document.addEventListener('visibilitychange', retryWhenVisible)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('blur', pauseForSystem)
 
     return () => {
       isDisposed = true
       removeInteractionListeners()
-      document.removeEventListener('visibilitychange', retryWhenVisible)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('blur', pauseForSystem)
     }
-  }, [playMusic])
+  }, [pauseForSystem, playMusic])
+
+  useEffect(() => {
+    const idleDelay = 45000
+
+    const clearIdleTimer = () => {
+      if (idleTimeoutRef.current === undefined) return
+      window.clearTimeout(idleTimeoutRef.current)
+      idleTimeoutRef.current = undefined
+    }
+
+    const resetIdleTimer = () => {
+      clearIdleTimer()
+
+      if (document.visibilityState !== 'visible') return
+
+      if (pausedBySystemRef.current && !userPausedRef.current) {
+        void playMusic()
+      }
+
+      idleTimeoutRef.current = window.setTimeout(pauseForSystem, idleDelay)
+    }
+
+    const activityEvents: Array<keyof WindowEventMap> = ['focus', 'pointerdown', 'keydown', 'scroll']
+    const touchActivity = () => resetIdleTimer()
+
+    activityEvents.forEach((eventName) => window.addEventListener(eventName, resetIdleTimer, { passive: true }))
+    window.addEventListener('touchstart', touchActivity, { passive: true })
+    resetIdleTimer()
+
+    return () => {
+      clearIdleTimer()
+      activityEvents.forEach((eventName) => window.removeEventListener(eventName, resetIdleTimer))
+      window.removeEventListener('touchstart', touchActivity)
+    }
+  }, [pauseForSystem, playMusic])
 
   const toggleMusic = async () => {
     const audio = audioRef.current
@@ -84,12 +146,13 @@ export function MusicToggle() {
 
     if (status === 'playing') {
       userPausedRef.current = true
+      pausedBySystemRef.current = false
       audio.pause()
       setStatus('paused')
       return
     }
 
-    await playMusic()
+    await playMusic(true)
   }
 
   const isPlaying = status === 'playing'

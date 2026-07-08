@@ -5733,7 +5733,7 @@ greetings-section .lobby-heading span,
 /* Mobile scroll handoff: keep chat readable without trapping page swipes. */
 @media (max-width: 760px) {
   .party-section .party-row {
-    bottom: calc(var(--ground-height) - 6px) !important;
+    bottom: calc(var(--ground-height) + 6px) !important;
   }
 
   .greetings-section .chat-window {
@@ -5741,5 +5741,813 @@ greetings-section .lobby-heading span,
     overscroll-behavior-y: auto !important;
     touch-action: pan-y !important;
     -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Final updates: inactive-safe audio companion, gallery carousel, feet clearance, and mobile chat sizing. */
+.gallery-section {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  width: 100%;
+  padding: clamp(42px, 7vh, 78px) clamp(16px, 4vw, 48px);
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(110, 199, 233, 0.9) 0 54%, rgba(107, 176, 73, 0.94) 54% 100%),
+    #6ec7e9;
+}
+
+.gallery-section::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(72px, 14vh, 130px);
+  background:
+    linear-gradient(90deg, rgba(82, 136, 51, 0.72) 0 16px, transparent 16px 32px),
+    linear-gradient(#78c64b, #4a9b39);
+  background-size: 32px 100%, auto;
+  border-top: 6px solid rgba(46, 113, 45, 0.75);
+}
+
+.gallery-heading {
+  position: relative;
+  z-index: 1;
+  width: min(1060px, 100%);
+  margin: 0 auto clamp(18px, 3vh, 28px);
+}
+
+.gallery-heading h2 {
+  color: #173d4d;
+  text-shadow: 0 7px 0 rgba(255, 226, 120, 0.75);
+}
+
+.gallery-carousel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+  width: min(1040px, 100%);
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.gallery-frame {
+  position: relative;
+  min-width: 0;
+  height: min(58vh, 560px);
+  margin: 0;
+  overflow: hidden;
+  background: #fff8d8;
+  border: 6px solid #24445e;
+  box-shadow: 0 11px 0 rgba(22, 52, 72, 0.32);
+}
+
+.gallery-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+.gallery-frame figcaption {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  max-width: calc(100% - 28px);
+  padding: 8px 12px;
+  color: #fffdf0;
+  background: rgba(24, 48, 68, 0.88);
+  border: 4px solid #ffe278;
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: clamp(0.95rem, 2vw, 1.4rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
+  text-shadow: 2px 2px 0 rgba(15, 28, 40, 0.6);
+}
+
+.gallery-nav {
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 7vw, 64px);
+  height: clamp(56px, 8vw, 72px);
+  color: #17301f;
+  background: #ffe278;
+  border: 5px solid #603d0d;
+  border-radius: 0;
+  box-shadow: 0 7px 0 rgba(18, 60, 52, 0.45);
+}
+
+.gallery-nav:hover,
+.gallery-nav:focus-visible {
+  transform: translateY(-2px);
+}
+
+.gallery-nav svg {
+  width: 30px;
+  height: 30px;
+}
+
+.gallery-dots {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: clamp(18px, 3vh, 28px);
+}
+
+.gallery-dot {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: #fff8d8;
+  border: 4px solid #24445e;
+  border-radius: 0;
+  box-shadow: 0 4px 0 rgba(18, 60, 52, 0.28);
+}
+
+.gallery-dot.is-active {
+  background: #ffe278;
+  border-color: #603d0d;
+}
+
+.party-section .model-player,
+.party-section .brainrot-3d-model,
+.party-section .minecraft-model {
+  overflow: visible !important;
+}
+
+.party-section .tung-player .model-player {
+  width: 164px !important;
+  height: 242px !important;
+  padding-bottom: 14px !important;
+}
+
+.party-section .tung-player .brainrot-3d-model,
+.party-section .tung-player .brainrot-3d-model canvas {
+  height: calc(100% + 18px) !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) + 12px) !important;
+  }
+
+  .party-section .tung-player .model-player {
+    width: 160px !important;
+    height: 240px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .greetings-section {
+    min-height: 100svh !important;
+    padding-top: 32px !important;
+    padding-bottom: max(92px, calc(env(safe-area-inset-bottom) + 78px)) !important;
+  }
+
+  .greetings-section .chat-panel {
+    grid-template-rows: auto minmax(0, 1fr) auto auto !important;
+    height: clamp(430px, 56svh, 540px) !important;
+    min-height: 0 !important;
+    margin-bottom: 14px !important;
+  }
+
+  .greetings-section .chat-window {
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+  }
+
+  .gallery-section {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    padding: 34px 12px max(34px, env(safe-area-inset-bottom));
+  }
+
+  .gallery-heading {
+    margin-bottom: 14px;
+  }
+
+  .gallery-heading h2 {
+    font-size: clamp(3rem, 13vw, 5.2rem);
+    line-height: 0.88;
+  }
+
+  .gallery-heading span {
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+  }
+
+  .gallery-carousel {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .gallery-frame {
+    height: min(54svh, 430px);
+    border-width: 5px;
+  }
+
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 44px;
+    height: 52px;
+    transform: translateY(-50%);
+  }
+
+  .gallery-nav:hover,
+  .gallery-nav:focus-visible {
+    transform: translateY(calc(-50% - 2px));
+  }
+
+  .gallery-nav-left {
+    left: 8px;
+  }
+
+  .gallery-nav-right {
+    right: 8px;
+  }
+
+  .gallery-dots {
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .gallery-dot {
+    width: 16px;
+    height: 16px;
+    border-width: 3px;
+  }
+}
+
+/* Final lobby/gallery correction: keep special models in-frame, protect feet, and center gallery heading stack. */
+.gallery-section .gallery-heading,
+.gallery-section .section-heading.gallery-heading {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  align-content: start !important;
+  gap: clamp(8px, 1.4vh, 14px) !important;
+  width: min(1060px, 100%) !important;
+  margin: 0 auto clamp(22px, 3.2vh, 34px) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.gallery-section .gallery-heading .eyebrow,
+.gallery-section .gallery-heading h2,
+.gallery-section .gallery-heading span {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.gallery-section .gallery-heading h2 {
+  margin-bottom: 0 !important;
+}
+
+.gallery-section .gallery-heading span {
+  max-width: min(92vw, 540px) !important;
+  margin-top: 0 !important;
+}
+
+.party-section .party-row {
+  bottom: calc(var(--ground-height) + 2px) !important;
+  z-index: 7 !important;
+}
+
+.party-section .model-player {
+  box-sizing: content-box !important;
+  padding-bottom: 16px !important;
+  overflow: visible !important;
+}
+
+.party-section .minecraft-model,
+.party-section .brainrot-3d-model,
+.party-section .minecraft-model canvas,
+.party-section .brainrot-3d-model canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+.party-section .tung-player .model-player {
+  width: 142px !important;
+  height: 206px !important;
+  padding-bottom: 18px !important;
+}
+
+.party-section .tung-player .brainrot-3d-model,
+.party-section .tung-player .brainrot-3d-model canvas {
+  min-height: 0 !important;
+  transform: none !important;
+}
+
+.party-section .buff-steve-player .model-player {
+  padding-bottom: 18px !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) + 4px) !important;
+  }
+
+  .party-section .model-player {
+    padding-bottom: 18px !important;
+  }
+
+  .party-section .tung-player .model-player {
+    width: 154px !important;
+    height: 224px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .gallery-section .gallery-heading,
+  .gallery-section .section-heading.gallery-heading {
+    gap: 10px !important;
+    margin-bottom: 18px !important;
+  }
+}
+
+/* Specific Tung sizing must beat the generic non-hero character rule. */
+.party-section .blocky-player.tung-player:not(.hero-player) .model-player {
+  width: 142px !important;
+  height: 206px !important;
+  padding-bottom: 18px !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .blocky-player.tung-player:not(.hero-player) .model-player {
+    width: 154px !important;
+    height: 224px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+/* Final requested pass: full character canvases, lower stance, desktop composer depth, larger gallery header. */
+.party-section .party-row {
+  bottom: calc(var(--ground-height) - 4px) !important;
+}
+
+.party-section .blocky-player:not(.hero-player) .model-player {
+  width: 142px !important;
+  height: 206px !important;
+  padding-bottom: 20px !important;
+  box-sizing: content-box !important;
+  overflow: visible !important;
+}
+
+.party-section .hero-player .model-player {
+  width: 190px !important;
+  height: 286px !important;
+  padding-bottom: 22px !important;
+  box-sizing: content-box !important;
+  overflow: visible !important;
+}
+
+.party-section .minecraft-model,
+.party-section .brainrot-3d-model,
+.party-section .minecraft-model canvas,
+.party-section .brainrot-3d-model canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
+.party-section .blocky-player.tung-player:not(.hero-player) .model-player,
+.party-section .blocky-player.buff-steve-player:not(.hero-player) .model-player {
+  width: 150px !important;
+  height: 218px !important;
+  padding-bottom: 20px !important;
+}
+
+.greetings-section .chat-form {
+  box-shadow:
+    0 10px 0 rgba(18, 60, 52, 0.2),
+    0 18px 32px rgba(18, 60, 52, 0.2) !important;
+}
+
+.greetings-section .chat-form input,
+.greetings-section .chat-form .chat-send-button {
+  box-shadow: 0 5px 0 rgba(18, 60, 52, 0.16) !important;
+}
+
+.gallery-section .gallery-heading,
+.gallery-section .section-heading.gallery-heading {
+  gap: clamp(12px, 1.8vh, 18px) !important;
+  margin-bottom: clamp(28px, 4vh, 44px) !important;
+}
+
+.gallery-section .gallery-heading .eyebrow {
+  font-size: clamp(1.2rem, 1.65vw, 1.65rem) !important;
+  line-height: 1 !important;
+}
+
+.gallery-section .gallery-heading h2 {
+  font-size: clamp(4.7rem, 7.4vw, 7.7rem) !important;
+  line-height: 0.86 !important;
+  margin-bottom: 0 !important;
+}
+
+.gallery-section .gallery-heading span {
+  max-width: min(92vw, 760px) !important;
+  font-size: clamp(1.35rem, 1.9vw, 2rem) !important;
+  line-height: 1.08 !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) - 2px) !important;
+  }
+
+  .party-section .blocky-player:not(.hero-player) .model-player {
+    width: 148px !important;
+    height: 222px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .party-section .hero-player .model-player {
+    width: 198px !important;
+    height: 296px !important;
+    padding-bottom: 22px !important;
+  }
+
+  .party-section .blocky-player.tung-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.buff-steve-player:not(.hero-player) .model-player {
+    width: 158px !important;
+    height: 232px !important;
+    padding-bottom: 20px !important;
+  }
+
+  .gallery-section .gallery-heading,
+  .gallery-section .section-heading.gallery-heading {
+    gap: 10px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .gallery-section .gallery-heading .eyebrow {
+    font-size: clamp(1rem, 4vw, 1.3rem) !important;
+  }
+
+  .gallery-section .gallery-heading h2 {
+    font-size: clamp(3.65rem, 15vw, 5.85rem) !important;
+    line-height: 0.86 !important;
+  }
+
+  .gallery-section .gallery-heading span {
+    font-size: clamp(1.1rem, 4.4vw, 1.45rem) !important;
+  }
+}
+
+/* Gallery header final scale bump: keep all three header lines visually substantial. */
+.gallery-section .gallery-heading .eyebrow {
+  font-size: clamp(1.45rem, 2.05vw, 2.25rem) !important;
+  line-height: 1 !important;
+  text-shadow: 0 2px 0 rgba(255, 226, 120, 0.64) !important;
+}
+
+.gallery-section .gallery-heading span {
+  font-size: clamp(1.55rem, 2.2vw, 2.35rem) !important;
+  line-height: 1.06 !important;
+}
+
+@media (max-width: 760px) {
+  .gallery-section .gallery-heading .eyebrow {
+    font-size: clamp(1.12rem, 4.4vw, 1.45rem) !important;
+  }
+
+  .gallery-section .gallery-heading span {
+    font-size: clamp(1.16rem, 4.7vw, 1.55rem) !important;
+  }
+}
+
+/* Final grounding correction: no empty padding under canvases; render full bodies on the grass line. */
+.party-section .party-row {
+  bottom: calc(var(--ground-height) - 22px) !important;
+}
+
+.party-section .blocky-player:not(.hero-player) .model-player,
+.party-section .blocky-player.tung-player:not(.hero-player) .model-player,
+.party-section .blocky-player.buff-steve-player:not(.hero-player) .model-player {
+  width: 150px !important;
+  height: 234px !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+.party-section .hero-player .model-player {
+  width: 202px !important;
+  height: 314px !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+.party-section .minecraft-model,
+.party-section .brainrot-3d-model {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: none !important;
+  transform: translateY(14px) !important;
+  transform-origin: center bottom !important;
+}
+
+.party-section .minecraft-model canvas,
+.party-section .brainrot-3d-model canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+}
+
+.party-section .tung-player .brainrot-3d-model,
+.party-section .buff-steve-player .brainrot-3d-model {
+  transform: translateY(18px) !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) - 18px) !important;
+  }
+
+  .party-section .blocky-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.tung-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.buff-steve-player:not(.hero-player) .model-player {
+    width: 156px !important;
+    height: 240px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .party-section .hero-player .model-player {
+    width: 206px !important;
+    height: 318px !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* Desktop gallery/composer polish: mobile-matched composer shadow and single-row gallery heading. */
+@media (min-width: 761px) {
+  .greetings-section .chat-form {
+    box-shadow:
+      0 9px 0 rgba(18, 60, 52, 0.22),
+      0 16px 28px rgba(18, 60, 52, 0.18) !important;
+  }
+
+  .greetings-section .chat-form input,
+  .greetings-section .chat-form .chat-send-button {
+    box-shadow: 0 5px 0 rgba(18, 60, 52, 0.2) !important;
+  }
+
+  .gallery-section {
+    padding-top: clamp(24px, 4vh, 42px) !important;
+  }
+
+  .gallery-section .gallery-heading,
+  .gallery-section .section-heading.gallery-heading {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+    align-items: center !important;
+    justify-items: stretch !important;
+    gap: clamp(18px, 3vw, 48px) !important;
+    margin: 0 auto clamp(16px, 2.6vh, 28px) !important;
+    text-align: center !important;
+  }
+
+  .gallery-section .gallery-heading .eyebrow {
+    justify-self: end !important;
+    margin: 0 !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  .gallery-section .gallery-heading h2 {
+    justify-self: center !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .gallery-section .gallery-heading span {
+    justify-self: start !important;
+    max-width: 360px !important;
+    margin: 0 !important;
+    text-align: left !important;
+  }
+}
+
+/* Desktop gallery one-row fit: keep eyebrow, title, and subheadline on the same line. */
+@media (min-width: 761px) {
+  .gallery-section .gallery-heading,
+  .gallery-section .section-heading.gallery-heading {
+    width: min(1220px, calc(100vw - 48px)) !important;
+    grid-template-columns: max-content minmax(0, 1fr) max-content !important;
+    gap: clamp(18px, 2.2vw, 34px) !important;
+  }
+
+  .gallery-section .gallery-heading h2 {
+    font-size: clamp(4.2rem, 5.8vw, 6.5rem) !important;
+    white-space: nowrap !important;
+  }
+
+  .gallery-section .gallery-heading .eyebrow,
+  .gallery-section .gallery-heading span {
+    white-space: nowrap !important;
+  }
+
+  .gallery-section .gallery-heading span {
+    max-width: none !important;
+  }
+}
+
+/* Final feet visibility correction: lift block characters while keeping Tung-style full canvas. */
+.party-section .party-row {
+  bottom: calc(var(--ground-height) + 8px) !important;
+}
+
+.party-section .blocky-player:not(.hero-player):not(.tung-player):not(.buff-steve-player) .model-player {
+  width: 150px !important;
+  height: 246px !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+.party-section .hero-player .model-player {
+  width: 202px !important;
+  height: 326px !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+.party-section .minecraft-model {
+  transform: translateY(0) !important;
+}
+
+.party-section .tung-player .brainrot-3d-model,
+.party-section .buff-steve-player .brainrot-3d-model {
+  transform: translateY(8px) !important;
+}
+
+@media (max-width: 760px) {
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) + 6px) !important;
+  }
+
+  .party-section .blocky-player:not(.hero-player):not(.tung-player):not(.buff-steve-player) .model-player {
+    width: 156px !important;
+    height: 250px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .party-section .hero-player .model-player {
+    width: 206px !important;
+    height: 330px !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* Final visual cleanup: restore stacked gallery header, match composer shadow, extend block feet. */
+.greetings-section .chat-form {
+  padding: 6px !important;
+  background: rgba(255, 251, 239, 0.92) !important;
+  box-shadow: 0 5px 0 rgba(18, 60, 52, 0.2) !important;
+}
+
+.greetings-section .chat-form input,
+.greetings-section .chat-form .chat-send-button {
+  box-shadow: 0 5px 0 rgba(18, 60, 52, 0.2) !important;
+}
+
+.gallery-section {
+  padding-top: clamp(28px, 4vh, 44px) !important;
+}
+
+.gallery-section .gallery-heading,
+.gallery-section .section-heading.gallery-heading {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: clamp(8px, 1.4vh, 14px) !important;
+  width: min(980px, calc(100vw - 32px)) !important;
+  margin: 0 auto clamp(18px, 3vh, 30px) !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+
+.gallery-section .gallery-heading .eyebrow,
+.gallery-section .gallery-heading h2,
+.gallery-section .gallery-heading span {
+  align-self: center !important;
+  justify-self: auto !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  text-align: center !important;
+  white-space: normal !important;
+}
+
+.gallery-section .gallery-heading .eyebrow {
+  font-size: clamp(1.15rem, 1.45vw, 1.55rem) !important;
+  line-height: 1 !important;
+}
+
+.gallery-section .gallery-heading h2 {
+  font-size: clamp(4.15rem, 6.2vw, 6.65rem) !important;
+  line-height: 0.86 !important;
+}
+
+.gallery-section .gallery-heading span {
+  max-width: min(620px, 92vw) !important;
+  font-size: clamp(1.15rem, 1.55vw, 1.55rem) !important;
+  line-height: 1.1 !important;
+}
+
+.party-section .party-row {
+  bottom: calc(var(--ground-height) + 4px) !important;
+}
+
+.party-section .blocky-player:not(.hero-player):not(.tung-player):not(.buff-steve-player) .model-player {
+  width: 150px !important;
+  height: 258px !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+.party-section .hero-player .model-player {
+  width: 202px !important;
+  height: 340px !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+.party-section .minecraft-model {
+  height: 100% !important;
+  min-height: 100% !important;
+  transform: translateY(18px) !important;
+  transform-origin: center bottom !important;
+}
+
+.party-section .minecraft-model canvas {
+  height: 100% !important;
+  max-height: none !important;
+}
+
+.party-section .tung-player .brainrot-3d-model,
+.party-section .buff-steve-player .brainrot-3d-model {
+  transform: translateY(10px) !important;
+}
+
+@media (max-width: 760px) {
+  .gallery-section {
+    padding-top: 30px !important;
+  }
+
+  .gallery-section .gallery-heading,
+  .gallery-section .section-heading.gallery-heading {
+    gap: 9px !important;
+    width: min(94vw, 520px) !important;
+    margin-bottom: 16px !important;
+  }
+
+  .gallery-section .gallery-heading .eyebrow {
+    font-size: clamp(1.05rem, 4vw, 1.35rem) !important;
+  }
+
+  .gallery-section .gallery-heading h2 {
+    font-size: clamp(3.5rem, 14vw, 5.6rem) !important;
+  }
+
+  .gallery-section .gallery-heading span {
+    font-size: clamp(1.05rem, 4.3vw, 1.35rem) !important;
+  }
+
+  .party-section .party-row {
+    bottom: calc(var(--ground-height) + 4px) !important;
+  }
+
+  .party-section .blocky-player:not(.hero-player):not(.tung-player):not(.buff-steve-player) .model-player {
+    width: 156px !important;
+    height: 262px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .party-section .hero-player .model-player {
+    width: 206px !important;
+    height: 344px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .party-section .minecraft-model {
+    transform: translateY(18px) !important;
+  }
+}
+
+/* Mobile feet extension: regular Minecraft canvases need the same lower overhang as Tung. */
+@media (max-width: 760px) {
+  .party-section .minecraft-model {
+    transform: translateY(30px) !important;
   }
 }

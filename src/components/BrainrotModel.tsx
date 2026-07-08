@@ -21,7 +21,7 @@ type SceneChild = {
 }
 
 type LoadedModel = {
-  scene: any
+  scene: InstanceType<typeof THREE.Group>
 }
 
 export function BrainrotModel({
@@ -213,3 +213,4 @@ export function BrainrotModel({
 
   return <div className={className} ref={mountRef} aria-hidden="true" />
 }
+
