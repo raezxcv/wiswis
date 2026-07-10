@@ -125,19 +125,19 @@ const createShirtTexture = (skinUrl: string, shirtColor: string) => {
 
 const characterModels: Record<CharacterStyle, CharacterModel> = {
   boy: {
-    modelUrl: '/assets/minecraft-player/Player.fbx',
-    skinUrl: '/assets/minecraft-player/steve.png',
+    modelUrl: './assets/minecraft-player/Player.fbx',
+    skinUrl: './assets/minecraft-player/steve.png',
     textureUrls: {
-      'alex.png': '/assets/minecraft-player/alex.png',
-      'steve.png': '/assets/minecraft-player/steve.png',
+      'alex.png': './assets/minecraft-player/alex.png',
+      'steve.png': './assets/minecraft-player/steve.png',
     },
   },
   girl: {
-    modelUrl: '/assets/minecraft-player-slim/PlayerSkinny.fbx',
-    skinUrl: '/assets/minecraft-player-slim/alex.png',
+    modelUrl: './assets/minecraft-player-slim/PlayerSkinny.fbx',
+    skinUrl: './assets/minecraft-player-slim/alex.png',
     textureUrls: {
-      'alex.png': '/assets/minecraft-player-slim/alex.png',
-      'steve.png': '/assets/minecraft-player-slim/alex.png',
+      'alex.png': './assets/minecraft-player-slim/alex.png',
+      'steve.png': './assets/minecraft-player-slim/alex.png',
     },
   },
 }
@@ -443,7 +443,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const baconHair = () => (
     <BrainrotModel
       className="brainrot-3d-model bacon-hair-3d-model"
-      modelUrl="/assets/roblox-bacon-hair/scene.gltf"
+      modelUrl="./assets/roblox-bacon-hair/scene.gltf"
       baseRotationY={0}
       groundOffset={-0.45}
       scale={2.4}
@@ -452,7 +452,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const robloxNoob = () => (
     <BrainrotModel
       className="brainrot-3d-model roblox-noob-3d-model"
-      modelUrl="/assets/roblox-noob/scene.gltf"
+      modelUrl="./assets/roblox-noob/scene.gltf"
       baseRotationX={0}
       baseRotationY={Math.PI / 2} // Rotate 180°
       groundOffset={-0.38}
@@ -462,7 +462,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const robloxGirl = () => (
     <BrainrotModel
       className="brainrot-3d-model roblox-girl-3d-model"
-      modelUrl="/assets/roblox_r6_girl_with_layered_clothes/scene.gltf"
+      modelUrl="./assets/roblox_r6_girl_with_layered_clothes/scene.gltf"
       baseRotationY={Math.PI}
       groundOffset={-0.46}
       scale={2.3}
@@ -471,7 +471,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const ispeed = () => (
     <BrainrotModel
       className="brainrot-3d-model speed-3d-model"
-      modelUrl="/assets/ishowspeed/scene.gltf"
+      modelUrl="./assets/ishowspeed/scene.gltf"
       baseRotationY={0}
       groundOffset={-0.44}
       scale={2.4}
@@ -480,7 +480,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const dog = () => (
     <BrainrotModel
       className="brainrot-3d-model dog-3d-model"
-      modelUrl="/assets/dog/scene.gltf"
+      modelUrl="./assets/dog/scene.gltf"
       baseRotationY={0}
       groundOffset={-0.70}
       scale={2.8}
@@ -489,7 +489,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const tung = () => (
     <BrainrotModel
       className="brainrot-3d-model tung-3d-model"
-      modelUrl="/assets/tung-tung-tung-sahur-brainrot-italian/source/tung.glb"
+      modelUrl="./assets/tung-tung-tung-sahur-brainrot-italian/source/tung.glb"
       baseRotationY={-Math.PI / 2}
       groundOffset={-0.28}
       scale={2.35}
@@ -498,7 +498,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const buffSteve = () => (
     <BrainrotModel
       className="brainrot-3d-model buff-steve-3d-model"
-      modelUrl="/assets/buff-steve/source/model.gltf"
+      modelUrl="./assets/buff-steve/source/model.gltf"
       baseRotationY={Math.PI}
       groundOffset={-0.34}
       scale={2.55}

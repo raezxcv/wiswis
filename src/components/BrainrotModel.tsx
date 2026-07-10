@@ -26,7 +26,7 @@ type LoadedModel = {
 
 export function BrainrotModel({
   className = 'brainrot-3d-model',
-  modelUrl = '/assets/tung-tung-tung-sahur-brainrot-italian/source/tung.glb',
+  modelUrl = './assets/tung-tung-tung-sahur-brainrot-italian/source/tung.glb',
   baseRotationX = 0,
   baseRotationY = -Math.PI / 2,
   scale = 2.2,

@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'Minecraft Ten';
-  src: url('/font/minecraft-ten-font/MinecraftTen-VGORe.ttf') format('truetype');
+  src: url('../public/font/minecraft-ten-font/MinecraftTen-VGORe.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: 'Minecraft CHMC';
-  src: url('/font/minecraft-chmc-font/Minecraftchmc-dBlX.ttf') format('truetype');
+  src: url('../public/font/minecraft-chmc-font/Minecraftchmc-dBlX.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

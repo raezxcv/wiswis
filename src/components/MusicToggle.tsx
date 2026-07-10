@@ -166,7 +166,7 @@ export function MusicToggle() {
 
   return (
     <div className="music-control">
-      <audio ref={audioRef} src="/music/pixel-birthday.mp3" loop preload="auto" autoPlay playsInline />
+      <audio ref={audioRef} src="./music/pixel-birthday.mp3" loop preload="auto" autoPlay playsInline />
       <button className="music-icon-button" type="button" onClick={toggleMusic} aria-label={label} title={title}>
         {isPlaying ? <Volume2 size={22} strokeWidth={3} /> : <VolumeX size={22} strokeWidth={3} />}
       </button>

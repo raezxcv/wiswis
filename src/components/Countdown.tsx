@@ -36,7 +36,7 @@ const CountdownHeading = ({ title }: { title: string }) => (
 
 const celebrateWithCake = () => {
   launchConfetti()
-  const audio = new Audio('/music/classic_hurt.mp3')
+  const audio = new Audio('./music/classic_hurt.mp3')
   audio.currentTime = 0
   void audio.play().catch(() => undefined)
 }
