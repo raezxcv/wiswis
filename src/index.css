@@ -5632,12 +5632,12 @@ h1 {
   }
 
   .greetings-section .chat-panel {
-    grid-template-rows: auto minmax(clamp(360px, 54svh, 560px), 1fr) auto auto !important;
+    grid-template-rows: auto minmax(clamp(500px, 70svh, 760px), 1fr) auto auto !important;
     min-height: 0 !important;
   }
 
   .greetings-section .chat-window {
-    min-height: clamp(360px, 54svh, 560px) !important;
+    min-height: clamp(500px, 70svh, 760px) !important;
   }
 
   .greetings-section .chat-message {
@@ -5684,11 +5684,11 @@ h1 {
   }
 
   .greetings-section .chat-panel {
-    grid-template-rows: auto minmax(clamp(420px, 48svh, 520px), 1fr) auto auto !important;
+    grid-template-rows: auto minmax(clamp(520px, 68svh, 780px), 1fr) auto auto !important;
   }
 
   .greetings-section .chat-window {
-    min-height: clamp(420px, 48svh, 520px) !important;
+    min-height: clamp(520px, 68svh, 780px) !important;
   }
 }
 
@@ -6015,14 +6015,14 @@ h1 {
   }
 
   .greetings-section {
-    min-height: 100svh !important;
+    min-height: 110svh !important;
     padding-top: 32px !important;
     padding-bottom: max(92px, calc(env(safe-area-inset-bottom) + 78px)) !important;
   }
 
   .greetings-section .chat-panel {
     grid-template-rows: auto minmax(0, 1fr) auto auto !important;
-    height: clamp(430px, 56svh, 540px) !important;
+    height: clamp(620px, 72svh, 820px) !important;
     min-height: 0 !important;
     margin-bottom: 14px !important;
   }

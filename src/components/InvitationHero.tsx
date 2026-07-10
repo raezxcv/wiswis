@@ -18,13 +18,13 @@ export function InvitationHero({ onRsvp }: InvitationHeroProps) {
         <BrainrotModel />
       </div> */}
       <div className="hero-content">
-        <p className="eyebrow">You're Invited!</p>
+        <p className="eyebrow">You're Invited to</p>
         <h1 id="hero-title" className="hero-title-two-line">
           <span>Louis</span>
           <span>7th Birthday</span>
         </h1>
         <p className="hero-subtitle">Spawn into Level 7 on Louis&apos; Roblox server quest!</p>
-        <p className="hero-copy">McDo Sta. Ana • August 7 @ 5:00 PM</p>
+        <p className="hero-copy"><strong>McDo Sta. Ana • August 7 @ 5:00 PM</strong></p>
         <p className="hero-copy muted">Claim your username and join the party lobby!</p>
         <button className="primary-button" type="button" onClick={onRsvp}>
           Join the Server!
