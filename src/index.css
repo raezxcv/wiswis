@@ -6586,6 +6586,16 @@ greetings-section .lobby-heading span,
   .party-section .brainrot-3d-model {
     transform: translateY(26px) !important;
   }
+
+  /* Lift Minecraft boy/girl and Tung higher on mobile */
+  .party-section .blocky-player.minecraft-boy-player:not(.hero-player) .minecraft-model,
+  .party-section .blocky-player.minecraft-girl-player:not(.hero-player) .minecraft-model {
+    transform: translateY(10px) !important;
+  }
+
+  .party-section .blocky-player.tung-player:not(.hero-player) .brainrot-3d-model {
+    transform: translateY(10px) !important;
+  }
 }
 
 /* Hero: bacon-hair model canvas sizing (desktop) */

@@ -426,8 +426,8 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     isIvanCharacter ? 'buff-steve-player' : '',
     isSpeedCharacter ? 'speed-player' : '',
     isWhiteyCharacter ? 'whitey-player' : '',
-    boyUsesRoblox ? 'roblox-noob-player' : '',
-    girlUsesRoblox ? 'roblox-girl-player' : '',
+    boyUsesRoblox ? 'roblox-noob-player' : (!hero && !isTungCharacter && !isIvanCharacter && !isSpeedCharacter && !isWhiteyCharacter && characterStyle !== 'girl') ? 'minecraft-boy-player' : '',
+    girlUsesRoblox ? 'roblox-girl-player' : (!hero && !isTungCharacter && !isIvanCharacter && !isSpeedCharacter && !isWhiteyCharacter && characterStyle === 'girl') ? 'minecraft-girl-player' : '',
     hero ? 'bacon-hair-player' : '',
   ]
     .filter(Boolean)
