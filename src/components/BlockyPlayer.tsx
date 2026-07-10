@@ -2,41 +2,6 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import * as THREE from 'three'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
-import boyModelUrl from '../assets/minecraft-player/Player.fbx?url'
-import boyAlexTextureUrl from '../assets/minecraft-player/alex.png?url'
-import boySteveTextureUrl from '../assets/minecraft-player/steve.png?url'
-import girlModelUrl from '../assets/minecraft-player-slim/PlayerSkinny.fbx?url'
-import girlAlexTextureUrl from '../assets/minecraft-player-slim/alex.png?url'
-import buffSteveModelUrl from '../assets/buff-steve/source/model.gltf?url'
-import baconHairModelUrl from '../assets/roblox-bacon-hair/scene.gltf?url'
-import baconDiffuseUrl from '../assets/roblox-bacon-hair/textures/Scene_-_Root_diffuse.png?url'
-import baconAlphaUrl from '../assets/roblox-bacon-hair/textures/Scene_-_Root_diffuse@channels=A.png?url'
-import baconSpecularUrl from '../assets/roblox-bacon-hair/specular_1.png?url'
-import baconMetalRoughUrl from '../assets/roblox-bacon-hair/metallicRoughness_1.png?url'
-import robloxNoobModelUrl from '../assets/roblox-noob/scene.gltf?url'
-import noobBaseColorUrl from '../assets/roblox-noob/textures/N00b1Mtl_baseColor.png?url'
-import robloxGirlModelUrl from '../assets/roblox_r6_girl_with_layered_clothes/scene.gltf?url'
-import girlTex1Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl1Mtl_baseColor.png?url'
-import girlTex3Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl3Mtl_baseColor.png?url'
-import girlTex4Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl4Mtl_baseColor.png?url'
-import girlTex5Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl5Mtl_baseColor.png?url'
-import ispeedModelUrl from '../assets/ishowspeed/scene.gltf?url'
-import ispeedTex1 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Body_187bf507_baseColor.png?url'
-import ispeedTex2 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Body_187bf507_metallicRoughness.png?url'
-import ispeedTex3 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Body_187bf507_normal.png?url'
-import ispeedTex4 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Eyes_d4ab5ca_baseColor.png?url'
-import ispeedTex5 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Eyes_d4ab5ca_metallicRoughness.png?url'
-import ispeedTex6 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Eyes_d4ab5ca_normal.png?url'
-import ispeedTex7 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Head_1e48115e_metallicRoughness.png?url'
-import ispeedTex8 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Head_1e48115e_normal.png?url'
-import ispeedTex9 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_baseColor.png?url'
-import ispeedTex10 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_metallicRoughness.png?url'
-import ispeedTex11 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_emissive.png?url'
-import ispeedTex12 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_normal.png?url'
-import dogModelUrl from '../assets/dog/scene.gltf?url'
-import dogDiffuseUrl from '../assets/dog/textures/material_diffuse.png?url'
-import dogSpecularUrl from '../assets/dog/specular_1.png?url'
-import dogMetalRoughUrl from '../assets/dog/metallicRoughness_1.png?url'
 import { avatarChoices, type CharacterStyle, type Rsvp } from '../data/birthdayData'
 import { BrainrotModel } from './BrainrotModel'
 
@@ -160,62 +125,25 @@ const createShirtTexture = (skinUrl: string, shirtColor: string) => {
 
 const characterModels: Record<CharacterStyle, CharacterModel> = {
   boy: {
-    modelUrl: boyModelUrl,
-    skinUrl: boySteveTextureUrl,
+    modelUrl: '/assets/minecraft-player/Player.fbx',
+    skinUrl: '/assets/minecraft-player/steve.png',
     textureUrls: {
-      'alex.png': boyAlexTextureUrl,
-      'steve.png': boySteveTextureUrl,
+      'alex.png': '/assets/minecraft-player/alex.png',
+      'steve.png': '/assets/minecraft-player/steve.png',
     },
   },
   girl: {
-    modelUrl: girlModelUrl,
-    skinUrl: girlAlexTextureUrl,
+    modelUrl: '/assets/minecraft-player-slim/PlayerSkinny.fbx',
+    skinUrl: '/assets/minecraft-player-slim/alex.png',
     textureUrls: {
-      'alex.png': girlAlexTextureUrl,
-      'steve.png': girlAlexTextureUrl,
+      'alex.png': '/assets/minecraft-player-slim/alex.png',
+      'steve.png': '/assets/minecraft-player-slim/alex.png',
     },
   },
 }
 
-// Pre-built texture maps — Vite bundles each file, loader remaps by filename
-const baconHairTextureUrls: Record<string, string> = {
-  'Scene_-_Root_diffuse.png': baconDiffuseUrl,
-  'Scene_-_Root_diffuse@channels=A.png': baconAlphaUrl,
-  'specular_1.png': baconSpecularUrl,
-  'metallicRoughness_1.png': baconMetalRoughUrl,
-}
 
-const robloxNoobTextureUrls: Record<string, string> = {
-  'N00b1Mtl_baseColor.png': noobBaseColorUrl,
-}
 
-const robloxGirlTextureUrls: Record<string, string> = {
-  'Girl1Mtl_baseColor.png': girlTex1Url,
-  'Girl3Mtl_baseColor.png': girlTex3Url,
-  'Girl4Mtl_baseColor.png': girlTex4Url,
-  'Girl5Mtl_baseColor.png': girlTex5Url,
-}
-
-const ispeedTextureUrls: Record<string, string> = {
-  'MI_HonorBraceJoust_Body_187bf507_baseColor.png': ispeedTex1,
-  'MI_HonorBraceJoust_Body_187bf507_metallicRoughness.png': ispeedTex2,
-  'MI_HonorBraceJoust_Body_187bf507_normal.png': ispeedTex3,
-  'MI_HonorBraceJoust_Eyes_d4ab5ca_baseColor.png': ispeedTex4,
-  'MI_HonorBraceJoust_Eyes_d4ab5ca_metallicRoughness.png': ispeedTex5,
-  'MI_HonorBraceJoust_Eyes_d4ab5ca_normal.png': ispeedTex6,
-  'MI_HonorBraceJoust_Head_1e48115e_metallicRoughness.png': ispeedTex7,
-  'MI_HonorBraceJoust_Head_1e48115e_normal.png': ispeedTex8,
-  'MI_HonorBraceJoust_FaceAcc_472e332a_baseColor.png': ispeedTex9,
-  'MI_HonorBraceJoust_FaceAcc_472e332a_metallicRoughness.png': ispeedTex10,
-  'MI_HonorBraceJoust_FaceAcc_472e332a_emissive.png': ispeedTex11,
-  'MI_HonorBraceJoust_FaceAcc_472e332a_normal.png': ispeedTex12,
-}
-
-const dogTextureUrls: Record<string, string> = {
-  'material_diffuse.png': dogDiffuseUrl,
-  'specular_1.png': dogSpecularUrl,
-  'metallicRoughness_1.png': dogMetalRoughUrl,
-}
 
 
 function stableRandom(seed: string): number {
@@ -474,8 +402,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const baconHair = () => (
     <BrainrotModel
       className="brainrot-3d-model bacon-hair-3d-model"
-      modelUrl={baconHairModelUrl}
-      textureUrls={baconHairTextureUrls}
+      modelUrl="/assets/roblox-bacon-hair/scene.gltf"
       baseRotationY={0}
       groundOffset={-0.36}
       scale={2.4}
@@ -484,9 +411,8 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const robloxNoob = () => (
     <BrainrotModel
       className="brainrot-3d-model roblox-noob-3d-model"
-      modelUrl={robloxNoobModelUrl}
-      textureUrls={robloxNoobTextureUrls}
-      baseRotationY={Math.PI / 2}
+      modelUrl="/assets/roblox-noob/scene.gltf"
+      baseRotationY={-Math.PI / 2}
       groundOffset={-0.38}
       scale={2.3}
     />
@@ -494,8 +420,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const robloxGirl = () => (
     <BrainrotModel
       className="brainrot-3d-model roblox-girl-3d-model"
-      modelUrl={robloxGirlModelUrl}
-      textureUrls={robloxGirlTextureUrls}
+      modelUrl="/assets/roblox_r6_girl_with_layered_clothes/scene.gltf"
       baseRotationY={Math.PI}
       groundOffset={-0.46}
       scale={2.3}
@@ -504,8 +429,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const ispeed = () => (
     <BrainrotModel
       className="brainrot-3d-model speed-3d-model"
-      modelUrl={ispeedModelUrl}
-      textureUrls={ispeedTextureUrls}
+      modelUrl="/assets/ishowspeed/scene.gltf"
       baseRotationY={0}
       groundOffset={-0.44}
       scale={2.4}
@@ -514,8 +438,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const dog = () => (
     <BrainrotModel
       className="brainrot-3d-model dog-3d-model"
-      modelUrl={dogModelUrl}
-      textureUrls={dogTextureUrls}
+      modelUrl="/assets/dog/scene.gltf"
       baseRotationY={0}
       groundOffset={-0.70}
       scale={2.8}
@@ -524,6 +447,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const tung = () => (
     <BrainrotModel
       className="brainrot-3d-model tung-3d-model"
+      modelUrl="/assets/tung-tung-tung-sahur-brainrot-italian/source/tripo_pbr_model_09e9005a-9efe-43d0-b58a-f9916d7260a5.glb"
       baseRotationY={-Math.PI / 2}
       groundOffset={-0.28}
       scale={2.35}
@@ -532,7 +456,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const buffSteve = () => (
     <BrainrotModel
       className="brainrot-3d-model buff-steve-3d-model"
-      modelUrl={buffSteveModelUrl}
+      modelUrl="/assets/buff-steve/source/model.gltf"
       baseRotationY={Math.PI}
       groundOffset={-0.34}
       scale={2.55}

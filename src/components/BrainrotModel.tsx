@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import brainrotModelUrl from '../assets/tung-tung-tung-sahur-brainrot-italian/source/tripo_pbr_model_09e9005a-9efe-43d0-b58a-f9916d7260a5.glb?url'
 
 type BrainrotModelProps = {
   className?: string
   modelUrl?: string
-  /** Map of bare filename (e.g. "foo.png") → Vite-bundled URL for texture remapping */
-  textureUrls?: Record<string, string>
   baseRotationY?: number
   scale?: number
   groundOffset?: number
@@ -28,8 +25,7 @@ type LoadedModel = {
 
 export function BrainrotModel({
   className = 'brainrot-3d-model',
-  modelUrl = brainrotModelUrl,
-  textureUrls,
+  modelUrl = '/assets/tung-tung-tung-sahur-brainrot-italian/source/tripo_pbr_model_09e9005a-9efe-43d0-b58a-f9916d7260a5.glb',
   baseRotationY = -Math.PI / 2,
   scale = 2.2,
   groundOffset = -0.34,
@@ -64,18 +60,7 @@ export function BrainrotModel({
     const modelGroup = new THREE.Group()
     scene.add(modelGroup)
 
-    const loadingManager = textureUrls
-      ? new THREE.LoadingManager(undefined, undefined, undefined)
-      : undefined
-
-    if (loadingManager && textureUrls) {
-      loadingManager.setURLModifier((url: string) => {
-        const filename = url.split(/[\\/]/).pop() ?? ''
-        return textureUrls[filename] ?? url
-      })
-    }
-
-    const loader = new GLTFLoader(loadingManager)
+    const loader = new GLTFLoader()
     let animationFrame = 0
     let disposed = false
     let isDragging = false
@@ -227,4 +212,3 @@ export function BrainrotModel({
 
   return <div className={className} ref={mountRef} aria-hidden="true" />
 }
-
