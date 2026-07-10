@@ -6582,9 +6582,9 @@ greetings-section .lobby-heading span,
     transform: translateY(30px) !important;
   }
 
-  /* Align all brainrot / GLTF models to the same grass level */
+  /* Align all brainrot / GLTF models to the same grass level as Minecraft models */
   .party-section .brainrot-3d-model {
-    transform: translateY(40px) !important;
+    transform: translateY(26px) !important;
   }
 }
 
@@ -6614,5 +6614,21 @@ greetings-section .lobby-heading span,
 .party-section .roblox-girl-player .brainrot-3d-model,
 .party-section .hero-player .brainrot-3d-model {
   transform: translateY(10px) !important;
+}
+
+/* Blocky placeholder during lazy-loading */
+.blocky-placeholder-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--player-light), var(--player-color));
+  opacity: 0.15;
+  animation: blocky-pulse 2s infinite ease-in-out;
+}
+
+@keyframes blocky-pulse {
+  0% { opacity: 0.15; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.15; }
 }
 

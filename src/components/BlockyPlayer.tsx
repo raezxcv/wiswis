@@ -163,8 +163,7 @@ function MinecraftModel({
   hero: boolean
   shirtColor: string
 }) {
-  const mountRef = useRef<HTMLDivElement>(null)
-  const [renderKey, setRenderKey] = useState(0)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     const mount = mountRef.current
@@ -306,6 +305,8 @@ function MinecraftModel({
       modelGroup.scale.setScalar((hero ? 3.2 : 2.85) / maxAxis)
       modelGroup.position.y = hero ? -0.44 : -0.36
       modelGroup.add(object)
+
+      setIsLoaded(true)
     })
 
     const animate = () => {
@@ -357,10 +358,48 @@ function MinecraftModel({
     }
   }, [characterStyle, hero, renderKey, shirtColor])
 
-  return <div className="minecraft-model" ref={mountRef} aria-hidden="true" />
+  return (
+    <div
+      className="minecraft-model"
+      ref={mountRef}
+      aria-hidden="true"
+      style={{
+        opacity: isLoaded ? 1 : 0,
+        transition: 'opacity 0.45s ease-out',
+        width: '100%',
+        height: '100%',
+      }}
+    />
+  )
 }
 
 export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    // Only use observer on guest players (Wiswis the hero is always on screen/centered)
+    if (hero) {
+      setIsVisible(true)
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { rootMargin: '120px' } // Preload when 120px close to viewport
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [hero])
+
   const color = avatarChoices.find((choice) => choice.id === player.characterColor) ?? avatarChoices[0]
   const characterStyle = player.characterStyle ?? 'boy'
   const normalizedPlayerName = player.name.toUpperCase()
@@ -412,7 +451,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     <BrainrotModel
       className="brainrot-3d-model roblox-noob-3d-model"
       modelUrl="/assets/roblox-noob/scene.gltf"
-      baseRotationY={-Math.PI / 2}
+      baseRotationX={-Math.PI}
       groundOffset={-0.38}
       scale={2.3}
     />
@@ -500,6 +539,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
 
   return (
     <motion.div
+      ref={containerRef}
       className={playerClassName}
       style={style}
       initial={{ opacity: 0, y: 14, scale: hero ? 1 : 0.92 }}
@@ -508,7 +548,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     >
       <div className="player-name">{hero ? 'WISWIS' : player.name}</div>
       <div className="player-sprite model-player" aria-label={`${player.name} character`}>
-        {renderModel()}
+        {isVisible ? renderModel() : <div className="blocky-placeholder-inner" />}
       </div>
     </motion.div>
   )

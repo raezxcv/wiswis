@@ -33,6 +33,7 @@ export function BrainrotModel({
 }: BrainrotModelProps) {
   const mountRef = useRef<HTMLDivElement>(null)
   const [renderKey, setRenderKey] = useState(0)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     const mount = mountRef.current
@@ -157,6 +158,8 @@ export function BrainrotModel({
       modelGroup.scale.setScalar(scale / maxAxis)
       modelGroup.position.y = groundOffset
       modelGroup.add(object)
+      
+      setIsLoaded(true)
     })
 
     const animate = () => {
@@ -210,5 +213,17 @@ export function BrainrotModel({
     }
   }, [baseRotationY, float, groundOffset, modelUrl, renderKey, scale])
 
-  return <div className={className} ref={mountRef} aria-hidden="true" />
+  return (
+    <div
+      className={className}
+      ref={mountRef}
+      aria-hidden="true"
+      style={{
+        opacity: isLoaded ? 1 : 0,
+        transition: 'opacity 0.45s ease-out',
+        width: '100%',
+        height: '100%',
+      }}
+    />
+  )
 }
