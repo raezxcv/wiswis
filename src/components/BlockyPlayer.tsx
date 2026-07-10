@@ -445,7 +445,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
       className="brainrot-3d-model bacon-hair-3d-model"
       modelUrl="/assets/roblox-bacon-hair/scene.gltf"
       baseRotationY={0}
-      groundOffset={-0.36}
+      groundOffset={-0.45}
       scale={2.4}
     />
   )
