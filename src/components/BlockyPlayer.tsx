@@ -8,6 +8,35 @@ import boySteveTextureUrl from '../assets/minecraft-player/steve.png?url'
 import girlModelUrl from '../assets/minecraft-player-slim/PlayerSkinny.fbx?url'
 import girlAlexTextureUrl from '../assets/minecraft-player-slim/alex.png?url'
 import buffSteveModelUrl from '../assets/buff-steve/source/model.gltf?url'
+import baconHairModelUrl from '../assets/roblox-bacon-hair/scene.gltf?url'
+import baconDiffuseUrl from '../assets/roblox-bacon-hair/textures/Scene_-_Root_diffuse.png?url'
+import baconAlphaUrl from '../assets/roblox-bacon-hair/textures/Scene_-_Root_diffuse@channels=A.png?url'
+import baconSpecularUrl from '../assets/roblox-bacon-hair/specular_1.png?url'
+import baconMetalRoughUrl from '../assets/roblox-bacon-hair/metallicRoughness_1.png?url'
+import robloxNoobModelUrl from '../assets/roblox-noob/scene.gltf?url'
+import noobBaseColorUrl from '../assets/roblox-noob/textures/N00b1Mtl_baseColor.png?url'
+import robloxGirlModelUrl from '../assets/roblox_r6_girl_with_layered_clothes/scene.gltf?url'
+import girlTex1Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl1Mtl_baseColor.png?url'
+import girlTex3Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl3Mtl_baseColor.png?url'
+import girlTex4Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl4Mtl_baseColor.png?url'
+import girlTex5Url from '../assets/roblox_r6_girl_with_layered_clothes/textures/Girl5Mtl_baseColor.png?url'
+import ispeedModelUrl from '../assets/ishowspeed/scene.gltf?url'
+import ispeedTex1 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Body_187bf507_baseColor.png?url'
+import ispeedTex2 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Body_187bf507_metallicRoughness.png?url'
+import ispeedTex3 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Body_187bf507_normal.png?url'
+import ispeedTex4 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Eyes_d4ab5ca_baseColor.png?url'
+import ispeedTex5 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Eyes_d4ab5ca_metallicRoughness.png?url'
+import ispeedTex6 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Eyes_d4ab5ca_normal.png?url'
+import ispeedTex7 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Head_1e48115e_metallicRoughness.png?url'
+import ispeedTex8 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_Head_1e48115e_normal.png?url'
+import ispeedTex9 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_baseColor.png?url'
+import ispeedTex10 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_metallicRoughness.png?url'
+import ispeedTex11 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_emissive.png?url'
+import ispeedTex12 from '../assets/ishowspeed/textures/MI_HonorBraceJoust_FaceAcc_472e332a_normal.png?url'
+import dogModelUrl from '../assets/dog/scene.gltf?url'
+import dogDiffuseUrl from '../assets/dog/textures/material_diffuse.png?url'
+import dogSpecularUrl from '../assets/dog/specular_1.png?url'
+import dogMetalRoughUrl from '../assets/dog/metallicRoughness_1.png?url'
 import { avatarChoices, type CharacterStyle, type Rsvp } from '../data/birthdayData'
 import { BrainrotModel } from './BrainrotModel'
 
@@ -128,6 +157,7 @@ const createShirtTexture = (skinUrl: string, shirtColor: string) => {
 
   return texture
 }
+
 const characterModels: Record<CharacterStyle, CharacterModel> = {
   boy: {
     modelUrl: boyModelUrl,
@@ -145,6 +175,55 @@ const characterModels: Record<CharacterStyle, CharacterModel> = {
       'steve.png': girlAlexTextureUrl,
     },
   },
+}
+
+// Pre-built texture maps — Vite bundles each file, loader remaps by filename
+const baconHairTextureUrls: Record<string, string> = {
+  'Scene_-_Root_diffuse.png': baconDiffuseUrl,
+  'Scene_-_Root_diffuse@channels=A.png': baconAlphaUrl,
+  'specular_1.png': baconSpecularUrl,
+  'metallicRoughness_1.png': baconMetalRoughUrl,
+}
+
+const robloxNoobTextureUrls: Record<string, string> = {
+  'N00b1Mtl_baseColor.png': noobBaseColorUrl,
+}
+
+const robloxGirlTextureUrls: Record<string, string> = {
+  'Girl1Mtl_baseColor.png': girlTex1Url,
+  'Girl3Mtl_baseColor.png': girlTex3Url,
+  'Girl4Mtl_baseColor.png': girlTex4Url,
+  'Girl5Mtl_baseColor.png': girlTex5Url,
+}
+
+const ispeedTextureUrls: Record<string, string> = {
+  'MI_HonorBraceJoust_Body_187bf507_baseColor.png': ispeedTex1,
+  'MI_HonorBraceJoust_Body_187bf507_metallicRoughness.png': ispeedTex2,
+  'MI_HonorBraceJoust_Body_187bf507_normal.png': ispeedTex3,
+  'MI_HonorBraceJoust_Eyes_d4ab5ca_baseColor.png': ispeedTex4,
+  'MI_HonorBraceJoust_Eyes_d4ab5ca_metallicRoughness.png': ispeedTex5,
+  'MI_HonorBraceJoust_Eyes_d4ab5ca_normal.png': ispeedTex6,
+  'MI_HonorBraceJoust_Head_1e48115e_metallicRoughness.png': ispeedTex7,
+  'MI_HonorBraceJoust_Head_1e48115e_normal.png': ispeedTex8,
+  'MI_HonorBraceJoust_FaceAcc_472e332a_baseColor.png': ispeedTex9,
+  'MI_HonorBraceJoust_FaceAcc_472e332a_metallicRoughness.png': ispeedTex10,
+  'MI_HonorBraceJoust_FaceAcc_472e332a_emissive.png': ispeedTex11,
+  'MI_HonorBraceJoust_FaceAcc_472e332a_normal.png': ispeedTex12,
+}
+
+const dogTextureUrls: Record<string, string> = {
+  'material_diffuse.png': dogDiffuseUrl,
+  'specular_1.png': dogSpecularUrl,
+  'metallicRoughness_1.png': dogMetalRoughUrl,
+}
+
+
+function stableRandom(seed: string): number {
+  let hash = 0
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0
+  }
+  return (hash % 100) / 100
 }
 
 function MinecraftModel({
@@ -197,7 +276,7 @@ function MinecraftModel({
 
     const loadingManager = new THREE.LoadingManager()
     loadingManager.setURLModifier((url: string) => {
-      const textureName = url.split(/[\\/]/).pop()?.toLowerCase()
+      const textureName = url.split(/[\\\/]/).pop()?.toLowerCase()
       return textureName && model.textureUrls[textureName] ? model.textureUrls[textureName] : url
     })
 
@@ -216,7 +295,6 @@ function MinecraftModel({
 
     const rebuildAfterContextLoss = () => {
       if (!mount.isConnected || disposed) return
-
       setRenderKey((key) => key + 1)
     }
 
@@ -253,7 +331,6 @@ function MinecraftModel({
 
     const onPointerMove = (event: PointerEvent) => {
       if (!isDragging) return
-
       event.preventDefault()
       const deltaX = event.clientX - dragStartX
       const deltaY = event.clientY - dragStartY
@@ -264,7 +341,6 @@ function MinecraftModel({
 
     const stopDragging = (event: PointerEvent) => {
       if (!isDragging) return
-
       isDragging = false
       returnToFrontAt = performance.now() + 2400
       renderer.domElement.classList.remove('is-dragging')
@@ -289,7 +365,6 @@ function MinecraftModel({
         child.castShadow = false
         child.receiveShadow = false
         child.frustumCulled = false
-
         child.material = skinMaterial
       })
 
@@ -307,7 +382,6 @@ function MinecraftModel({
 
     const animate = () => {
       if (contextLost) return
-
       const now = performance.now()
 
       if (returnToFrontAt > 0 && now >= returnToFrontAt) {
@@ -315,7 +389,6 @@ function MinecraftModel({
           isDragging = false
           renderer.domElement.classList.remove('is-dragging')
         }
-
         rotationX += (0 - rotationX) * 0.08
         rotationY += (0 - rotationY) * 0.08
 
@@ -363,15 +436,142 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const color = avatarChoices.find((choice) => choice.id === player.characterColor) ?? avatarChoices[0]
   const characterStyle = player.characterStyle ?? 'boy'
   const normalizedPlayerName = player.name.toUpperCase()
+
+  // Special-name detection (only used when no characterModel override)
   const isTungCharacter = normalizedPlayerName.includes('TUNG')
   const isIvanCharacter = !isTungCharacter && normalizedPlayerName.includes('IVAN')
-  const playerClassName = `${hero ? 'blocky-player hero-player' : 'blocky-player'} ${
-    characterStyle === 'girl' ? 'girl-player' : 'boy-player'
-  } ${isTungCharacter ? 'tung-player' : ''} ${isIvanCharacter ? 'buff-steve-player' : ''}`
+  const isSpeedCharacter = !isTungCharacter && !isIvanCharacter && normalizedPlayerName.includes('SPEED')
+  const isWhiteyCharacter =
+    !isTungCharacter && !isIvanCharacter && !isSpeedCharacter && normalizedPlayerName.includes('WHITEY')
+
+  // Stable random alternation for boy / girl characters (consistent per name)
+  const rand = stableRandom(player.name)
+  const boyUsesRoblox = !hero && characterStyle === 'boy' && rand >= 0.5
+  const girlUsesRoblox = !hero && characterStyle === 'girl' && rand >= 0.5
+
+  // CSS class flags
+  const playerClassName = [
+    hero ? 'blocky-player hero-player' : 'blocky-player',
+    characterStyle === 'girl' ? 'girl-player' : 'boy-player',
+    isTungCharacter ? 'tung-player' : '',
+    isIvanCharacter ? 'buff-steve-player' : '',
+    isSpeedCharacter ? 'speed-player' : '',
+    isWhiteyCharacter ? 'whitey-player' : '',
+    boyUsesRoblox ? 'roblox-noob-player' : '',
+    girlUsesRoblox ? 'roblox-girl-player' : '',
+    hero ? 'bacon-hair-player' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   const style: PlayerStyle = {
     '--player-color': color.hex,
     '--player-dark': color.dark,
     '--player-light': color.light,
+  }
+
+  // ─── Model lookup helpers ───────────────────────────────────────────────────
+  const baconHair = () => (
+    <BrainrotModel
+      className="brainrot-3d-model bacon-hair-3d-model"
+      modelUrl={baconHairModelUrl}
+      textureUrls={baconHairTextureUrls}
+      baseRotationY={0}
+      groundOffset={-0.36}
+      scale={2.4}
+    />
+  )
+  const robloxNoob = () => (
+    <BrainrotModel
+      className="brainrot-3d-model roblox-noob-3d-model"
+      modelUrl={robloxNoobModelUrl}
+      textureUrls={robloxNoobTextureUrls}
+      baseRotationY={Math.PI / 2}
+      groundOffset={-0.38}
+      scale={2.3}
+    />
+  )
+  const robloxGirl = () => (
+    <BrainrotModel
+      className="brainrot-3d-model roblox-girl-3d-model"
+      modelUrl={robloxGirlModelUrl}
+      textureUrls={robloxGirlTextureUrls}
+      baseRotationY={Math.PI}
+      groundOffset={-0.46}
+      scale={2.3}
+    />
+  )
+  const ispeed = () => (
+    <BrainrotModel
+      className="brainrot-3d-model speed-3d-model"
+      modelUrl={ispeedModelUrl}
+      textureUrls={ispeedTextureUrls}
+      baseRotationY={0}
+      groundOffset={-0.44}
+      scale={2.4}
+    />
+  )
+  const dog = () => (
+    <BrainrotModel
+      className="brainrot-3d-model dog-3d-model"
+      modelUrl={dogModelUrl}
+      textureUrls={dogTextureUrls}
+      baseRotationY={0}
+      groundOffset={-0.70}
+      scale={2.8}
+    />
+  )
+  const tung = () => (
+    <BrainrotModel
+      className="brainrot-3d-model tung-3d-model"
+      baseRotationY={-Math.PI / 2}
+      groundOffset={-0.28}
+      scale={2.35}
+    />
+  )
+  const buffSteve = () => (
+    <BrainrotModel
+      className="brainrot-3d-model buff-steve-3d-model"
+      modelUrl={buffSteveModelUrl}
+      baseRotationY={Math.PI}
+      groundOffset={-0.34}
+      scale={2.55}
+    />
+  )
+  const minecraftBoy = () => <MinecraftModel characterStyle="boy" hero={false} shirtColor={color.hex} />
+  const minecraftGirl = () => <MinecraftModel characterStyle="girl" hero={false} shirtColor={color.hex} />
+
+  // ─── Decide which model to render ──────────────────────────────────────────
+  const renderModel = () => {
+    // 1. Firebase characterModel field takes priority (manual override)
+    if (player.characterModel) {
+      switch (player.characterModel) {
+        case 'roblox-bacon-hair': return baconHair()
+        case 'roblox-noob': return robloxNoob()
+        case 'roblox-girl': return robloxGirl()
+        case 'ispeed': return ispeed()
+        case 'dog': return dog()
+        case 'tung': return tung()
+        case 'buff-steve': return buffSteve()
+        case 'minecraft-girl': return minecraftGirl()
+        case 'minecraft-boy': return minecraftBoy()
+      }
+    }
+
+    // 2. Hero = Wiswis → always roblox-bacon-hair
+    if (hero) return baconHair()
+
+    // 3. Special names
+    if (isSpeedCharacter) return ispeed()
+    if (isWhiteyCharacter) return dog()
+    if (isTungCharacter) return tung()
+    if (isIvanCharacter) return buffSteve()
+
+    // 4. Girl: randomly minecraft or roblox girl
+    if (characterStyle === 'girl') return girlUsesRoblox ? robloxGirl() : minecraftGirl()
+
+    // 5. Boy: randomly minecraft or roblox noob
+    return boyUsesRoblox ? robloxNoob() : minecraftBoy()
   }
 
   return (
@@ -384,24 +584,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     >
       <div className="player-name">{hero ? 'WISWIS' : player.name}</div>
       <div className="player-sprite model-player" aria-label={`${player.name} character`}>
-        {isTungCharacter ? (
-          <BrainrotModel
-            className="brainrot-3d-model tung-3d-model"
-            baseRotationY={-Math.PI / 2}
-            groundOffset={-0.28}
-            scale={2.35}
-          />
-        ) : isIvanCharacter ? (
-          <BrainrotModel
-            className="brainrot-3d-model buff-steve-3d-model"
-            modelUrl={buffSteveModelUrl}
-            baseRotationY={Math.PI}
-            groundOffset={-0.34}
-            scale={2.55}
-          />
-        ) : (
-          <MinecraftModel characterStyle={characterStyle} hero={hero} shirtColor={color.hex} />
-        )}
+        {renderModel()}
       </div>
     </motion.div>
   )

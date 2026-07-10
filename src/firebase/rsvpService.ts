@@ -1,4 +1,4 @@
-﻿import { FirebaseError } from 'firebase/app'
+import { FirebaseError } from 'firebase/app'
 import {
   Timestamp,
   collection,
@@ -8,7 +8,7 @@ import {
   type DocumentData,
   type QueryDocumentSnapshot,
 } from 'firebase/firestore'
-import { demoRsvps, type CharacterStyle, type Rsvp } from '../data/birthdayData'
+import { demoRsvps, type CharacterModel, type CharacterStyle, type Rsvp } from '../data/birthdayData'
 import { db, firebaseConfig, firebaseProjectId, firestoreCollection, isFirebaseConfigured } from './firebase'
 
 const sortedByCreated = (items: Rsvp[]) =>
@@ -25,6 +25,13 @@ const timestampToIso = (value: unknown) => {
 
 const getCharacterStyle = (value: unknown): CharacterStyle => (value === 'girl' ? 'girl' : 'boy')
 
+const validCharacterModels: CharacterModel[] = [
+  'minecraft-boy', 'minecraft-girl', 'roblox-bacon-hair', 'roblox-noob',
+  'roblox-girl', 'dog', 'ispeed', 'tung', 'buff-steve',
+]
+const getCharacterModel = (value: unknown): CharacterModel | undefined =>
+  validCharacterModels.includes(value as CharacterModel) ? (value as CharacterModel) : undefined
+
 const toRsvp = (document: QueryDocumentSnapshot<DocumentData>): Rsvp => {
   const data = document.data()
   return {
@@ -33,6 +40,7 @@ const toRsvp = (document: QueryDocumentSnapshot<DocumentData>): Rsvp => {
     characterColor: String(data.characterColor ?? 'green'),
     avatar: String(data.avatar ?? data.characterColor ?? 'green'),
     characterStyle: getCharacterStyle(data.characterStyle),
+    characterModel: getCharacterModel(data.characterModel),
     message: typeof data.message === 'string' ? data.message : '',
     attending: true,
     createdAt: timestampToIso(data.createdAt),

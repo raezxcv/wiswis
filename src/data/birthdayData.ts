@@ -8,12 +8,25 @@ export type CharacterColor = {
 
 export type CharacterStyle = 'boy' | 'girl'
 
+export type CharacterModel =
+  | 'minecraft-boy'
+  | 'minecraft-girl'
+  | 'roblox-bacon-hair'
+  | 'roblox-noob'
+  | 'roblox-girl'
+  | 'dog'
+  | 'ispeed'
+  | 'tung'
+  | 'buff-steve'
+
 export type Rsvp = {
   id?: string
   name: string
   characterColor: string
   avatar: string
   characterStyle?: CharacterStyle
+  /** Optional: override the 3D model shown for this guest (set manually in Firestore) */
+  characterModel?: CharacterModel
   message?: string
   attending: true
   createdAt?: string

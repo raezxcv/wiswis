@@ -6,6 +6,8 @@ import brainrotModelUrl from '../assets/tung-tung-tung-sahur-brainrot-italian/so
 type BrainrotModelProps = {
   className?: string
   modelUrl?: string
+  /** Map of bare filename (e.g. "foo.png") → Vite-bundled URL for texture remapping */
+  textureUrls?: Record<string, string>
   baseRotationY?: number
   scale?: number
   groundOffset?: number
@@ -27,6 +29,7 @@ type LoadedModel = {
 export function BrainrotModel({
   className = 'brainrot-3d-model',
   modelUrl = brainrotModelUrl,
+  textureUrls,
   baseRotationY = -Math.PI / 2,
   scale = 2.2,
   groundOffset = -0.34,
@@ -61,7 +64,18 @@ export function BrainrotModel({
     const modelGroup = new THREE.Group()
     scene.add(modelGroup)
 
-    const loader = new GLTFLoader()
+    const loadingManager = textureUrls
+      ? new THREE.LoadingManager(undefined, undefined, undefined)
+      : undefined
+
+    if (loadingManager && textureUrls) {
+      loadingManager.setURLModifier((url: string) => {
+        const filename = url.split(/[\\/]/).pop() ?? ''
+        return textureUrls[filename] ?? url
+      })
+    }
+
+    const loader = new GLTFLoader(loadingManager)
     let animationFrame = 0
     let disposed = false
     let isDragging = false

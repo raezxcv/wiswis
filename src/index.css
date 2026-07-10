@@ -6551,3 +6551,68 @@ greetings-section .lobby-heading span,
     transform: translateY(30px) !important;
   }
 }
+
+/* Mobile character resize: smaller bodies, extended feet, Tung aligned to grass line. */
+@media (max-width: 760px) {
+  /* Shrink non-hero guest characters */
+  .party-section .blocky-player:not(.hero-player):not(.tung-player):not(.buff-steve-player) .model-player {
+    width: 118px !important;
+    height: 196px !important;
+  }
+
+  /* Shrink Tung / buff-steve / special-name guest characters */
+  .party-section .blocky-player.tung-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.buff-steve-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.speed-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.whitey-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.roblox-noob-player:not(.hero-player) .model-player,
+  .party-section .blocky-player.roblox-girl-player:not(.hero-player) .model-player {
+    width: 122px !important;
+    height: 200px !important;
+  }
+
+  /* Hero player: canvas sized to hold full body */
+  .party-section .hero-player .model-player {
+    width: 164px !important;
+    height: 290px !important;
+  }
+
+  /* Guest Minecraft characters still get a ground-dip push */
+  .party-section .blocky-player:not(.hero-player) .minecraft-model {
+    transform: translateY(30px) !important;
+  }
+
+  /* Align all brainrot / GLTF models to the same grass level */
+  .party-section .brainrot-3d-model {
+    transform: translateY(40px) !important;
+  }
+}
+
+/* Hero: bacon-hair model canvas sizing (desktop) */
+.party-section .hero-player .model-player {
+  width: 202px !important;
+  height: 326px !important;
+}
+
+/* New GLTF guest models: same canvas size as Tung/buff-steve */
+.party-section .blocky-player.speed-player:not(.hero-player) .model-player,
+.party-section .blocky-player.whitey-player:not(.hero-player) .model-player,
+.party-section .blocky-player.roblox-noob-player:not(.hero-player) .model-player,
+.party-section .blocky-player.roblox-girl-player:not(.hero-player) .model-player {
+  width: 150px !important;
+  height: 234px !important;
+  padding-bottom: 0 !important;
+  overflow: visible !important;
+}
+
+/* All brainrot/GLTF models including new ones: match hero ground push on desktop */
+.party-section .tung-player .brainrot-3d-model,
+.party-section .buff-steve-player .brainrot-3d-model,
+.party-section .speed-player .brainrot-3d-model,
+.party-section .whitey-player .brainrot-3d-model,
+.party-section .roblox-noob-player .brainrot-3d-model,
+.party-section .roblox-girl-player .brainrot-3d-model,
+.party-section .hero-player .brainrot-3d-model {
+  transform: translateY(10px) !important;
+}
+
