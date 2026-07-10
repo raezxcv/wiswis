@@ -15,6 +15,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 :root {
   color: #183044;
   background: #78c8f2;
@@ -272,6 +273,7 @@ h2 {
   transform: translateY(4px);
   box-shadow: 0 3px 0 #0d526f;
 }
+
 .countdown-panel {
   margin-top: -26px;
   margin-bottom: 56px;
@@ -837,6 +839,7 @@ button:focus-visible,
     opacity: 0;
     transform: translateY(14px) scale(0.92);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -886,6 +889,7 @@ button:focus-visible,
 }
 
 @media (max-width: 480px) {
+
   .event-grid,
   .color-grid {
     grid-template-columns: 1fr;
@@ -1376,8 +1380,13 @@ h1 {
 
 /* ── Lobby floating clouds ────────────────────────────────── */
 @keyframes cloud-drift {
-  from { transform: translateX(0) scale(var(--cloud-scale, 1)); }
-  to   { transform: translateX(110vw) scale(var(--cloud-scale, 1)); }
+  from {
+    transform: translateX(0) scale(var(--cloud-scale, 1));
+  }
+
+  to {
+    transform: translateX(110vw) scale(var(--cloud-scale, 1));
+  }
 }
 
 .lobby-cloud {
@@ -1445,20 +1454,60 @@ h1 {
   .hero-cloud {
     --cloud-scale: 0.55;
   }
-  .hero-cloud-1 { top: 20px; animation-delay: -5s; }
-  .hero-cloud-2 { top: 140px; animation-delay: -26s; }
-  .hero-cloud-3 { top: 380px; animation-delay: -12s; }
-  .hero-cloud-4 { top: 80px; animation-delay: -8s; }
-  .hero-cloud-5 { top: 480px; animation-delay: -38s; }
-  .hero-cloud-6 { top: 230px; animation-delay: -18s; }
+
+  .hero-cloud-1 {
+    top: 20px;
+    animation-delay: -5s;
+  }
+
+  .hero-cloud-2 {
+    top: 140px;
+    animation-delay: -26s;
+  }
+
+  .hero-cloud-3 {
+    top: 380px;
+    animation-delay: -12s;
+  }
+
+  .hero-cloud-4 {
+    top: 80px;
+    animation-delay: -8s;
+  }
+
+  .hero-cloud-5 {
+    top: 480px;
+    animation-delay: -38s;
+  }
+
+  .hero-cloud-6 {
+    top: 230px;
+    animation-delay: -18s;
+  }
 
   .lobby-cloud {
     --cloud-scale: 0.55;
   }
-  .lobby-cloud-1 { top: 30px; animation-delay: -8s; }
-  .lobby-cloud-2 { top: 200px; animation-delay: -20s; }
-  .lobby-cloud-3 { top: 110px; animation-delay: -14s; }
-  .lobby-cloud-4 { top: 290px; animation-delay: -35s; }
+
+  .lobby-cloud-1 {
+    top: 30px;
+    animation-delay: -8s;
+  }
+
+  .lobby-cloud-2 {
+    top: 200px;
+    animation-delay: -20s;
+  }
+
+  .lobby-cloud-3 {
+    top: 110px;
+    animation-delay: -14s;
+  }
+
+  .lobby-cloud-4 {
+    top: 290px;
+    animation-delay: -35s;
+  }
 }
 
 
@@ -2270,7 +2319,7 @@ h1 {
   border: 0 !important;
   border-radius: 0 !important;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.16) 0 25%, transparent 25% 50%, rgba(0,0,0,0.08) 50% 75%, transparent 75%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0 25%, transparent 25% 50%, rgba(0, 0, 0, 0.08) 50% 75%, transparent 75%),
     linear-gradient(var(--hair) 0 22%, var(--skin) 22% 100%) !important;
   background-size: 18px 18px, auto !important;
   box-shadow: inset 0 -10px 0 var(--skin-dark), inset 0 10px 0 var(--hair) !important;
@@ -2369,10 +2418,10 @@ h1 {
   height: 74px !important;
   border: 0 !important;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.12) 0 25%, transparent 25% 50%, rgba(0,0,0,0.1) 50% 75%, transparent 75%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 25%, transparent 25% 50%, rgba(0, 0, 0, 0.1) 50% 75%, transparent 75%),
     var(--player-color) !important;
   background-size: 18px 18px, auto !important;
-  box-shadow: inset 0 0 0 6px rgba(255,255,255,0.08), inset -10px 0 0 var(--player-dark) !important;
+  box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.08), inset -10px 0 0 var(--player-dark) !important;
 }
 
 .hero-player .torso {
@@ -2386,7 +2435,7 @@ h1 {
   margin-top: 5px !important;
   background:
     linear-gradient(var(--player-color) 0 32%, var(--skin) 32% 100%) !important;
-  box-shadow: inset -5px 0 0 rgba(0,0,0,0.16) !important;
+  box-shadow: inset -5px 0 0 rgba(0, 0, 0, 0.16) !important;
   transform: none !important;
 }
 
@@ -2406,7 +2455,7 @@ h1 {
   border: 0 !important;
   background:
     linear-gradient(var(--pants) 0 82%, var(--shoe) 82% 100%) !important;
-  box-shadow: inset -5px 0 0 rgba(0,0,0,0.18) !important;
+  box-shadow: inset -5px 0 0 rgba(0, 0, 0, 0.18) !important;
 }
 
 .hero-player .player-legs span {
@@ -2467,7 +2516,7 @@ h1 {
 
 .steve-sprite .player-head {
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.12) 0 25%, transparent 25% 50%, rgba(0,0,0,0.08) 50% 75%, transparent 75%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 25%, transparent 25% 50%, rgba(0, 0, 0, 0.08) 50% 75%, transparent 75%),
     linear-gradient(var(--hair) 0 22%, var(--skin) 22% 100%) !important;
 }
 
@@ -2815,7 +2864,7 @@ h1 {
 }
 
 /* Sprite-level Wiswis label so it stays visible with the hat. */
-.hero-player > .player-name {
+.hero-player>.player-name {
   visibility: hidden !important;
 }
 
@@ -2955,7 +3004,7 @@ h1 {
   width: 20px !important;
   height: 74px !important;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.08) 0 35%, transparent 35%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 35%, transparent 35%),
     var(--girl-hair) !important;
 }
 
@@ -3521,7 +3570,7 @@ h1 {
 .steve-sprite .player-head {
   overflow: visible !important;
   background:
-    linear-gradient(90deg, rgba(255,255,255,0.06) 0 25%, transparent 25% 50%, rgba(0,0,0,0.06) 50% 75%, transparent 75%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 25%, transparent 25% 50%, rgba(0, 0, 0, 0.06) 50% 75%, transparent 75%),
     linear-gradient(var(--hair) 0 50%, var(--skin) 50% 100%) !important;
 }
 
@@ -3629,8 +3678,8 @@ h1 {
   --hair-color: #a46419;
 }
 
-.player-head > .hair,
-.player-head > .eye {
+.player-head>.hair,
+.player-head>.eye {
   display: block !important;
   position: absolute !important;
 }
@@ -3675,6 +3724,7 @@ h1 {
 .steve-sprite .right-eye {
   right: 32% !important;
 }
+
 /* Sketchfab character embeds. */
 .sketchfab-player {
   width: 112px !important;
@@ -4033,16 +4083,16 @@ h1 {
   }
 }
 
-.countdown-heading > .eyebrow,
-.countdown-heading > h2,
-.countdown-heading > span {
+.countdown-heading>.eyebrow,
+.countdown-heading>h2,
+.countdown-heading>span {
   justify-self: center !important;
   margin-left: auto !important;
   margin-right: auto !important;
   text-align: center !important;
 }
 
-.countdown-heading > h2 {
+.countdown-heading>h2 {
   width: max-content !important;
   max-width: 100% !important;
 }
@@ -4059,14 +4109,14 @@ h1 {
   margin-bottom: 0 !important;
 }
 
-.hero-section + .party-section,
+.hero-section+.party-section,
 .party-section {
   margin-top: 0 !important;
   background:
     linear-gradient(180deg, #aee7fb 0%, #78d3f6 18%, #69c9ef 48%, #64c6ed 100%) !important;
 }
 
-.hero-section + .party-section {
+.hero-section+.party-section {
   border-top: 0 !important;
   box-shadow: inset 0 62px 52px rgba(185, 239, 255, 0.4) !important;
 }
@@ -4161,7 +4211,7 @@ h1 {
   opacity: 0.54;
 }
 
-.countdown-section > * {
+.countdown-section>* {
   position: relative;
   z-index: 1;
 }
@@ -4193,6 +4243,7 @@ h1 {
 }
 
 @media (max-width: 760px) {
+
   .countdown-section .lobby-heading h2,
   .greetings-section .lobby-heading h2 {
     font-size: clamp(3rem, 12vw, 5rem) !important;
@@ -4317,6 +4368,7 @@ greetings-section .lobby-heading span,
 }
 
 @media (max-width: 760px) {
+
   .party-section .lobby-heading h2,
   .countdown-section .lobby-heading h2,
   .greetings-section .lobby-heading h2 {
@@ -4452,10 +4504,11 @@ greetings-section .lobby-heading span,
     margin-top: 18px !important;
   }
 }
+
 /* Party lobby cleanup: guests flank Wiswis and all name tags share the same pixel plate. */
 .party-section {
-    --ground-height: clamp(168px, 31vh, 224px);
---lobby-edge: clamp(18px, 4vw, 56px);
+  --ground-height: clamp(168px, 31vh, 224px);
+  --lobby-edge: clamp(18px, 4vw, 56px);
   --lobby-center-gap: clamp(8px, 1vw, 12px);
 }
 
@@ -4463,6 +4516,7 @@ greetings-section .lobby-heading span,
   opacity: 1 !important;
   pointer-events: none !important;
 }
+
 .party-section .party-scroll {
   position: absolute !important;
   inset: 0 !important;
@@ -4516,6 +4570,7 @@ greetings-section .lobby-heading span,
 .party-section .blocky-player {
   z-index: 1 !important;
 }
+
 .party-section .blocky-player:not(.hero-player) {
   min-width: 116px !important;
 }
@@ -4537,7 +4592,7 @@ greetings-section .lobby-heading span,
   display: block !important;
   min-height: auto !important;
   max-width: 150px !important;
-  margin: 0 0 10px !important;
+  margin: 0 0 3px !important;
   padding: 5px 10px 6px !important;
   color: #fffdf0 !important;
   background: #84988f !important;
@@ -4582,6 +4637,7 @@ greetings-section .lobby-heading span,
     gap: 14px !important;
   }
 }
+
 @media (max-height: 650px) and (min-width: 900px) {
   .party-section .lobby-heading {
     gap: 0 !important;
@@ -4603,6 +4659,7 @@ greetings-section .lobby-heading span,
     font-size: clamp(0.9rem, 1.2vw, 1.08rem) !important;
   }
 }
+
 .countdown-cake-button {
   width: min(260px, 62vw) !important;
   margin: clamp(16px, 3vh, 28px) auto 0 !important;
@@ -5232,6 +5289,7 @@ greetings-section .lobby-heading span,
     display: block;
   }
 }
+
 /* Mobile lobby tune: selectable heading, lower title, larger characters. */
 .party-section .lobby-heading {
   z-index: 8 !important;
@@ -5275,6 +5333,7 @@ greetings-section .lobby-heading span,
     font-size: 1.22rem !important;
   }
 }
+
 /* Lobby character scrolling controls. */
 .party-section .party-scroll {
   scroll-behavior: smooth !important;
@@ -5367,6 +5426,7 @@ greetings-section .lobby-heading span,
     right: 8px;
   }
 }
+
 /* Final mobile spacing polish. */
 .greetings-section .mobile-greetings-title-break {
   display: none;
@@ -5409,6 +5469,7 @@ greetings-section .lobby-heading span,
     margin-top: 16px !important;
   }
 }
+
 /* Final mobile chat heading scale. */
 @media (max-width: 760px) {
   .greetings-section .chat-heading span {
@@ -5416,6 +5477,7 @@ greetings-section .lobby-heading span,
     line-height: 1.12 !important;
   }
 }
+
 /* Requested mobile updates: title scale, lobby spacing, countdown row, and chat composer. */
 .greetings-section .chat-sender-name {
   display: none !important;
@@ -5575,6 +5637,7 @@ greetings-section .lobby-heading span,
     padding: 0 188px 0 44px !important;
   }
 }
+
 @media (max-width: 760px) {
   .greetings-section {
     min-height: 108svh !important;
@@ -5588,10 +5651,12 @@ greetings-section .lobby-heading span,
     min-height: clamp(420px, 48svh, 520px) !important;
   }
 }
+
 .greetings-section .chat-panel {
   position: relative !important;
   z-index: 9 !important;
 }
+
 .greetings-section {
   z-index: 8 !important;
 }
@@ -5634,10 +5699,13 @@ greetings-section .lobby-heading span,
     opacity: 0;
     transform: translate(-50%, 18px) scale(0.82);
   }
-  12%, 78% {
+
+  12%,
+  78% {
     opacity: 1;
     transform: translate(-50%, 0) scale(1);
   }
+
   100% {
     opacity: 0;
     transform: translate(-50%, -16px) scale(0.96);
@@ -5677,6 +5745,7 @@ greetings-section .lobby-heading span,
     height: 214px !important;
   }
 }
+
 /* Final requested mobile polish: edge centering, lower lobby, countdown labels, and chat clearance. */
 @media (max-width: 760px) {
   .party-section .party-row {
@@ -6341,6 +6410,7 @@ greetings-section .lobby-heading span,
 
 /* Desktop gallery one-row fit: keep eyebrow, title, and subheadline on the same line. */
 @media (min-width: 761px) {
+
   .gallery-section .gallery-heading,
   .gallery-section .section-heading.gallery-heading {
     width: min(1220px, calc(100vw - 48px)) !important;
@@ -6548,12 +6618,13 @@ greetings-section .lobby-heading span,
 /* Mobile feet extension: regular Minecraft canvases need the same lower overhang as Tung. */
 @media (max-width: 760px) {
   .party-section .minecraft-model {
-    transform: translateY(14px) !important;
+    transform: translateY(10px) !important;
   }
 }
 
 /* Mobile character resize: smaller bodies, extended feet, Tung aligned to grass line. */
 @media (max-width: 760px) {
+
   /* Shrink non-hero guest characters */
   .party-section .blocky-player:not(.hero-player):not(.tung-player):not(.buff-steve-player) .model-player {
     width: 118px !important;
@@ -6631,8 +6702,15 @@ greetings-section .lobby-heading span,
 }
 
 @keyframes blocky-pulse {
-  0% { opacity: 0.15; }
-  50% { opacity: 0.3; }
-  100% { opacity: 0.15; }
-}
+  0% {
+    opacity: 0.15;
+  }
 
+  50% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0.15;
+  }
+}
