@@ -5,6 +5,8 @@ import {
   onSnapshot,
   orderBy,
   query,
+  doc,
+  deleteDoc,
   type DocumentData,
   type QueryDocumentSnapshot,
 } from 'firebase/firestore'
@@ -23,7 +25,10 @@ const timestampToIso = (value: unknown) => {
   return undefined
 }
 
-const getCharacterStyle = (value: unknown): CharacterStyle => (value === 'girl' ? 'girl' : 'boy')
+const getCharacterStyle = (value: unknown): CharacterStyle => {
+  const str = String(value ?? '').toLowerCase()
+  return str.includes('girl') ? 'girl' : 'boy'
+}
 
 const validCharacterModels: CharacterModel[] = [
   'minecraft-boy', 'minecraft-girl', 'roblox-bacon-hair', 'roblox-noob',
@@ -34,13 +39,20 @@ const getCharacterModel = (value: unknown): CharacterModel | undefined =>
 
 const toRsvp = (document: QueryDocumentSnapshot<DocumentData>): Rsvp => {
   const data = document.data()
+  const dbStyle = String(data.characterStyle ?? '')
+
+  let characterModel = getCharacterModel(data.characterModel)
+  if (!characterModel && validCharacterModels.includes(dbStyle as CharacterModel)) {
+    characterModel = dbStyle as CharacterModel
+  }
+
   return {
     id: document.id,
     name: String(data.name ?? '').toUpperCase(),
     characterColor: String(data.characterColor ?? 'green'),
     avatar: String(data.avatar ?? data.characterColor ?? 'green'),
     characterStyle: getCharacterStyle(data.characterStyle),
-    characterModel: getCharacterModel(data.characterModel),
+    characterModel,
     message: typeof data.message === 'string' ? data.message : '',
     attending: true,
     createdAt: timestampToIso(data.createdAt),
@@ -79,9 +91,31 @@ const makeDocumentId = () => {
   return `rsvp${Date.now()}${Math.random().toString(36).slice(2, 8)}`
 }
 
+function stableRandom(seed: string): number {
+  let hash = 0
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0
+  }
+  return (hash % 100) / 100
+}
+
 async function addRsvpViaRest(rsvp: Rsvp) {
   const documentId = makeDocumentId()
   const documentPath = `projects/${firebaseProjectId}/databases/(default)/documents/${firestoreCollection}/${documentId}`
+  
+  const fields: Record<string, any> = {
+    name: { stringValue: rsvp.name },
+    characterColor: { stringValue: rsvp.characterColor },
+    avatar: { stringValue: rsvp.avatar },
+    characterStyle: { stringValue: rsvp.characterStyle ?? 'boy' },
+    message: { stringValue: rsvp.message ?? '' },
+    attending: { booleanValue: true },
+  }
+
+  if (rsvp.characterModel) {
+    fields.characterModel = { stringValue: rsvp.characterModel }
+  }
+
   const response = await fetch(
     `https://firestore.googleapis.com/v1/projects/${firebaseProjectId}/databases/(default)/documents:commit?key=${firebaseConfig.apiKey}`,
     {
@@ -92,14 +126,7 @@ async function addRsvpViaRest(rsvp: Rsvp) {
           {
             update: {
               name: documentPath,
-              fields: {
-                name: { stringValue: rsvp.name },
-                characterColor: { stringValue: rsvp.characterColor },
-                avatar: { stringValue: rsvp.avatar },
-                characterStyle: { stringValue: rsvp.characterStyle ?? 'boy' },
-                message: { stringValue: rsvp.message ?? '' },
-                attending: { booleanValue: true },
-              },
+              fields,
             },
             updateTransforms: [{ fieldPath: 'createdAt', setToServerValue: 'REQUEST_TIME' }],
           },
@@ -123,11 +150,19 @@ export async function addRsvp(data: Omit<Rsvp, 'id' | 'attending' | 'createdAt'>
   }
 
   const now = new Date()
+  const normalizedName = data.name.trim().toUpperCase().slice(0, 30)
+
+  const rand = stableRandom(normalizedName)
+  const defaultModel = getCharacterStyle(data.characterStyle) === 'girl'
+    ? (rand >= 0.5 ? 'roblox-girl' : 'minecraft-girl')
+    : (rand >= 0.5 ? 'roblox-noob' : 'minecraft-boy')
+
   const rsvp: Rsvp = {
-    name: data.name.trim().toUpperCase().slice(0, 30),
+    name: normalizedName,
     characterColor: data.characterColor,
     avatar: data.avatar,
     characterStyle: getCharacterStyle(data.characterStyle),
+    characterModel: data.characterModel || defaultModel,
     message: data.message?.trim() ?? '',
     attending: true,
     createdAt: now.toISOString(),
@@ -139,6 +174,19 @@ export async function addRsvp(data: Omit<Rsvp, 'id' | 'attending' | 'createdAt'>
   } catch (error) {
     console.error('Firebase RSVP save failed', error)
     throw new Error(getFirebaseSaveMessage(error), { cause: error })
+  }
+}
+
+export async function deleteRsvp(id: string) {
+  if (!isFirebaseConfigured || !db) {
+    return
+  }
+  try {
+    const docRef = doc(db, firestoreCollection, id)
+    await deleteDoc(docRef)
+  } catch (error) {
+    console.error('Firebase RSVP delete failed', error)
+    throw error
   }
 }
 

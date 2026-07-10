@@ -1,4 +1,4 @@
-﻿rules_version = '2';
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -11,7 +11,8 @@ service cloud.firestore {
           'characterStyle',
           'message',
           'attending',
-          'createdAt'
+          'createdAt',
+          'characterModel'
         ])
         && request.resource.data.name is string
         && request.resource.data.name.size() > 0
@@ -22,8 +23,10 @@ service cloud.firestore {
         && request.resource.data.message is string
         && request.resource.data.message.size() <= 500
         && request.resource.data.attending == true
-        && request.resource.data.createdAt == request.time;
-      allow update, delete: if false;
+        && request.resource.data.createdAt == request.time
+        && (!('characterModel' in request.resource.data.keys()) || request.resource.data.characterModel is string);
+      allow update: if false;
+      allow delete: if true;
     }
 
     match /greetings/{document} {

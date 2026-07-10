@@ -8,6 +8,7 @@ import { BrainrotModel } from './BrainrotModel'
 type BlockyPlayerProps = {
   player: Rsvp
   hero?: boolean
+  onTripleTap?: (player: Rsvp) => void
 }
 
 type PlayerStyle = CSSProperties & {
@@ -375,9 +376,38 @@ function MinecraftModel({
   )
 }
 
-export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
+export function BlockyPlayer({ player, hero = false, onTripleTap }: BlockyPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const tapCountRef = useRef(0)
+  const tapTimeoutRef = useRef<number | null>(null)
+
+  const handleTap = () => {
+    if (hero || !onTripleTap) return
+
+    tapCountRef.current += 1
+    if (tapCountRef.current >= 3) {
+      onTripleTap(player)
+      tapCountRef.current = 0
+      return
+    }
+
+    if (tapTimeoutRef.current) {
+      window.clearTimeout(tapTimeoutRef.current)
+    }
+
+    tapTimeoutRef.current = window.setTimeout(() => {
+      tapCountRef.current = 0
+    }, 1000)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (tapTimeoutRef.current) {
+        window.clearTimeout(tapTimeoutRef.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     // Only use observer on guest players (Wiswis the hero is always on screen/centered)
@@ -437,6 +467,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     '--player-color': color.hex,
     '--player-dark': color.dark,
     '--player-light': color.light,
+    cursor: hero ? 'default' : 'pointer',
   }
 
   // ─── Model lookup helpers ───────────────────────────────────────────────────
@@ -547,7 +578,9 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
       style={style}
       initial={{ opacity: 0, y: 14, scale: hero ? 1 : 0.92 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
+      whileTap={{ scale: hero ? 1 : 0.94 }}
       transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+      onClick={handleTap}
     >
       <div className="player-name">{hero ? 'WISWIS' : player.name}</div>
       <div className="player-sprite model-player" aria-label={`${player.name} character`}>

@@ -10,7 +10,8 @@ import { Secret67Chest } from './components/Secret67Chest'
 import { type Greeting, type Rsvp } from './data/birthdayData'
 import clickSoundUrl from './assets/minecraft_click.mp3?url'
 import { addGreeting, listenToGreetings } from './firebase/greetingService'
-import { addRsvp, isFirebaseConfigured, listenToRsvps } from './firebase/rsvpService'
+import { addRsvp, isFirebaseConfigured, listenToRsvps, deleteRsvp } from './firebase/rsvpService'
+import { DeleteConfirmModal } from './components/DeleteConfirmModal'
 
 const playerNameKey = 'wiswis-player-name'
 
@@ -29,6 +30,8 @@ function App() {
   const [rsvps, setRsvps] = useState<Rsvp[]>([])
   const [greetings, setGreetings] = useState<Greeting[]>([])
   const [playerName, setPlayerName] = useState(getSavedPlayerName)
+  const [playerToDelete, setPlayerToDelete] = useState<Rsvp | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => listenToRsvps(setRsvps), [])
   useEffect(() => listenToGreetings(setGreetings), [])
@@ -82,11 +85,36 @@ function App() {
     })
   }
 
+  const confirmDelete = async () => {
+    if (!playerToDelete) return
+    const idToDelete = playerToDelete.id
+    setIsDeleting(true)
+    if (!idToDelete) {
+      setRsvps((current) => current.filter((item) => item.name !== playerToDelete.name))
+      setIsDeleting(false)
+      setPlayerToDelete(null)
+      return
+    }
+
+    try {
+      if (isFirebaseConfigured) {
+        await deleteRsvp(idToDelete)
+      } else {
+        setRsvps((current) => current.filter((item) => item.id !== idToDelete))
+      }
+    } catch (error) {
+      console.error('Failed to delete RSVP:', error)
+    } finally {
+      setIsDeleting(false)
+      setPlayerToDelete(null)
+    }
+  }
+
   return (
     <main className="app-shell">
       <MusicToggle />
       <InvitationHero onRsvp={() => setIsRsvpOpen(true)} />
-      <PlayerPartyScreen guests={rsvps} demoMode={!isFirebaseConfigured} />
+      <PlayerPartyScreen guests={rsvps} demoMode={!isFirebaseConfigured} onPlayerTripleTap={setPlayerToDelete} />
       <EventDetails />
       <Countdown />
       <GreetingsChat
@@ -102,6 +130,12 @@ function App() {
         onNameChange={rememberPlayerName}
         onSubmit={handleRsvp}
         existingNames={rsvps.map((r) => r.name.toUpperCase())}
+      />
+      <DeleteConfirmModal
+        player={playerToDelete}
+        onClose={() => setPlayerToDelete(null)}
+        onConfirm={confirmDelete}
+        isDeleting={isDeleting}
       />
     </main>
   )

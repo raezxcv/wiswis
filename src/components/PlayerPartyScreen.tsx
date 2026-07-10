@@ -6,6 +6,7 @@ import { BlockyPlayer } from './BlockyPlayer'
 type PlayerPartyScreenProps = {
   guests: Rsvp[]
   demoMode: boolean
+  onPlayerTripleTap?: (player: Rsvp) => void
 }
 
 type LobbyScrollState = {
@@ -51,7 +52,7 @@ const flankGuestsByNewest = (guests: Rsvp[]) => {
   return { leftGuests, rightGuests }
 }
 
-export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) {
+export function PlayerPartyScreen({ guests, demoMode, onPlayerTripleTap }: PlayerPartyScreenProps) {
   const { leftGuests, rightGuests } = flankGuestsByNewest(guests)
   const partyScrollRef = useRef<HTMLDivElement>(null)
   const knownGuestKeysRef = useRef<Set<string>>(new Set())
@@ -231,13 +232,13 @@ export function PlayerPartyScreen({ guests, demoMode }: PlayerPartyScreenProps) 
         <div className="party-row">
           <div className="guest-side left-side">
             {leftGuests.map((guest) => (
-              <BlockyPlayer key={guest.id ?? guest.name} player={guest} />
+              <BlockyPlayer key={guest.id ?? guest.name} player={guest} onTripleTap={onPlayerTripleTap} />
             ))}
           </div>
           <BlockyPlayer player={wiswis} hero />
           <div className="guest-side right-side">
             {rightGuests.map((guest) => (
-              <BlockyPlayer key={guest.id ?? guest.name} player={guest} />
+              <BlockyPlayer key={guest.id ?? guest.name} player={guest} onTripleTap={onPlayerTripleTap} />
             ))}
           </div>
         </div>
