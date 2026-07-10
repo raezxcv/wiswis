@@ -18,7 +18,7 @@ export function InvitationHero({ onRsvp }: InvitationHeroProps) {
         <BrainrotModel />
       </div> */}
       <div className="hero-content">
-        <p className="eyebrow">Roblox Server Spawn!</p>
+        <p className="eyebrow">You're Invited!</p>
         <h1 id="hero-title" className="hero-title-two-line">
           <span>Louis</span>
           <span>7th Birthday</span>
