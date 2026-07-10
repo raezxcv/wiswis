@@ -454,6 +454,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
       className="brainrot-3d-model roblox-noob-3d-model"
       modelUrl="/assets/roblox-noob/scene.gltf"
       baseRotationX={-Math.PI}
+      baseRotationY={Math.PI / 2} // Rotate 180°
       groundOffset={-0.38}
       scale={2.3}
     />
@@ -488,7 +489,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
   const tung = () => (
     <BrainrotModel
       className="brainrot-3d-model tung-3d-model"
-      modelUrl="/assets/tung-tung-tung-sahur-brainrot-italian/source/tripo_pbr_model_09e9005a-9efe-43d0-b58a-f9916d7260a5.glb"
+      modelUrl="/assets/tung-tung-tung-sahur-brainrot-italian/source/tung.glb"
       baseRotationY={-Math.PI / 2}
       groundOffset={-0.28}
       scale={2.35}
