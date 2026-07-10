@@ -67,7 +67,7 @@ const details: DetailPopup[] = [
         <p className="detail-popup-value">{birthdayData.venue}</p>
         <div className="detail-popup-map">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1242.6779597882173!2d120.76577798884453!3d15.093610242114423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3396fb2fd9a74ba5%3A0x6a715aa93691290b!2sMcDonald&#39;s!5e1!3m2!1sen!2sph!4v1783665251218!5m2!1sen!2sph"
+            src="https://www.google.com/maps/embed?pb=!4v1783666216485!6m8!1m7!1s1zwzlDEFdu8Dk-_u8bVzZQ!2m2!1d15.09335692225416!2d120.7661341744783!3f310.4918!4f0!5f0.7820865974627469"
             width="100%"
             height="340"
             style={{ border: 0 }}
