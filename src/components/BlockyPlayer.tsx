@@ -163,6 +163,8 @@ function MinecraftModel({
   hero: boolean
   shirtColor: string
 }) {
+  const mountRef = useRef<HTMLDivElement>(null)
+  const [renderKey, setRenderKey] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
