@@ -6548,7 +6548,7 @@ greetings-section .lobby-heading span,
 /* Mobile feet extension: regular Minecraft canvases need the same lower overhang as Tung. */
 @media (max-width: 760px) {
   .party-section .minecraft-model {
-    transform: translateY(30px) !important;
+    transform: translateY(14px) !important;
   }
 }
 
@@ -6577,24 +6577,18 @@ greetings-section .lobby-heading span,
     height: 290px !important;
   }
 
-  /* Guest Minecraft characters still get a ground-dip push */
   .party-section .blocky-player:not(.hero-player) .minecraft-model {
-    transform: translateY(30px) !important;
+    transform: translateY(14px) !important;
   }
 
   /* Align all brainrot / GLTF models to the same grass level as Minecraft models */
   .party-section .brainrot-3d-model {
-    transform: translateY(26px) !important;
+    transform: translateY(14px) !important;
   }
 
-  /* Lift Minecraft boy/girl and Tung higher on mobile */
-  .party-section .blocky-player.minecraft-boy-player:not(.hero-player) .minecraft-model,
-  .party-section .blocky-player.minecraft-girl-player:not(.hero-player) .minecraft-model {
-    transform: translateY(10px) !important;
-  }
-
+  /* Tung: move up a bit more since it sits lower in its bounding box */
   .party-section .blocky-player.tung-player:not(.hero-player) .brainrot-3d-model {
-    transform: translateY(10px) !important;
+    transform: translateY(6px) !important;
   }
 }
 
