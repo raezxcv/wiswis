@@ -837,7 +837,7 @@ button:focus-visible,
 @keyframes player-pop {
   from {
     opacity: 0;
-    transform: translateY(14px) scale(0.92);
+    transform: translateY(12px) scale(0.92);
   }
 
   to {
@@ -6323,7 +6323,7 @@ greetings-section .lobby-heading span,
   height: 100% !important;
   min-height: 100% !important;
   max-height: none !important;
-  transform: translateY(14px) !important;
+  transform: translateY(12px) !important;
   transform-origin: center bottom !important;
 }
 
@@ -6567,7 +6567,7 @@ greetings-section .lobby-heading span,
 
 .party-section .tung-player .brainrot-3d-model,
 .party-section .buff-steve-player .brainrot-3d-model {
-  transform: translateY(10px) !important;
+  transform: translateY(12px) !important;
 }
 
 @media (max-width: 760px) {
@@ -6618,7 +6618,7 @@ greetings-section .lobby-heading span,
 /* Mobile feet extension: regular Minecraft canvases need the same lower overhang as Tung. */
 @media (max-width: 760px) {
   .party-section .minecraft-model {
-    transform: translateY(10px) !important;
+    transform: translateY(12px) !important;
   }
 }
 
@@ -6649,12 +6649,12 @@ greetings-section .lobby-heading span,
   }
 
   .party-section .blocky-player:not(.hero-player) .minecraft-model {
-    transform: translateY(14px) !important;
+    transform: translateY(12px) !important;
   }
 
   /* Align all brainrot / GLTF models to the same grass level as Minecraft models */
   .party-section .brainrot-3d-model {
-    transform: translateY(14px) !important;
+    transform: translateY(12px) !important;
   }
 
   /* Tung: move up a bit more since it sits lower in its bounding box */
@@ -6688,7 +6688,7 @@ greetings-section .lobby-heading span,
 .party-section .roblox-noob-player .brainrot-3d-model,
 .party-section .roblox-girl-player .brainrot-3d-model,
 .party-section .hero-player .brainrot-3d-model {
-  transform: translateY(10px) !important;
+  transform: translateY(12px) !important;
 }
 
 /* Blocky placeholder during lazy-loading */
