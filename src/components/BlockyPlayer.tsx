@@ -426,8 +426,8 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     isIvanCharacter ? 'buff-steve-player' : '',
     isSpeedCharacter ? 'speed-player' : '',
     isWhiteyCharacter ? 'whitey-player' : '',
-    boyUsesRoblox ? 'roblox-noob-player' : (!hero && !isTungCharacter && !isIvanCharacter && !isSpeedCharacter && !isWhiteyCharacter && characterStyle !== 'girl') ? 'minecraft-boy-player' : '',
-    girlUsesRoblox ? 'roblox-girl-player' : (!hero && !isTungCharacter && !isIvanCharacter && !isSpeedCharacter && !isWhiteyCharacter && characterStyle === 'girl') ? 'minecraft-girl-player' : '',
+    boyUsesRoblox ? 'roblox-noob-player' : '',
+    girlUsesRoblox ? 'roblox-girl-player' : '',
     hero ? 'bacon-hair-player' : '',
   ]
     .filter(Boolean)
@@ -453,7 +453,7 @@ export function BlockyPlayer({ player, hero = false }: BlockyPlayerProps) {
     <BrainrotModel
       className="brainrot-3d-model roblox-noob-3d-model"
       modelUrl="/assets/roblox-noob/scene.gltf"
-      baseRotationX={-Math.PI}
+      baseRotationX={0}
       baseRotationY={Math.PI / 2} // Rotate 180°
       groundOffset={-0.38}
       scale={2.3}
