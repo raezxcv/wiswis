@@ -5,6 +5,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 type BrainrotModelProps = {
   className?: string
   modelUrl?: string
+  baseRotationX?: number
   baseRotationY?: number
   scale?: number
   groundOffset?: number
@@ -26,6 +27,7 @@ type LoadedModel = {
 export function BrainrotModel({
   className = 'brainrot-3d-model',
   modelUrl = '/assets/tung-tung-tung-sahur-brainrot-italian/source/tung.glb',
+  baseRotationX = 0,
   baseRotationY = -Math.PI / 2,
   scale = 2.2,
   groundOffset = -0.34,
@@ -184,7 +186,7 @@ export function BrainrotModel({
       modelGroup.position.y = float && !isDragging && returnToFrontAt === 0
         ? groundOffset + Math.sin(now * 0.0018) * 0.05
         : groundOffset
-      modelGroup.rotation.x = rotationX
+      modelGroup.rotation.x = baseRotationX + rotationX
       modelGroup.rotation.y = baseRotationY + rotationY
       renderer.render(scene, camera)
       animationFrame = requestAnimationFrame(animate)
@@ -211,7 +213,7 @@ export function BrainrotModel({
       })
       renderer.domElement.remove()
     }
-  }, [baseRotationY, float, groundOffset, modelUrl, renderKey, scale])
+  }, [baseRotationX, baseRotationY, float, groundOffset, modelUrl, renderKey, scale])
 
   return (
     <div
