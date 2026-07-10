@@ -722,11 +722,43 @@ h2 {
   place-items: center;
   width: 34px;
   height: 34px;
-  border: 3px solid #123c34;
   border-radius: 0;
   color: #fff;
-  background: #ec5b4e;
   font-weight: 950;
+}
+
+.icon-button.close-button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: #ffe278;
+  color: #603d0d;
+  border: 3px solid #603d0d;
+  /* Minecraft pixel-art beveled border: bright top-left highlight, dark bottom-right shadow */
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.7),
+    inset -2px -2px 0 rgba(96, 61, 13, 0.45),
+    0 4px 0 rgba(96, 61, 13, 0.35);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  touch-action: manipulation;
+  font-size: 0.85rem;
+}
+
+.icon-button.close-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.7),
+    inset -2px -2px 0 rgba(96, 61, 13, 0.45),
+    0 6px 0 rgba(96, 61, 13, 0.35);
+}
+
+.icon-button.close-button:active {
+  transform: translateY(3px);
+  box-shadow:
+    inset 2px 2px 0 rgba(96, 61, 13, 0.25),
+    inset -2px -2px 0 rgba(255, 255, 255, 0.4),
+    0 1px 0 rgba(96, 61, 13, 0.3);
 }
 
 .rsvp-form {
@@ -3862,8 +3894,8 @@ h1 {
 .chat-window {
   display: grid;
   align-content: start;
-  min-height: 580px;
-  max-height: 800px;
+  min-height: 680px;
+  max-height: 900px;
   gap: 12px;
   overflow-y: auto;
   padding: 12px;
@@ -3962,7 +3994,7 @@ h1 {
   }
 
   .chat-window {
-    max-height: 650px;
+    max-height: 860px;
   }
 }
 
@@ -6925,42 +6957,69 @@ h1 {
 
 .detail-popup-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   width: min(680px, calc(100vw - 32px));
   max-height: calc(100svh - 40px);
-  overflow-y: auto;
-  padding: 32px 28px 28px;
   background: #fff8d8;
   border: 6px solid #603d0d;
   box-shadow: 0 14px 0 rgba(96, 61, 13, 0.36), 0 20px 48px rgba(10, 22, 34, 0.38);
-  scrollbar-color: #f4b63f #f6e1b4;
+  overflow: hidden;
 }
 
 .detail-popup-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  align-self: flex-end;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   padding: 0;
+  margin: 10px 10px 0 0;
   color: #603d0d;
   background: #ffe278;
-  border: 4px solid #603d0d;
+  border: 3px solid #603d0d;
   border-radius: 0;
-  box-shadow: 0 4px 0 rgba(96, 61, 13, 0.3);
+  /* Minecraft pixel-art beveled border */
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.7),
+    inset -2px -2px 0 rgba(96, 61, 13, 0.45),
+    0 4px 0 rgba(96, 61, 13, 0.3);
   cursor: pointer;
-  transition: transform 0.15s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  touch-action: manipulation;
+  font-size: 0.85rem;
 }
 
 .detail-popup-close:hover {
   transform: translateY(-2px);
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.7),
+    inset -2px -2px 0 rgba(96, 61, 13, 0.45),
+    0 6px 0 rgba(96, 61, 13, 0.3);
 }
 
+.detail-popup-close:active {
+  transform: translateY(3px);
+  box-shadow:
+    inset 2px 2px 0 rgba(96, 61, 13, 0.2),
+    inset -2px -2px 0 rgba(255, 255, 255, 0.4),
+    0 1px 0 rgba(96, 61, 13, 0.2);
+}
+
+/* Scrollable body below the close button */
 .detail-popup-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
   display: grid;
   gap: 10px;
   text-align: center;
+  padding: 0 28px 28px;
+  scrollbar-color: #f4b63f #f6e1b4;
+  align-content: start;
 }
 
 .detail-popup-label {
@@ -7005,11 +7064,16 @@ h1 {
 }
 
 @media (max-width: 480px) {
-  .detail-popup-card {
-    padding: 28px 16px 20px;
+  .detail-popup-close {
+    width: 38px;
+    height: 38px;
+    margin: 8px 8px 0 0;
+  }
+  .detail-popup-body {
+    padding: 0 14px 20px;
   }
   .detail-popup-map iframe {
-    height: 260px;
+    height: 380px;
   }
 }
 
@@ -7050,5 +7114,25 @@ h1 {
 
   .hero-copy:first-of-type {
     font-size: clamp(1.35rem, 4.8vw, 1.85rem) !important;
+  }
+}
+
+/* ── Reduce gap between event-grid and embedded gallery ── */
+.details-section .gallery-section {
+  margin-top: clamp(20px, 3vh, 36px) !important;
+  min-height: unset !important;
+  padding-top: clamp(12px, 2vh, 24px) !important;
+  padding-bottom: clamp(12px, 2vh, 24px) !important;
+}
+
+.details-section .gallery-carousel {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .details-section .gallery-section {
+    margin-top: 16px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
   }
 }
