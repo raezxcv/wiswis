@@ -1,4 +1,3 @@
-import { birthdayData } from '../data/birthdayData'
 // import { BrainrotModel } from './BrainrotModel'
 
 type InvitationHeroProps = {
@@ -19,16 +18,16 @@ export function InvitationHero({ onRsvp }: InvitationHeroProps) {
         <BrainrotModel />
       </div> */}
       <div className="hero-content">
-        <p className="eyebrow">You&apos;re Invited!</p>
+        <p className="eyebrow">Roblox Server Spawn!</p>
         <h1 id="hero-title" className="hero-title-two-line">
-          <span>Wiswis Birthday:</span>
-          <span>Level 7</span>
+          <span>Louis</span>
+          <span>7th Birthday</span>
         </h1>
-        <p className="hero-subtitle">{birthdayData.invitationSubtitle}</p>
-        <p className="hero-copy">Wiswis is turning 7 on August 7!</p>
-        <p className="hero-copy muted">Join us for a blocky birthday adventure.</p>
+        <p className="hero-subtitle">Spawn into Level 7 on Louis&apos; Roblox server quest!</p>
+        <p className="hero-copy">McDo Sta. Ana • August 7 @ 5:00 PM</p>
+        <p className="hero-copy muted">Claim your username and join the party lobby!</p>
         <button className="primary-button" type="button" onClick={onRsvp}>
-          I&apos;m Going!
+          Join the Server!
         </button>
       </div>
     </section>

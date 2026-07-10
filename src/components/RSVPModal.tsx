@@ -1,4 +1,4 @@
-﻿import type { CSSProperties, FormEvent } from 'react'
+import type { CSSProperties, FormEvent } from 'react'
 import { useState } from 'react'
 import { avatarChoices, type CharacterStyle, type Rsvp } from '../data/birthdayData'
 
@@ -9,6 +9,7 @@ type RSVPModalProps = {
   onClose: () => void
   onNameChange: (name: string) => void
   onSubmit: (data: RsvpPayload) => Promise<void>
+  existingNames?: string[]
 }
 
 const styleChoices: { id: CharacterStyle; label: string }[] = [
@@ -16,7 +17,7 @@ const styleChoices: { id: CharacterStyle; label: string }[] = [
   { id: 'girl', label: 'Girl' },
 ]
 
-export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit }: RSVPModalProps) {
+export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNames }: RSVPModalProps) {
   const [name, setName] = useState('')
   const [choice, setChoice] = useState(avatarChoices[0].id)
   const [characterStyle, setCharacterStyle] = useState<CharacterStyle>('boy')
@@ -31,6 +32,11 @@ export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit }: RSVPModal
 
     if (!trimmedName) {
       setError('Name is required.')
+      return
+    }
+
+    if (existingNames && existingNames.includes(trimmedName)) {
+      setError('This username is already in the lobby! Choose another one.')
       return
     }
 

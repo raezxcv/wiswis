@@ -101,6 +101,7 @@ function App() {
         onClose={() => setIsRsvpOpen(false)}
         onNameChange={rememberPlayerName}
         onSubmit={handleRsvp}
+        existingNames={rsvps.map((r) => r.name.toUpperCase())}
       />
     </main>
   )
