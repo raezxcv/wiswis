@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Countdown } from './components/Countdown'
+import { EventDetails } from './components/EventDetails'
 import { GreetingsChat } from './components/GreetingsChat'
-import { ImageGallery } from './components/ImageGallery'
 import { InvitationHero } from './components/InvitationHero'
 import { MusicToggle } from './components/MusicToggle'
 import { PlayerPartyScreen } from './components/PlayerPartyScreen'
@@ -87,6 +87,7 @@ function App() {
       <MusicToggle />
       <InvitationHero onRsvp={() => setIsRsvpOpen(true)} />
       <PlayerPartyScreen guests={rsvps} demoMode={!isFirebaseConfigured} />
+      <EventDetails />
       <Countdown />
       <GreetingsChat
         greetings={greetings}
@@ -94,7 +95,6 @@ function App() {
         senderName={playerName}
         onSend={handleGreeting}
       />
-      <ImageGallery />
       <Secret67Chest />
       <RSVPModal
         isOpen={isRsvpOpen}
