@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import wispet from '../assets/wispet.gif'
 
 export function LevelIntroLoader({ onComplete }: { onComplete: () => void }) {
   const [step, setStep] = useState(0) // 0: connecting, 1: level 6, 2: upgrading/transition, 3: level 7, 4: spawning, 5: exit
@@ -89,6 +90,10 @@ export function LevelIntroLoader({ onComplete }: { onComplete: () => void }) {
                 <span className="level-num level-7-num animate-pulse-glow">LVL 7</span>
               )}
             </div>
+          </div>
+
+          <div className="loader-pet-container">
+            <img src={wispet} alt="Wispet" className="loader-pet-gif" />
           </div>
 
           <div className="loader-progress-bar-container">
