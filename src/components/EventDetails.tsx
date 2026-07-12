@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import watchGif from '../assets/looking-at-wrist-watch-wrist-watch.gif'
+import birthdayGif from '../assets/birthday-happy-birthday.gif'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import wis1 from '../assets/wisgallery/wis1.jpg'
 import wis2 from '../assets/wisgallery/wis2.jpg'
@@ -43,6 +45,7 @@ const details: DetailPopup[] = [
         <p className="detail-popup-label">📅 Date</p>
         <p className="detail-popup-value">{birthdayData.eventDate}</p>
         <p className="detail-popup-note">Mark your calendar — Wiswis turns Level 7!</p>
+        <img src={birthdayGif} alt="Birthday celebration" className="detail-popup-gif" />
       </div>
     ),
   },
@@ -55,6 +58,7 @@ const details: DetailPopup[] = [
         <p className="detail-popup-label">⏰ Time</p>
         <p className="detail-popup-value">{birthdayData.eventTime}</p>
         <p className="detail-popup-note">Be there on time for the party quest!</p>
+        <img src={watchGif} alt="Looking at wrist watch" className="detail-popup-gif" />
       </div>
     ),
   },

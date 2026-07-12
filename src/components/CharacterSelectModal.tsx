@@ -67,7 +67,7 @@ export function CharacterSelectModal({ player, onClose, onSave }: CharacterSelec
           x
         </button>
 
-        <h2 id="customizer-title">
+        <h2 id="customizer-title" style={{ textAlign: 'center' }}>
           Customize Skin
         </h2>
         <p style={{ textAlign: 'center', marginTop: '-12px', marginBottom: '24px', fontWeight: 800, color: '#3d5f6a' }}>
@@ -75,46 +75,6 @@ export function CharacterSelectModal({ player, onClose, onSave }: CharacterSelec
         </p>
 
         <form onSubmit={handleSave} className="rsvp-form">
-          {/* Avatar Color choices */}
-          <fieldset>
-            <legend>Character color</legend>
-            <div className="color-grid">
-              {avatarChoices.map((choice) => (
-                <button
-                  key={choice.id}
-                  type="button"
-                  className={selectedColor === choice.id ? 'color-choice selected' : 'color-choice'}
-                  style={{ '--swatch': choice.hex } as React.CSSProperties}
-                  onClick={() => setSelectedColor(choice.id)}
-                >
-                  <span />
-                  {choice.label.toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-
-          {/* Avatar Style choice */}
-          <fieldset>
-            <legend>Character style</legend>
-            <div className="style-grid">
-              <button
-                type="button"
-                className={selectedStyle === 'boy' ? 'style-choice selected' : 'style-choice'}
-                onClick={() => setSelectedStyle('boy')}
-              >
-                Boy
-              </button>
-              <button
-                type="button"
-                className={selectedStyle === 'girl' ? 'style-choice selected' : 'style-choice'}
-                onClick={() => setSelectedStyle('girl')}
-              >
-                Girl
-              </button>
-            </div>
-          </fieldset>
-
           {/* Avatar 3D Model list */}
           <fieldset>
             <legend>3D Character Model</legend>
