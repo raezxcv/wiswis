@@ -1,67 +1,91 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Volume2, VolumeX } from 'lucide-react'
 
-/**
- * Autoplay strategy that works in every browser:
- *
- * 1. Call play() while muted  →  always allowed, no gesture needed
- * 2. Immediately after play() resolves, set muted = false  →  also allowed
- *    because the element is already "playing"; changing muted doesn't require
- *    a gesture.
- *
- * Result: music is audible from the very first frame, including during the
- * loading screen, without ever needing a user click.
- *
- * Tab hidden / blur  →  mute (not pause) so it resumes instantly.
- * User toggle button →  explicit mute/unmute; preference remembered across
- *                       tab switches.
- */
 export function MusicToggle() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  const userMutedRef = useRef(false)   // true = user manually muted
-  const [isMuted, setIsMuted] = useState(false)
+  const controlRef = useRef<HTMLDivElement | null>(null)
+  const userMutedRef = useRef(false)
+  const [isMuted, setIsMuted] = useState(true)
 
-  const applyMute = useCallback((muted: boolean) => {
+  const playAudible = useCallback(async () => {
     const audio = audioRef.current
-    if (!audio) return
-    audio.muted = muted
-    setIsMuted(muted)
+    if (!audio) return false
+
+    audio.volume = 0.35
+    audio.muted = false
+
+    try {
+      await audio.play()
+      setIsMuted(false)
+      return true
+    } catch {
+      audio.muted = true
+      setIsMuted(true)
+      return false
+    }
   }, [])
 
-  const ensurePlaying = useCallback(() => {
-    const audio = audioRef.current
-    if (audio?.paused) void audio.play().catch(() => undefined)
-  }, [])
-
-  // ── Mount: muted play() → immediate unmute ────────────────────────
-  useEffect(() => {
+  const warmUpMuted = useCallback(async () => {
     const audio = audioRef.current
     if (!audio) return
 
     audio.volume = 0.35
-    audio.muted = true  // must start muted so play() is never blocked
+    audio.muted = true
+    setIsMuted(true)
 
-    void audio.play().then(() => {
-      // play() succeeded → we are now "playing while muted"
-      // Setting muted = false here does NOT require a user gesture
-      if (!userMutedRef.current) {
-        audio.muted = false
-        setIsMuted(false)
-      }
-    }).catch(() => {
-      // Extremely rare: even muted autoplay failed (sandboxed iframe, etc.)
-      // Just leave it muted and rely on user interaction
-      setIsMuted(true)
-    })
-  }, []) // run once on mount
+    try {
+      await audio.play()
+    } catch {
+      // A few embedded browsers block even muted media; the next user gesture will retry.
+    }
+  }, [])
 
-  // ── Tab / window visibility: mute not pause ───────────────────────
   useEffect(() => {
-    const onHide = () => applyMute(true)
+    controlRef.current?.style.setProperty('z-index', '9100', 'important')
+  }, [])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    void playAudible().then((started) => {
+      if (!started && !userMutedRef.current) void warmUpMuted()
+    })
+  }, [playAudible, warmUpMuted])
+
+  useEffect(() => {
+    const unlockAudio = (event: Event) => {
+      if (userMutedRef.current) return
+
+      const target = event.target
+      if (target instanceof Element && target.closest('.music-icon-button')) return
+
+      void playAudible().then((started) => {
+        if (!started) return
+        document.removeEventListener('pointerdown', unlockAudio, true)
+        document.removeEventListener('keydown', unlockAudio, true)
+      })
+    }
+
+    document.addEventListener('pointerdown', unlockAudio, true)
+    document.addEventListener('keydown', unlockAudio, true)
+
+    return () => {
+      document.removeEventListener('pointerdown', unlockAudio, true)
+      document.removeEventListener('keydown', unlockAudio, true)
+    }
+  }, [playAudible])
+
+  useEffect(() => {
+    const onHide = () => {
+      const audio = audioRef.current
+      if (!audio || userMutedRef.current) return
+      audio.muted = true
+      setIsMuted(true)
+    }
 
     const onShow = () => {
-      ensurePlaying()
-      if (!userMutedRef.current) applyMute(false)
+      if (!userMutedRef.current) void playAudible()
     }
 
     const onVisibility = () =>
@@ -76,20 +100,27 @@ export function MusicToggle() {
       window.removeEventListener('blur', onHide)
       window.removeEventListener('focus', onShow)
     }
-  }, [applyMute, ensurePlaying])
+  }, [playAudible])
 
-  // ── User toggle ───────────────────────────────────────────────────
   const toggleMute = () => {
-    const nextMuted = !audioRef.current?.muted
-    userMutedRef.current = nextMuted
-    applyMute(nextMuted)
-    ensurePlaying()
+    const audio = audioRef.current
+    if (!audio) return
+
+    if (isMuted) {
+      userMutedRef.current = false
+      void playAudible()
+      return
+    }
+
+    userMutedRef.current = true
+    audio.muted = true
+    setIsMuted(true)
   }
 
   const label = isMuted ? 'Turn music on' : 'Turn music off'
 
   return (
-    <div className="music-control">
+    <div ref={controlRef} className="music-control">
       <audio ref={audioRef} src="./music/pixel-birthday.mp3" loop preload="auto" playsInline />
       <button className="music-icon-button" type="button" onClick={toggleMute} aria-label={label} title={label}>
         {isMuted ? <VolumeX size={22} strokeWidth={3} /> : <Volume2 size={22} strokeWidth={3} />}
