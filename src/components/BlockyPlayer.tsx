@@ -9,6 +9,7 @@ type BlockyPlayerProps = {
   player: Rsvp
   hero?: boolean
   onTripleTap?: (player: Rsvp) => void
+  onHold?: (player: Rsvp) => void
 }
 
 type PlayerStyle = CSSProperties & {
@@ -376,13 +377,58 @@ function MinecraftModel({
   )
 }
 
-export function BlockyPlayer({ player, hero = false, onTripleTap }: BlockyPlayerProps) {
+export function BlockyPlayer({ player, hero = false, onTripleTap, onHold }: BlockyPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const tapCountRef = useRef(0)
   const tapTimeoutRef = useRef<number | null>(null)
+  const holdTimeoutRef = useRef<number | null>(null)
+  const isHoldingRef = useRef(false)
+  const startPosRef = useRef({ x: 0, y: 0 })
 
-  const handleTap = () => {
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return
+    isHoldingRef.current = false
+    startPosRef.current = { x: e.clientX, y: e.clientY }
+
+    if (holdTimeoutRef.current) {
+      window.clearTimeout(holdTimeoutRef.current)
+    }
+
+    holdTimeoutRef.current = window.setTimeout(() => {
+      isHoldingRef.current = true
+      if (onHold) {
+        onHold(player)
+      }
+    }, 700)
+  }
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    const dx = e.clientX - startPosRef.current.x
+    const dy = e.clientY - startPosRef.current.y
+    if (Math.sqrt(dx * dx + dy * dy) > 10) {
+      if (holdTimeoutRef.current) {
+        window.clearTimeout(holdTimeoutRef.current)
+        holdTimeoutRef.current = null
+      }
+    }
+  }
+
+  const handlePointerUp = () => {
+    if (holdTimeoutRef.current) {
+      window.clearTimeout(holdTimeoutRef.current)
+      holdTimeoutRef.current = null
+    }
+  }
+
+  const handleTap = (e: React.MouseEvent) => {
+    if (isHoldingRef.current) {
+      isHoldingRef.current = false
+      e.preventDefault()
+      e.stopPropagation()
+      return
+    }
+
     if (hero || !onTripleTap) return
 
     tapCountRef.current += 1
@@ -405,6 +451,9 @@ export function BlockyPlayer({ player, hero = false, onTripleTap }: BlockyPlayer
     return () => {
       if (tapTimeoutRef.current) {
         window.clearTimeout(tapTimeoutRef.current)
+      }
+      if (holdTimeoutRef.current) {
+        window.clearTimeout(holdTimeoutRef.current)
       }
     }
   }, [])
@@ -580,6 +629,10 @@ export function BlockyPlayer({ player, hero = false, onTripleTap }: BlockyPlayer
       animate={{ opacity: 1, y: 0, scale: 1 }}
       whileTap={{ scale: hero ? 1 : 0.94 }}
       transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
       onClick={handleTap}
     >
       <div className="player-name">{hero ? 'WISWIS' : player.name}</div>

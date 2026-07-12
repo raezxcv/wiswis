@@ -1153,9 +1153,14 @@ h2 {
   line-height: 1.4;
 }
 
-.music-icon-button,
-.secret-chest {
+.music-icon-button {
   filter: drop-shadow(0 10px 14px rgba(16, 38, 58, 0.18));
+}
+
+.secret-chest {
+  filter: 
+    drop-shadow(0 5px 0 #2c1602) 
+    drop-shadow(0 9px 15px rgba(10, 22, 34, 0.44));
 }
 
 @media (max-width: 760px) {
@@ -7130,7 +7135,7 @@ h1 {
   font-family: 'Minecraft Ten', Impact, fantasy;
   border: 4px solid #681915;
   border-radius: 0;
-  color: #fff;
+  color: #3a0806;
   font-weight: 950;
   padding: 14px 20px;
   background: linear-gradient(#ffc8c2 0 48%, #ec5b4e 48% 100%);
@@ -7165,3 +7170,358 @@ h1 {
   margin-top: 0 !important;
   font-size: 1.05rem;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ENTRANCE & SCROLL REVEAL ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Hero entrance — fires immediately on page load ─────────── */
+@keyframes hero-entrance-fade {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hero-entrance-pop {
+  0%   { opacity: 0; transform: translateY(32px) scale(0.95); }
+  60%  { opacity: 1; transform: translateY(-6px) scale(1.02); }
+  80%  { opacity: 1; transform: translateY(3px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Hero elements start hidden; IntersectionObserver at threshold=0
+   fires instantly so they animate on page load. */
+.hero-entrance [data-reveal] {
+  opacity: 0;
+}
+
+.hero-entrance.is-revealed [data-reveal] {
+  opacity: 1;
+  animation: hero-entrance-pop 680ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* ── Scroll-reveal base — hidden until .is-revealed added ────── */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(36px) scale(0.96);
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes reveal-pop {
+  0%   { opacity: 0; transform: translateY(28px) scale(0.95); }
+  55%  { opacity: 1; transform: translateY(-5px) scale(1.02); }
+  75%  { opacity: 1; transform: translateY(2px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Any element with [data-reveal] starts invisible */
+[data-reveal] {
+  opacity: 0;
+}
+
+/* Once the ancestor has .is-revealed, children animate in */
+.is-revealed [data-reveal] {
+  opacity: 1;
+  animation: reveal-pop 600ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* Respect prefers-reduced-motion: show instantly, no movement */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  .hero-entrance [data-reveal] {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SKELETON LOADING
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes skeleton-breathe {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.85; }
+}
+
+/* Shared skeleton shimmer gradient */
+.skeleton-name,
+.skeleton-sprite,
+.skeleton-block {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.55) 40%,
+    rgba(255, 255, 255, 0.18) 80%
+  );
+  background-size: 800px 100%;
+  animation:
+    skeleton-shimmer 1.6s ease-in-out infinite,
+    skeleton-breathe 2.2s ease-in-out infinite;
+  border-radius: 0;
+}
+
+/* Ghost player container — mirrors .blocky-player proportions */
+.skeleton-player {
+  display: grid !important;
+  justify-items: center !important;
+  min-width: 118px !important;
+  gap: 0 !important;
+  opacity: 1 !important;
+  animation: none !important; /* override player-pop */
+}
+
+/* Name tag ghost */
+.skeleton-name {
+  width: 90px;
+  height: 34px;
+  margin-bottom: 12px;
+  background-color: rgba(120, 160, 140, 0.38);
+}
+
+/* Body sprite ghost — roughly the height of head + torso + legs */
+.skeleton-sprite {
+  width: 58px;
+  height: 148px;
+  background-color: rgba(100, 145, 120, 0.32);
+  /* stagger shimmer per card using nth-child */
+  animation-delay: calc(var(--skeleton-index, 0) * 180ms), 0ms;
+}
+
+/* Grass block ghost */
+.skeleton-block {
+  width: 96px;
+  height: 44px;
+  background-color: rgba(80, 130, 80, 0.30);
+}
+
+/* Stagger the shimmer across multiple skeletons */
+.skeleton-player:nth-child(1) { --skeleton-index: 0; }
+.skeleton-player:nth-child(2) { --skeleton-index: 1; }
+.skeleton-player:nth-child(3) { --skeleton-index: 2; }
+.skeleton-player:nth-child(4) { --skeleton-index: 3; }
+.skeleton-player:nth-child(5) { --skeleton-index: 4; }
+.skeleton-player:nth-child(6) { --skeleton-index: 5; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LEVEL INTRO LOADER (MINECRAFT STYLE)
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes loader-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes loader-glitch {
+  0%   { transform: translateX(0) skewX(0deg); filter: none; }
+  10%  { transform: translateX(-4px) skewX(-4deg); filter: hue-rotate(90deg); }
+  20%  { transform: translateX(4px) skewX(3deg); filter: hue-rotate(-90deg); }
+  30%  { transform: translateX(-3px); filter: brightness(1.8); }
+  40%  { transform: translateX(0); filter: none; }
+  100% { transform: translateX(0); filter: none; }
+}
+
+@keyframes loader-level-in {
+  0%   { opacity: 0; transform: scale(2.4) rotate(-5deg); }
+  60%  { opacity: 1; transform: scale(0.96) rotate(1deg); }
+  80%  { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+@keyframes loader-pulse-glow {
+  0%, 100% { text-shadow: 0 0 8px rgba(74,255,70,0.5), 0 0 20px rgba(74,255,70,0.3); }
+  50%       { text-shadow: 0 0 24px rgba(74,255,70,1), 0 0 48px rgba(74,255,70,0.7); }
+}
+
+@keyframes loader-split-top {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes loader-split-bottom {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+.retro-loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.retro-loader-overlay.is-exiting .loader-split-top {
+  animation: loader-split-top 0.72s cubic-bezier(0.72, 0, 0.84, 0) forwards;
+}
+
+.retro-loader-overlay.is-exiting .loader-split-bottom {
+  animation: loader-split-bottom 0.72s cubic-bezier(0.72, 0, 0.84, 0) forwards;
+}
+
+.loader-split-top,
+.loader-split-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background-color: #1c1816;
+  /* Matching dirt pattern for splits */
+  background-image: 
+    linear-gradient(30deg, #100e0d 12%, transparent 12.5%, transparent 87%, #100e0d 87.5%, #100e0d),
+    linear-gradient(150deg, #100e0d 12%, transparent 12.5%, transparent 87%, #100e0d 87.5%, #100e0d),
+    linear-gradient(60deg, #25201d 25%, transparent 25.5%, transparent 75%, #25201d 75.5%, #25201d);
+  background-size: 32px 56px;
+  z-index: 2;
+  pointer-events: none;
+}
+.loader-split-top    { top: 0; transform: translateY(0); border-bottom: 8px solid #000; }
+.loader-split-bottom { bottom: 0; transform: translateY(0); border-top: 8px solid #000; }
+
+.loader-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.loader-grid-bg {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Classic Minecraft GUI Panel */
+.loader-card {
+  position: relative;
+  background: #2c2c2c;
+  border: 4px solid #000;
+  outline: 4px solid #5b5b5b;
+  box-shadow: 
+    inset -4px -4px 0 #141414, 
+    inset 4px 4px 0 #8b8b8b, 
+    0 20px 48px rgba(0, 0, 0, 0.85);
+  padding: 40px 44px;
+  max-width: 480px;
+  width: 88%;
+  image-rendering: pixelated;
+}
+
+.loader-text-status {
+  font-family: 'Minecraft Ten', monospace, fantasy;
+  font-size: 0.75rem;
+  color: #c6c6c6;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 0.05em;
+  margin-bottom: 28px;
+  min-height: 1.4em;
+  text-align: center;
+}
+
+.blink-text { animation: loader-blink 1.1s step-end infinite; }
+.success-text { color: #55ff55; text-shadow: 2px 2px 0 #000; }
+
+.loader-level-display {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.level-label {
+  font-family: 'Minecraft Ten', monospace, fantasy;
+  font-size: 0.65rem;
+  color: #a9a9a9;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 0.16em;
+  margin-bottom: 12px;
+}
+
+.level-num {
+  font-family: 'Minecraft Ten', Impact, fantasy;
+  font-size: clamp(3.4rem, 12vw, 5.8rem);
+  display: block;
+  line-height: 1;
+  color: #55ff55;
+  text-shadow: 4px 4px 0 #000;
+}
+
+.level-6-num {
+  animation: loader-glitch 0.5s ease-in-out infinite;
+  color: #ffaa00;
+  text-shadow: 4px 4px 0 #000;
+}
+
+.level-7-num {
+  animation: loader-level-in 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  color: #55ff55;
+}
+
+.animate-pulse-glow {
+  animation: loader-level-in 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both,
+             loader-pulse-glow 1.6s ease-in-out infinite 0.6s;
+}
+
+/* Minecraft EXP Bar Style Progress */
+.loader-progress-bar-container {
+  position: relative;
+  height: 20px;
+  background: #000;
+  border: 4px solid #5b5b5b;
+  box-shadow: inset 2px 2px 0 #000;
+  margin-bottom: 24px;
+}
+
+.loader-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3fa33f 0%, #55ff55 100%);
+  border-right: 4px solid #1a7e1a;
+  transition: width 0.12s linear;
+}
+
+.progress-percentage {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Minecraft Ten', monospace, fantasy;
+  font-size: 0.65rem;
+  color: #55ff55;
+  text-shadow: 2px 2px 0 #000;
+  font-weight: bold;
+}
+
+.loader-subtext {
+  font-family: 'Minecraft Ten', monospace, fantasy;
+  font-size: 0.62rem;
+  color: #8b8b8b;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.08em;
+  text-align: center;
+  min-height: 1.4em;
+}
+

@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import React, { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Send } from 'lucide-react'
 import type { Greeting } from '../data/birthdayData'
 import wiswisDP from '../assets/wiswisdp.jpg'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 
 type GreetingsChatProps = {
@@ -35,6 +36,7 @@ const formatTime = (createdAt?: string) => {
 export function GreetingsChat({ greetings, demoMode, senderName, onSend }: GreetingsChatProps) {
   const normalizedSenderName = useMemo(() => senderName.trim().toUpperCase().slice(0, 30), [senderName])
   const chatWindowRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useScrollReveal<HTMLElement>(0.08, 80)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [isSending, setIsSending] = useState(false)
@@ -74,8 +76,8 @@ export function GreetingsChat({ greetings, demoMode, senderName, onSend }: Greet
   }
 
   return (
-    <section className="greetings-section" aria-labelledby="greetings-title" data-chat-mode={demoMode ? 'local' : 'live'}>
-      <div className="section-heading lobby-heading chat-heading">
+    <section className="greetings-section" aria-labelledby="greetings-title" data-chat-mode={demoMode ? 'local' : 'live'} ref={sectionRef}>
+      <div className="section-heading lobby-heading chat-heading" data-reveal>
         <p className="eyebrow">Group Chat</p>
         <h2 id="greetings-title">
           Birthday <br className="mobile-greetings-title-break" aria-hidden="true" />Greetings
@@ -83,7 +85,7 @@ export function GreetingsChat({ greetings, demoMode, senderName, onSend }: Greet
         <span>Leave Wiswis a birthday wish</span>
       </div>
 
-      <div className="chat-panel">
+      <div className="chat-panel" data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties}>
         <div className="chat-celebrant-card" aria-label="Birthday celebrant profile">
           <img src={wiswisDP} alt="Wiswis" className="chat-celebrant-dp" />
           <div className="chat-celebrant-info">

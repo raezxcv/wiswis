@@ -10,8 +10,10 @@ import { Secret67Chest } from './components/Secret67Chest'
 import { type Greeting, type Rsvp } from './data/birthdayData'
 import clickSoundUrl from './assets/minecraft_click.mp3?url'
 import { addGreeting, listenToGreetings } from './firebase/greetingService'
-import { addRsvp, isFirebaseConfigured, listenToRsvps, deleteRsvp } from './firebase/rsvpService'
+import { addRsvp, isFirebaseConfigured, listenToRsvps, deleteRsvp, updateRsvp } from './firebase/rsvpService'
 import { DeleteConfirmModal } from './components/DeleteConfirmModal'
+import { LevelIntroLoader } from './components/LevelIntroLoader'
+import { CharacterSelectModal } from './components/CharacterSelectModal'
 
 const playerNameKey = 'wiswis-player-name'
 
@@ -32,8 +34,22 @@ function App() {
   const [playerName, setPlayerName] = useState(getSavedPlayerName)
   const [playerToDelete, setPlayerToDelete] = useState<Rsvp | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isRsvpsLoading, setIsRsvpsLoading] = useState(isFirebaseConfigured)
+  const [showIntro, setShowIntro] = useState(true)
+  const [playerToCustomize, setPlayerToCustomize] = useState<Rsvp | null>(null)
+  const [hostCustomization, setHostCustomization] = useState<Partial<Rsvp>>(() => {
+    try {
+      const saved = window.localStorage.getItem('wiswis-custom-character')
+      return saved ? JSON.parse(saved) : {}
+    } catch {
+      return {}
+    }
+  })
 
-  useEffect(() => listenToRsvps(setRsvps), [])
+  useEffect(() => listenToRsvps((data) => {
+    setRsvps(data)
+    setIsRsvpsLoading(false)
+  }), [])
   useEffect(() => listenToGreetings(setGreetings), [])
 
   useEffect(() => {
@@ -110,36 +126,87 @@ function App() {
     }
   }
 
+  const handleUpdateRsvp = async (updates: Partial<Rsvp>) => {
+    if (!playerToCustomize) return
+
+    if (playerToCustomize.id === 'wiswis') {
+      // Host: save customization to localStorage only
+      const nextCustomization = { ...hostCustomization, ...updates }
+      setHostCustomization(nextCustomization)
+      try {
+        window.localStorage.setItem('wiswis-custom-character', JSON.stringify(nextCustomization))
+      } catch {
+        // localStorage unavailable
+      }
+      return
+    }
+
+    const guestId = playerToCustomize.id
+    if (isFirebaseConfigured && guestId) {
+      await updateRsvp(guestId, updates)
+      // Firestore onSnapshot will update rsvps automatically
+    } else {
+      // Demo mode: update locally
+      setRsvps((current) =>
+        current.map((item) =>
+          (item.id === guestId || (!guestId && item.name === playerToCustomize.name))
+            ? { ...item, ...updates }
+            : item,
+        ),
+      )
+    }
+  }
+
+  const handleIntroComplete = () => {
+    setShowIntro(false)
+  }
+
   return (
-    <main className="app-shell">
-      <MusicToggle />
-      <InvitationHero onRsvp={() => setIsRsvpOpen(true)} />
-      <PlayerPartyScreen guests={rsvps} demoMode={!isFirebaseConfigured} onPlayerTripleTap={setPlayerToDelete} />
-      <EventDetails />
-      <Countdown />
-      <GreetingsChat
-        greetings={greetings}
-        demoMode={!isFirebaseConfigured}
-        senderName={playerName}
-        onSend={handleGreeting}
-      />
-      <Secret67Chest />
-      <RSVPModal
-        isOpen={isRsvpOpen}
-        onClose={() => setIsRsvpOpen(false)}
-        onNameChange={rememberPlayerName}
-        onSubmit={handleRsvp}
-        existingNames={rsvps.map((r) => r.name.toUpperCase())}
-      />
-      <DeleteConfirmModal
-        player={playerToDelete}
-        onClose={() => setPlayerToDelete(null)}
-        onConfirm={confirmDelete}
-        isDeleting={isDeleting}
-      />
-    </main>
+    <>
+      {showIntro && <LevelIntroLoader onComplete={handleIntroComplete} />}
+      <main className="app-shell">
+        <MusicToggle />
+        <InvitationHero onRsvp={() => setIsRsvpOpen(true)} active={!showIntro} />
+        <PlayerPartyScreen
+          guests={rsvps}
+          demoMode={!isFirebaseConfigured}
+          isLoading={isRsvpsLoading}
+          hostCustomization={hostCustomization}
+          onPlayerTripleTap={setPlayerToDelete}
+          onPlayerHold={setPlayerToCustomize}
+        />
+        <EventDetails />
+        <Countdown />
+        <GreetingsChat
+          greetings={greetings}
+          demoMode={!isFirebaseConfigured}
+          senderName={playerName}
+          onSend={handleGreeting}
+        />
+        <Secret67Chest />
+        <RSVPModal
+          isOpen={isRsvpOpen}
+          onClose={() => setIsRsvpOpen(false)}
+          onNameChange={rememberPlayerName}
+          onSubmit={handleRsvp}
+          existingNames={rsvps.map((r) => r.name.toUpperCase())}
+        />
+        <DeleteConfirmModal
+          player={playerToDelete}
+          onClose={() => setPlayerToDelete(null)}
+          onConfirm={confirmDelete}
+          isDeleting={isDeleting}
+        />
+        {playerToCustomize && (
+          <CharacterSelectModal
+            player={playerToCustomize}
+            onClose={() => setPlayerToCustomize(null)}
+            onSave={handleUpdateRsvp}
+          />
+        )}
+      </main>
+    </>
   )
 }
 
 export default App
-

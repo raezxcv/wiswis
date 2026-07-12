@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import cakeUrl from '../assets/cake.jpg'
 import { birthdayData } from '../data/birthdayData'
 import { launchConfetti } from '../utils/confetti'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 type CountdownState =
   | { mode: 'before'; days: number; hours: number; minutes: number; seconds: number }
@@ -49,6 +50,7 @@ const BirthdayCakeButton = () => (
 
 export function Countdown() {
   const [countdown, setCountdown] = useState(getCountdown)
+  const sectionRef = useScrollReveal<HTMLElement>(0.1, 80)
 
   useEffect(() => {
     const timerId = window.setInterval(() => setCountdown(getCountdown()), 1000)
@@ -57,7 +59,7 @@ export function Countdown() {
 
   if (countdown.mode === 'today') {
     return (
-      <section className="countdown-section" aria-labelledby="countdown-title">
+      <section className="countdown-section" aria-labelledby="countdown-title" ref={sectionRef}>
         <CountdownHeading title="Level 7 Unlocked!" />
         <BirthdayCakeButton />
       </section>
@@ -66,7 +68,7 @@ export function Countdown() {
 
   if (countdown.mode === 'after') {
     return (
-      <section className="countdown-section" aria-labelledby="countdown-title">
+      <section className="countdown-section" aria-labelledby="countdown-title" ref={sectionRef}>
         <CountdownHeading title="Birthday Quest Completed!" />
         <BirthdayCakeButton />
       </section>
@@ -81,12 +83,12 @@ export function Countdown() {
   ] as const
 
   return (
-    <section className="countdown-section" aria-labelledby="countdown-title">
+    <section className="countdown-section" aria-labelledby="countdown-title" ref={sectionRef}>
       <CountdownHeading title="Countdown" />
-      <div className="countdown-panel level-countdown">
+      <div className="countdown-panel level-countdown" data-reveal>
         <div className="countdown-grid">
-          {units.map(([label, value]) => (
-            <span className="countdown-tile" key={label}>
+          {units.map(([label, value], i) => (
+            <span className="countdown-tile" key={label} data-reveal style={{ '--reveal-delay': `${i * 70}ms` } as React.CSSProperties}>
               <strong>{String(value).padStart(2, '0')}</strong>
               <small>{label}</small>
             </span>

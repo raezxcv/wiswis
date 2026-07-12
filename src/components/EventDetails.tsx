@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import wis1 from '../assets/wisgallery/wis1.jpg'
 import wis2 from '../assets/wisgallery/wis2.jpg'
@@ -11,6 +11,7 @@ import wis8 from '../assets/wisgallery/wis8.jpg'
 import wis9 from '../assets/wisgallery/wis9.jpg'
 import wis10 from '../assets/wisgallery/wis10.jpg'
 import { birthdayData } from '../data/birthdayData'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const galleryImages = [
   { src: wis1, alt: 'Wiswis party memory 1', title: 'Wiswis Snapshot 1' },
@@ -86,6 +87,7 @@ export function EventDetails() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [openPopup, setOpenPopup] = useState<string | null>(null)
   const activeImage = galleryImages[activeIndex]
+  const sectionRef = useScrollReveal<HTMLElement>(0.08, 100)
 
   const moveSlide = (direction: -1 | 1) => {
     setActiveIndex((i) => (i + direction + galleryImages.length) % galleryImages.length)
@@ -123,8 +125,8 @@ export function EventDetails() {
   const activeDetail = details.find((d) => d.label === openPopup)
 
   return (
-    <section className="details-section" aria-labelledby="details-title">
-      <div className="section-heading lobby-heading details-heading">
+    <section className="details-section" aria-labelledby="details-title" ref={sectionRef}>
+      <div className="section-heading lobby-heading details-heading" data-reveal>
         <p className="eyebrow">Party Quest</p>
         <h2 id="details-title">
           Event <br className="mobile-details-title-break" aria-hidden="true" />Details
@@ -133,7 +135,7 @@ export function EventDetails() {
       </div>
 
       <dl className="event-grid" aria-label="Event details">
-        {details.map(({ label, emoji, value }) => (
+        {details.map(({ label, emoji, value }, index) => (
           <div
             className="event-detail event-detail-clickable"
             key={label}
@@ -141,6 +143,8 @@ export function EventDetails() {
             tabIndex={0}
             aria-haspopup="dialog"
             aria-label={`${label}: ${value}. Tap to see details.`}
+            data-reveal
+            style={{ '--reveal-delay': `${index * 100 + 80}ms` } as React.CSSProperties}
             onClick={() => setOpenPopup(label)}
             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenPopup(label) } }}
           >

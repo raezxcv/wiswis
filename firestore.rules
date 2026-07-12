@@ -25,7 +25,14 @@ service cloud.firestore {
         && request.resource.data.attending == true
         && request.resource.data.createdAt == request.time
         && (!('characterModel' in request.resource.data.keys()) || request.resource.data.characterModel is string);
-      allow update: if false;
+      allow update: if request.resource.data.name == resource.data.name
+        && request.resource.data.message == resource.data.message
+        && request.resource.data.attending == resource.data.attending
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.characterColor in ['green', 'blue', 'gold', 'red', 'purple', 'teal', 'pink', 'black']
+        && request.resource.data.avatar in ['green', 'blue', 'gold', 'red', 'purple', 'teal', 'pink', 'black']
+        && request.resource.data.characterStyle in ['boy', 'girl']
+        && (!('characterModel' in request.resource.data.keys()) || request.resource.data.characterModel is string);
       allow delete: if true;
     }
 

@@ -2,11 +2,15 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { birthdayData, type Rsvp } from '../data/birthdayData'
 import { BlockyPlayer } from './BlockyPlayer'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 type PlayerPartyScreenProps = {
   guests: Rsvp[]
   demoMode: boolean
+  isLoading?: boolean
+  hostCustomization?: Partial<Rsvp>
   onPlayerTripleTap?: (player: Rsvp) => void
+  onPlayerHold?: (player: Rsvp) => void
 }
 
 type LobbyScrollState = {
@@ -25,7 +29,7 @@ const formatJoinedName = (name: string) =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
     .join(' ')
 
-const wiswis: Rsvp = {
+const defaultWiswis: Rsvp = {
   id: 'wiswis',
   name: birthdayData.childName,
   characterColor: 'blue',
@@ -52,12 +56,19 @@ const flankGuestsByNewest = (guests: Rsvp[]) => {
   return { leftGuests, rightGuests }
 }
 
-export function PlayerPartyScreen({ guests, demoMode, onPlayerTripleTap }: PlayerPartyScreenProps) {
+const SKELETON_COUNT = 6
+
+export function PlayerPartyScreen({ guests, demoMode, isLoading = false, hostCustomization, onPlayerTripleTap, onPlayerHold }: PlayerPartyScreenProps) {
+  const headingRef = useScrollReveal<HTMLDivElement>(0.1, 60)
+  const wiswis: Rsvp = {
+    ...defaultWiswis,
+    characterColor: hostCustomization?.characterColor ?? defaultWiswis.characterColor,
+    avatar: hostCustomization?.characterColor ?? defaultWiswis.characterColor,
+    characterStyle: hostCustomization?.characterStyle ?? defaultWiswis.characterStyle,
+    characterModel: hostCustomization?.characterModel,
+  }
   const { leftGuests, rightGuests } = flankGuestsByNewest(guests)
   const partyScrollRef = useRef<HTMLDivElement>(null)
-  const knownGuestKeysRef = useRef<Set<string>>(new Set())
-  const canShowJoinToastsRef = useRef(false)
-  const [joinedName, setJoinedName] = useState('')
   const [scrollState, setScrollState] = useState<LobbyScrollState>({
     hasOverflow: false,
     canScrollLeft: false,
@@ -154,33 +165,7 @@ export function PlayerPartyScreen({ guests, demoMode, onPlayerTripleTap }: Playe
     }
   }, [centerWiswisOnMobile, guests.length, updateScrollState])
 
-  useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      canShowJoinToastsRef.current = true
-    }, 1400)
 
-    return () => window.clearTimeout(timeoutId)
-  }, [])
-
-  useEffect(() => {
-    const nextGuestKeys = new Set(guests.map(getGuestKey))
-
-    if (!canShowJoinToastsRef.current) {
-      knownGuestKeysRef.current = nextGuestKeys
-      return undefined
-    }
-
-    const newGuests = guests.filter((guest) => !knownGuestKeysRef.current.has(getGuestKey(guest)))
-    knownGuestKeysRef.current = nextGuestKeys
-
-    if (newGuests.length === 0) return undefined
-
-    const latestGuest = newGuests[newGuests.length - 1]
-    setJoinedName(formatJoinedName(latestGuest.name))
-
-    const timeoutId = window.setTimeout(() => setJoinedName(''), 3200)
-    return () => window.clearTimeout(timeoutId)
-  }, [guests])
 
   const scrollLobby = (direction: -1 | 1) => {
     const scrollElement = partyScrollRef.current
@@ -214,33 +199,56 @@ export function PlayerPartyScreen({ guests, demoMode, onPlayerTripleTap }: Playe
       <div className="pixel-cloud lobby-cloud lobby-cloud-3" aria-hidden="true" />
       <div className="pixel-cloud lobby-cloud lobby-cloud-4" aria-hidden="true" />
 
-      <div className="section-heading lobby-heading">
-        <p className="eyebrow">Wiswis Party Screen</p>
-        <h2 id="party-title">
+      <div className="section-heading lobby-heading" ref={headingRef}>
+        <p className="eyebrow" data-reveal>Wiswis Party Screen</p>
+        <h2 id="party-title" data-reveal>
           Birthday <br className="mobile-party-title-break" aria-hidden="true" />Lobby
         </h2>
-        <span>{demoMode ? 'Demo guests showing until Firebase env is added' : `${guests.length} players joined`}</span>
+        <span data-reveal>{demoMode ? 'Demo guests showing until Firebase env is added' : `${guests.length} players joined`}</span>
       </div>
 
-      {joinedName ? (
-        <div className="join-toast" role="status" aria-live="polite">
-          {joinedName} joined the party!
-        </div>
-      ) : null}
+
 
       <div ref={partyScrollRef} className="party-scroll" tabIndex={0} aria-label="RSVP party lobby">
         <div className="party-row">
-          <div className="guest-side left-side">
-            {leftGuests.map((guest) => (
-              <BlockyPlayer key={guest.id ?? guest.name} player={guest} onTripleTap={onPlayerTripleTap} />
-            ))}
-          </div>
-          <BlockyPlayer player={wiswis} hero />
-          <div className="guest-side right-side">
-            {rightGuests.map((guest) => (
-              <BlockyPlayer key={guest.id ?? guest.name} player={guest} onTripleTap={onPlayerTripleTap} />
-            ))}
-          </div>
+          {isLoading ? (
+            // Skeleton state — ghost players flanking the hero
+            <>
+              <div className="guest-side left-side">
+                {Array.from({ length: Math.ceil(SKELETON_COUNT / 2) }, (_, i) => (
+                  <div key={i} className="blocky-player skeleton-player" aria-hidden="true">
+                    <div className="skeleton-name" />
+                    <div className="skeleton-sprite" />
+                    <div className="skeleton-block" />
+                  </div>
+                ))}
+              </div>
+              <BlockyPlayer player={wiswis} hero />
+              <div className="guest-side right-side">
+                {Array.from({ length: Math.floor(SKELETON_COUNT / 2) }, (_, i) => (
+                  <div key={i} className="blocky-player skeleton-player" aria-hidden="true">
+                    <div className="skeleton-name" />
+                    <div className="skeleton-sprite" />
+                    <div className="skeleton-block" />
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="guest-side left-side">
+                {leftGuests.map((guest) => (
+                  <BlockyPlayer key={getGuestKey(guest)} player={guest} onTripleTap={onPlayerTripleTap} onHold={onPlayerHold} />
+                ))}
+              </div>
+              <BlockyPlayer player={wiswis} hero onHold={onPlayerHold} />
+              <div className="guest-side right-side">
+                {rightGuests.map((guest) => (
+                  <BlockyPlayer key={getGuestKey(guest)} player={guest} onTripleTap={onPlayerTripleTap} onHold={onPlayerHold} />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
 

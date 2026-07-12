@@ -182,11 +182,74 @@ export async function deleteRsvp(id: string) {
     return
   }
   try {
-    const docRef = doc(db, firestoreCollection, id)
-    await deleteDoc(docRef)
+    const response = await fetch(
+      `https://firestore.googleapis.com/v1/projects/${firebaseProjectId}/databases/(default)/documents/${firestoreCollection}/${id}?key=${firebaseConfig.apiKey}`,
+      {
+        method: 'DELETE',
+      },
+    )
+    if (!response.ok) {
+      const payload = (await response.json().catch(() => null)) as { error?: { message?: string; status?: string } } | null
+      const status = payload?.error?.status ? `${payload.error.status}: ` : ''
+      throw new Error(`${status}${payload?.error?.message ?? 'Firestore rejected the RSVP delete.'}`)
+    }
   } catch (error) {
     console.error('Firebase RSVP delete failed', error)
     throw error
+  }
+}
+
+export async function updateRsvp(id: string, updates: Partial<Omit<Rsvp, 'id' | 'createdAt'>>) {
+  if (!isFirebaseConfigured || !db) {
+    return
+  }
+
+  const documentPath = `projects/${firebaseProjectId}/databases/(default)/documents/${firestoreCollection}/${id}`
+  const fields: Record<string, any> = {}
+  const updateMaskPaths: string[] = []
+
+  if (updates.characterColor !== undefined) {
+    fields.characterColor = { stringValue: updates.characterColor }
+    updateMaskPaths.push('characterColor')
+  }
+  if (updates.avatar !== undefined) {
+    fields.avatar = { stringValue: updates.avatar }
+    updateMaskPaths.push('avatar')
+  }
+  if (updates.characterStyle !== undefined) {
+    fields.characterStyle = { stringValue: updates.characterStyle }
+    updateMaskPaths.push('characterStyle')
+  }
+  if (updates.characterModel !== undefined) {
+    fields.characterModel = { stringValue: updates.characterModel }
+    updateMaskPaths.push('characterModel')
+  }
+
+  const response = await fetch(
+    `https://firestore.googleapis.com/v1/projects/${firebaseProjectId}/databases/(default)/documents:commit?key=${firebaseConfig.apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        writes: [
+          {
+            update: {
+              name: documentPath,
+              fields,
+            },
+            updateMask: {
+              fieldPaths: updateMaskPaths,
+            },
+          },
+        ],
+      }),
+    },
+  )
+
+  if (!response.ok) {
+    const payload = (await response.json().catch(() => null)) as { error?: { message?: string; status?: string } } | null
+    const status = payload?.error?.status ? `${payload.error.status}: ` : ''
+    throw new Error(`${status}${payload?.error?.message ?? 'Firestore rejected the RSVP update.'}`)
   }
 }
 
