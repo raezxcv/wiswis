@@ -127,11 +127,11 @@ export function EventDetails() {
   return (
     <section className="details-section" aria-labelledby="details-title" ref={sectionRef}>
       <div className="section-heading lobby-heading details-heading" data-reveal>
-        <p className="eyebrow">Party Quest</p>
-        <h2 id="details-title">
+        <p className="eyebrow" data-reveal>Party Quest</p>
+        <h2 id="details-title" data-reveal style={{ '--reveal-delay': '60ms' } as React.CSSProperties}>
           Event <br className="mobile-details-title-break" aria-hidden="true" />Details
         </h2>
-        <span>Join the quest at the specified coordinates</span>
+        <span data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties}>Join the quest at the specified coordinates</span>
       </div>
 
       <dl className="event-grid" aria-label="Event details">
@@ -182,7 +182,7 @@ export function EventDetails() {
       )}
 
       {/* Gallery */}
-      <div className="gallery-section" aria-label="Wiswis birthday image gallery">
+      <div className="gallery-section" aria-label="Wiswis birthday image gallery" data-reveal style={{ '--reveal-delay': '180ms' } as React.CSSProperties}>
         <div className="gallery-carousel" aria-roledescription="carousel">
           <button className="gallery-nav gallery-nav-left" type="button" onClick={() => moveSlide(-1)} aria-label="Previous gallery image">
             <ChevronLeft aria-hidden="true" strokeWidth={3.4} />

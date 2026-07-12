@@ -21,14 +21,6 @@ type LobbyScrollState = {
 
 const getGuestKey = (guest: Rsvp) => guest.id ?? `${guest.name}-${guest.createdAt ?? ''}`
 
-const formatJoinedName = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
-    .join(' ')
-
 const defaultWiswis: Rsvp = {
   id: 'wiswis',
   name: birthdayData.childName,

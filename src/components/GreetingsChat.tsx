@@ -4,7 +4,6 @@ import type { Greeting } from '../data/birthdayData'
 import wiswisDP from '../assets/wiswisdp.jpg'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
-
 type GreetingsChatProps = {
   greetings: Greeting[]
   demoMode: boolean
@@ -77,15 +76,15 @@ export function GreetingsChat({ greetings, demoMode, senderName, onSend }: Greet
 
   return (
     <section className="greetings-section" aria-labelledby="greetings-title" data-chat-mode={demoMode ? 'local' : 'live'} ref={sectionRef}>
-      <div className="section-heading lobby-heading chat-heading" data-reveal>
-        <p className="eyebrow">Group Chat</p>
-        <h2 id="greetings-title">
+      <div className="section-heading lobby-heading chat-heading">
+        <p className="eyebrow" data-reveal>Group Chat</p>
+        <h2 id="greetings-title" data-reveal style={{ '--reveal-delay': '60ms' } as React.CSSProperties}>
           Birthday <br className="mobile-greetings-title-break" aria-hidden="true" />Greetings
         </h2>
-        <span>Leave Wiswis a birthday wish</span>
+        <span data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties}>Leave Wiswis a birthday wish</span>
       </div>
 
-      <div className="chat-panel" data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties}>
+      <div className="chat-panel" data-reveal style={{ '--reveal-delay': '180ms' } as React.CSSProperties}>
         <div className="chat-celebrant-card" aria-label="Birthday celebrant profile">
           <img src={wiswisDP} alt="Wiswis" className="chat-celebrant-dp" />
           <div className="chat-celebrant-info">
@@ -134,7 +133,3 @@ export function GreetingsChat({ greetings, demoMode, senderName, onSend }: Greet
     </section>
   )
 }
-
-
-
-

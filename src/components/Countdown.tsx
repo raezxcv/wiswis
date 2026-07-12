@@ -29,9 +29,9 @@ const getCountdown = (): CountdownState => {
 
 const CountdownHeading = ({ title }: { title: string }) => (
   <div className="section-heading lobby-heading countdown-heading">
-    <p className="eyebrow">Birthday Quest</p>
-    <h2 id="countdown-title">{title}</h2>
-    <span>Level 7 unlocks in:</span>
+    <p className="eyebrow" data-reveal>Birthday Quest</p>
+    <h2 id="countdown-title" data-reveal style={{ '--reveal-delay': '60ms' } as React.CSSProperties}>{title}</h2>
+    <span data-reveal style={{ '--reveal-delay': '120ms' } as React.CSSProperties}>Level 7 unlocks in:</span>
   </div>
 )
 
@@ -43,7 +43,7 @@ const celebrateWithCake = () => {
 }
 
 const BirthdayCakeButton = () => (
-  <button className="countdown-cake-button" type="button" onClick={celebrateWithCake} aria-label="Celebrate with cake">
+  <button className="countdown-cake-button" data-reveal style={{ '--reveal-delay': '200ms' } as React.CSSProperties} type="button" onClick={celebrateWithCake} aria-label="Celebrate with cake">
     <img src={cakeUrl} alt="Birthday cake" />
   </button>
 )
