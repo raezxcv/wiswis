@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { avatarChoices, type CharacterModel, type CharacterStyle, type Rsvp } from '../data/birthdayData'
+import { type CharacterModel, type Rsvp } from '../data/birthdayData'
 
 type CharacterSelectModalProps = {
   player: Rsvp
@@ -20,8 +20,6 @@ const modelOptions: { id: CharacterModel; label: string }[] = [
 ]
 
 export function CharacterSelectModal({ player, onClose, onSave }: CharacterSelectModalProps) {
-  const [selectedColor, setSelectedColor] = useState(player.characterColor)
-  const [selectedStyle, setSelectedStyle] = useState<CharacterStyle>(player.characterStyle ?? 'boy')
   const [selectedModel, setSelectedModel] = useState<CharacterModel | 'default'>(player.characterModel ?? 'default')
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState('')
@@ -32,9 +30,9 @@ export function CharacterSelectModal({ player, onClose, onSave }: CharacterSelec
     setError('')
 
     const updates: Partial<Rsvp> = {
-      characterColor: selectedColor,
-      avatar: selectedColor, // Sync avatar with characterColor
-      characterStyle: selectedStyle,
+      characterColor: player.characterColor,
+      avatar: player.characterColor, // Sync avatar with characterColor
+      characterStyle: player.characterStyle ?? 'boy',
       characterModel: selectedModel === 'default' ? undefined : selectedModel,
     }
 
