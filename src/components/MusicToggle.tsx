@@ -2,28 +2,24 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Volume2, VolumeX } from 'lucide-react'
 
 /**
- * Music always plays (muted autoplay is universally supported).
- * - On first load: audio starts muted, then unmutes automatically when the
- *   browser allows it and the tab is visible.
- * - Tab hidden / window blur: mutes the audio (does NOT pause it) so it
- *   resumes the instant the user switches back — no interaction needed.
- * - User can toggle mute on/off manually; their preference is remembered.
+ * Autoplay strategy that works in every browser:
+ *
+ * 1. Call play() while muted  →  always allowed, no gesture needed
+ * 2. Immediately after play() resolves, set muted = false  →  also allowed
+ *    because the element is already "playing"; changing muted doesn't require
+ *    a gesture.
+ *
+ * Result: music is audible from the very first frame, including during the
+ * loading screen, without ever needing a user click.
+ *
+ * Tab hidden / blur  →  mute (not pause) so it resumes instantly.
+ * User toggle button →  explicit mute/unmute; preference remembered across
+ *                       tab switches.
  */
 export function MusicToggle() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
-  // true = user explicitly muted via the button
-  const userMutedRef = useRef(false)
-  const [isMuted, setIsMuted] = useState(true)
-
-  // ── Core helpers ────────────────────────────────────────────────
-  const ensurePlaying = useCallback(() => {
-    const audio = audioRef.current
-    if (!audio) return
-    // Always try to play — muted autoplay works in every browser
-    if (audio.paused) {
-      void audio.play().catch(() => undefined)
-    }
-  }, [])
+  const userMutedRef = useRef(false)   // true = user manually muted
+  const [isMuted, setIsMuted] = useState(false)
 
   const applyMute = useCallback((muted: boolean) => {
     const audio = audioRef.current
@@ -32,86 +28,59 @@ export function MusicToggle() {
     setIsMuted(muted)
   }, [])
 
-  // ── On mount: try unmuted first, mute only if browser blocks it ─
+  const ensurePlaying = useCallback(() => {
+    const audio = audioRef.current
+    if (audio?.paused) void audio.play().catch(() => undefined)
+  }, [])
+
+  // ── Mount: muted play() → immediate unmute ────────────────────────
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
 
     audio.volume = 0.35
-    audio.muted = false  // try unmuted — works if browser allows autoplay
+    audio.muted = true  // must start muted so play() is never blocked
 
-    const tryPlay = async () => {
-      try {
-        await audio.play()
-        // Unmuted autoplay succeeded — music is on during loading!
+    void audio.play().then(() => {
+      // play() succeeded → we are now "playing while muted"
+      // Setting muted = false here does NOT require a user gesture
+      if (!userMutedRef.current) {
+        audio.muted = false
         setIsMuted(false)
-      } catch {
-        // Browser blocked unmuted autoplay — fall back to muted
-        audio.muted = true
-        setIsMuted(true)
-        try {
-          await audio.play()  // muted autoplay always succeeds
-        } catch {
-          // nothing more we can do
-        }
-
-        // Unmute on first interaction
-        const onInteraction = () => {
-          if (!userMutedRef.current) applyMute(false)
-          cleanup()
-        }
-        const cleanup = () => {
-          document.removeEventListener('pointerdown', onInteraction)
-          document.removeEventListener('keydown', onInteraction)
-        }
-        document.addEventListener('pointerdown', onInteraction)
-        document.addEventListener('keydown', onInteraction)
       }
-    }
+    }).catch(() => {
+      // Extremely rare: even muted autoplay failed (sandboxed iframe, etc.)
+      // Just leave it muted and rely on user interaction
+      setIsMuted(true)
+    })
+  }, []) // run once on mount
 
-    void tryPlay()
-  }, [applyMute])
-
-  // ── Visibility / focus handling — mute not pause ─────────────────
+  // ── Tab / window visibility: mute not pause ───────────────────────
   useEffect(() => {
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        // Mute when tab is hidden but keep audio running
-        applyMute(true)
-      } else {
-        // Restore based on user's choice when tab comes back
-        ensurePlaying()
-        if (!userMutedRef.current) applyMute(false)
-      }
-    }
+    const onHide = () => applyMute(true)
 
-    const onBlur = () => {
-      // Mute when window loses focus (e.g. alt-tab to another app)
-      applyMute(true)
-    }
-
-    const onFocus = () => {
+    const onShow = () => {
       ensurePlaying()
       if (!userMutedRef.current) applyMute(false)
     }
 
-    document.addEventListener('visibilitychange', onVisibilityChange)
-    window.addEventListener('blur', onBlur)
-    window.addEventListener('focus', onFocus)
+    const onVisibility = () =>
+      document.visibilityState === 'hidden' ? onHide() : onShow()
+
+    document.addEventListener('visibilitychange', onVisibility)
+    window.addEventListener('blur', onHide)
+    window.addEventListener('focus', onShow)
 
     return () => {
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-      window.removeEventListener('blur', onBlur)
-      window.removeEventListener('focus', onFocus)
+      document.removeEventListener('visibilitychange', onVisibility)
+      window.removeEventListener('blur', onHide)
+      window.removeEventListener('focus', onShow)
     }
   }, [applyMute, ensurePlaying])
 
-  // ── User toggle ──────────────────────────────────────────────────
+  // ── User toggle ───────────────────────────────────────────────────
   const toggleMute = () => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    const nextMuted = !audio.muted
+    const nextMuted = !audioRef.current?.muted
     userMutedRef.current = nextMuted
     applyMute(nextMuted)
     ensurePlaying()
