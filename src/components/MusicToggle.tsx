@@ -32,46 +32,44 @@ export function MusicToggle() {
     setIsMuted(muted)
   }, [])
 
-  // ── On mount: start muted, then try to unmute ────────────────────
+  // ── On mount: try unmuted first, mute only if browser blocks it ─
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
 
-    // Muted autoplay is universally allowed
-    audio.muted = true
     audio.volume = 0.35
-    void audio.play().catch(() => undefined)
-    setIsMuted(true)
+    audio.muted = false  // try unmuted — works if browser allows autoplay
 
-    // Attempt to unmute immediately (works if user has interacted before,
-    // e.g. refresh after visiting the page)
-    const tryUnmute = () => {
-      if (!userMutedRef.current && document.visibilityState === 'visible') {
-        applyMute(false)
+    const tryPlay = async () => {
+      try {
+        await audio.play()
+        // Unmuted autoplay succeeded — music is on during loading!
+        setIsMuted(false)
+      } catch {
+        // Browser blocked unmuted autoplay — fall back to muted
+        audio.muted = true
+        setIsMuted(true)
+        try {
+          await audio.play()  // muted autoplay always succeeds
+        } catch {
+          // nothing more we can do
+        }
+
+        // Unmute on first interaction
+        const onInteraction = () => {
+          if (!userMutedRef.current) applyMute(false)
+          cleanup()
+        }
+        const cleanup = () => {
+          document.removeEventListener('pointerdown', onInteraction)
+          document.removeEventListener('keydown', onInteraction)
+        }
+        document.addEventListener('pointerdown', onInteraction)
+        document.addEventListener('keydown', onInteraction)
       }
     }
 
-    // Small delay lets the browser settle before we attempt unmute
-    const timerId = window.setTimeout(tryUnmute, 300)
-
-    // Also unmute on first user interaction if still muted
-    const onInteraction = () => {
-      if (!userMutedRef.current) applyMute(false)
-      cleanup()
-    }
-
-    const cleanup = () => {
-      document.removeEventListener('pointerdown', onInteraction)
-      document.removeEventListener('keydown', onInteraction)
-    }
-
-    document.addEventListener('pointerdown', onInteraction)
-    document.addEventListener('keydown', onInteraction)
-
-    return () => {
-      window.clearTimeout(timerId)
-      cleanup()
-    }
+    void tryPlay()
   }, [applyMute])
 
   // ── Visibility / focus handling — mute not pause ─────────────────
