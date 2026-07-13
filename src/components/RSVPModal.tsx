@@ -126,7 +126,7 @@ export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNam
                 style={{ gridColumn: 'span 2' }}
                 onClick={() => setSelectedModel('default')}
               >
-                Auto (Based on Name/Gender)
+                Auto (Random)
               </button>
               {modelOptions.map((opt) => (
                 <button
