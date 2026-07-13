@@ -65,21 +65,15 @@ export function LevelIntroLoader({ onComplete }: { onComplete: () => void }) {
     <div className={`retro-loader-overlay step-${step}`} aria-live="assertive" role="alert">
       <div className="loader-split-top" />
       <div className="loader-split-bottom" />
-      
+
       <div className="loader-content">
         <div className="loader-grid-bg" />
-        
+
         <div className="loader-card">
           <div className="pixel-border-corner top-left" />
           <div className="pixel-border-corner top-right" />
           <div className="pixel-border-corner bottom-left" />
           <div className="pixel-border-corner bottom-right" />
-
-          <div className="loader-text-status">
-            {step === 0 && <span className="blink-text">▶ CONNECTING TO SERVER...</span>}
-            {step === 1 && <span className="blink-text">▶ SCANNING SERVER DATA...</span>}
-            {step >= 2 && <span className="success-text">▶ INITIATING SPAWN UPGRADE...</span>}
-          </div>
 
           <div className="loader-level-display">
             <div className="level-label">SERVER STAGE</div>
@@ -96,10 +90,19 @@ export function LevelIntroLoader({ onComplete }: { onComplete: () => void }) {
             <img src={wispet} alt="Wispet" className="loader-pet-gif" />
           </div>
 
+          <div className="loader-text-status">
+            {step === 0 && <span className="blink-text">▶ CONNECTING TO SERVER...</span>}
+            {step === 1 && <span className="blink-text">▶ SCANNING SERVER DATA...</span>}
+            {step >= 2 && <span className="success-text">▶ INITIATING SPAWN UPGRADE...</span>}
+          </div>
+
+
           <div className="loader-progress-bar-container">
             <div className="loader-progress-bar" style={{ width: `${progress}%` }} />
             <span className="progress-percentage">{progress}%</span>
           </div>
+
+
 
           <div className="loader-subtext">
             {step === 0 && 'IP: 192.168.7.67 • PORT: 25565'}

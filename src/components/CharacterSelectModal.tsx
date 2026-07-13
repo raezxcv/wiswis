@@ -13,7 +13,6 @@ const modelOptions: { id: CharacterModel; label: string }[] = [
   { id: 'roblox-bacon-hair', label: 'Roblox Bacon' },
   { id: 'roblox-noob', label: 'Roblox Noob' },
   { id: 'roblox-girl', label: 'Roblox Girl' },
-  { id: 'dog', label: 'Dog' },
   { id: 'ispeed', label: 'ISpeed' },
   { id: 'tung', label: 'Tung' },
   { id: 'buff-steve', label: 'Buff Steve' },

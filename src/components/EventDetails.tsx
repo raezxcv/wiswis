@@ -77,6 +77,7 @@ const details: DetailPopup[] = [
             height="340"
             style={{ border: 0 }}
             allowFullScreen
+            allow="accelerometer; gyroscope"
             loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
             title="McDonald's Sta. Ana map"

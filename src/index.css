@@ -7420,8 +7420,8 @@ h1 {
   z-index: 2;
   pointer-events: none;
 }
-.loader-split-top    { top: 0; transform: translateY(0); border-bottom: 8px solid #5c4a37; }
-.loader-split-bottom { bottom: 0; transform: translateY(0); border-top: 8px solid #5c4a37; }
+.loader-split-top    { top: 0; transform: translateY(0); }
+.loader-split-bottom { bottom: 0; transform: translateY(0); }
 
 .loader-content {
   position: relative;

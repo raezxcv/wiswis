@@ -14,6 +14,7 @@ import { addRsvp, isFirebaseConfigured, listenToRsvps, deleteRsvp, updateRsvp } 
 import { DeleteConfirmModal } from './components/DeleteConfirmModal'
 import { LevelIntroLoader } from './components/LevelIntroLoader'
 import { CharacterSelectModal } from './components/CharacterSelectModal'
+import { PlayerOptionsModal } from './components/PlayerOptionsModal'
 
 const playerNameKey = 'wiswis-player-name'
 
@@ -37,6 +38,7 @@ function App() {
   const [isRsvpsLoading, setIsRsvpsLoading] = useState(isFirebaseConfigured)
   const [showIntro, setShowIntro] = useState(true)
   const [playerToCustomize, setPlayerToCustomize] = useState<Rsvp | null>(null)
+  const [playerWithOptions, setPlayerWithOptions] = useState<Rsvp | null>(null)
   const [hostCustomization, setHostCustomization] = useState<Partial<Rsvp>>(() => {
     try {
       const saved = window.localStorage.getItem('wiswis-custom-character')
@@ -165,15 +167,14 @@ function App() {
     <>
       {showIntro && <LevelIntroLoader onComplete={handleIntroComplete} />}
       <main className="app-shell">
-        <MusicToggle />
+        {!showIntro && <MusicToggle />}
         <InvitationHero onRsvp={() => setIsRsvpOpen(true)} active={!showIntro} />
         <PlayerPartyScreen
           guests={rsvps}
           demoMode={!isFirebaseConfigured}
           isLoading={isRsvpsLoading}
           hostCustomization={hostCustomization}
-          onPlayerTripleTap={setPlayerToDelete}
-          onPlayerHold={setPlayerToCustomize}
+          onPlayerHold={setPlayerWithOptions}
         />
         <EventDetails />
         <Countdown />
@@ -202,6 +203,20 @@ function App() {
             player={playerToCustomize}
             onClose={() => setPlayerToCustomize(null)}
             onSave={handleUpdateRsvp}
+          />
+        )}
+        {playerWithOptions && (
+          <PlayerOptionsModal
+            player={playerWithOptions}
+            onClose={() => setPlayerWithOptions(null)}
+            onCustomize={() => {
+              setPlayerToCustomize(playerWithOptions)
+              setPlayerWithOptions(null)
+            }}
+            onRemove={() => {
+              setPlayerToDelete(playerWithOptions)
+              setPlayerWithOptions(null)
+            }}
           />
         )}
       </main>

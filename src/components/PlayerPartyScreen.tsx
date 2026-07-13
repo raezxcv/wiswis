@@ -9,7 +9,6 @@ type PlayerPartyScreenProps = {
   demoMode: boolean
   isLoading?: boolean
   hostCustomization?: Partial<Rsvp>
-  onPlayerTripleTap?: (player: Rsvp) => void
   onPlayerHold?: (player: Rsvp) => void
 }
 
@@ -50,7 +49,7 @@ const flankGuestsByNewest = (guests: Rsvp[]) => {
 
 const SKELETON_COUNT = 6
 
-export function PlayerPartyScreen({ guests, demoMode, isLoading = false, hostCustomization, onPlayerTripleTap, onPlayerHold }: PlayerPartyScreenProps) {
+export function PlayerPartyScreen({ guests, demoMode, isLoading = false, hostCustomization, onPlayerHold }: PlayerPartyScreenProps) {
   const headingRef = useScrollReveal<HTMLDivElement>(0.1, 60)
   const wiswis: Rsvp = {
     ...defaultWiswis,
@@ -230,13 +229,13 @@ export function PlayerPartyScreen({ guests, demoMode, isLoading = false, hostCus
             <>
               <div className="guest-side left-side">
                 {leftGuests.map((guest) => (
-                  <BlockyPlayer key={getGuestKey(guest)} player={guest} onTripleTap={onPlayerTripleTap} onHold={onPlayerHold} />
+                  <BlockyPlayer key={getGuestKey(guest)} player={guest} onHold={onPlayerHold} />
                 ))}
               </div>
               <BlockyPlayer player={wiswis} hero onHold={onPlayerHold} />
               <div className="guest-side right-side">
                 {rightGuests.map((guest) => (
-                  <BlockyPlayer key={getGuestKey(guest)} player={guest} onTripleTap={onPlayerTripleTap} onHold={onPlayerHold} />
+                  <BlockyPlayer key={getGuestKey(guest)} player={guest} onHold={onPlayerHold} />
                 ))}
               </div>
             </>

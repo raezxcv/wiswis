@@ -1,6 +1,6 @@
-import type { CSSProperties, FormEvent } from 'react'
+import type { FormEvent } from 'react'
 import { useState } from 'react'
-import { avatarChoices, type CharacterStyle, type Rsvp } from '../data/birthdayData'
+import { avatarChoices, type CharacterModel, type CharacterStyle, type Rsvp } from '../data/birthdayData'
 
 type RsvpPayload = Omit<Rsvp, 'id' | 'attending' | 'createdAt'>
 
@@ -12,15 +12,20 @@ type RSVPModalProps = {
   existingNames?: string[]
 }
 
-const styleChoices: { id: CharacterStyle; label: string }[] = [
-  { id: 'boy', label: 'Boy' },
-  { id: 'girl', label: 'Girl' },
+const modelOptions: { id: CharacterModel; label: string }[] = [
+  { id: 'minecraft-boy', label: 'Minecraft Boy' },
+  { id: 'minecraft-girl', label: 'Minecraft Girl' },
+  { id: 'roblox-bacon-hair', label: 'Roblox Bacon' },
+  { id: 'roblox-noob', label: 'Roblox Noob' },
+  { id: 'roblox-girl', label: 'Roblox Girl' },
+  { id: 'ispeed', label: 'ISpeed' },
+  { id: 'tung', label: 'Tung' },
+  { id: 'buff-steve', label: 'Buff Steve' },
 ]
 
 export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNames }: RSVPModalProps) {
   const [name, setName] = useState('')
-  const [choice, setChoice] = useState(avatarChoices[0].id)
-  const [characterStyle, setCharacterStyle] = useState<CharacterStyle>('boy')
+  const [selectedModel, setSelectedModel] = useState<CharacterModel | 'default'>('default')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -43,17 +48,28 @@ export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNam
     setError('')
     setIsLoading(true)
 
+    const nameUpper = trimmedName.toUpperCase()
+    const hash = nameUpper.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const assignedColor = avatarChoices[hash % avatarChoices.length].id
+
+    const finalStyle: CharacterStyle =
+      selectedModel === 'minecraft-girl' || selectedModel === 'roblox-girl'
+        ? 'girl'
+        : selectedModel === 'default'
+          ? (hash % 2 === 0 ? 'girl' : 'boy')
+          : 'boy'
+
     try {
       await onSubmit({
         name: trimmedName.slice(0, 30),
-        characterColor: choice,
-        avatar: choice,
-        characterStyle,
+        characterColor: assignedColor,
+        avatar: assignedColor,
+        characterStyle: finalStyle,
+        characterModel: selectedModel === 'default' ? undefined : selectedModel,
         message: '',
       })
       setName('')
-      setChoice(avatarChoices[0].id)
-      setCharacterStyle('boy')
+      setSelectedModel('default')
       onClose()
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : 'Could not join the party.')
@@ -87,35 +103,23 @@ export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNam
 
           <fieldset>
             <legend>Character style</legend>
-            <div className="style-grid">
-              {styleChoices.map((style) => (
+            <div className="model-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+              <button
+                type="button"
+                className={selectedModel === 'default' ? 'style-choice selected' : 'style-choice'}
+                style={{ gridColumn: 'span 2' }}
+                onClick={() => setSelectedModel('default')}
+              >
+                Auto (Based on Name/Gender)
+              </button>
+              {modelOptions.map((opt) => (
                 <button
-                  className={characterStyle === style.id ? 'style-choice selected' : 'style-choice'}
-                  key={style.id}
+                  key={opt.id}
                   type="button"
-                  onClick={() => setCharacterStyle(style.id)}
-                  aria-pressed={characterStyle === style.id}
+                  className={selectedModel === opt.id ? 'style-choice selected' : 'style-choice'}
+                  onClick={() => setSelectedModel(opt.id)}
                 >
-                  {style.label}
-                </button>
-              ))}
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Character color</legend>
-            <div className="color-grid">
-              {avatarChoices.map((avatar) => (
-                <button
-                  className={choice === avatar.id ? 'color-choice selected' : 'color-choice'}
-                  key={avatar.id}
-                  style={{ '--swatch': avatar.hex } as CSSProperties}
-                  type="button"
-                  onClick={() => setChoice(avatar.id)}
-                  aria-pressed={choice === avatar.id}
-                >
-                  <span />
-                  {avatar.label.toUpperCase()}
+                  {opt.label}
                 </button>
               ))}
             </div>

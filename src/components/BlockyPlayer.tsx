@@ -8,7 +8,6 @@ import { BrainrotModel } from './BrainrotModel'
 type BlockyPlayerProps = {
   player: Rsvp
   hero?: boolean
-  onTripleTap?: (player: Rsvp) => void
   onHold?: (player: Rsvp) => void
 }
 
@@ -207,7 +206,7 @@ function MinecraftModel({
 
     const loadingManager = new THREE.LoadingManager()
     loadingManager.setURLModifier((url: string) => {
-      const textureName = url.split(/[\\\/]/).pop()?.toLowerCase()
+      const textureName = url.split(/[/\\]/).pop()?.toLowerCase()
       return textureName && model.textureUrls[textureName] ? model.textureUrls[textureName] : url
     })
 
@@ -377,11 +376,9 @@ function MinecraftModel({
   )
 }
 
-export function BlockyPlayer({ player, hero = false, onTripleTap, onHold }: BlockyPlayerProps) {
+export function BlockyPlayer({ player, hero = false, onHold }: BlockyPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const tapCountRef = useRef(0)
-  const tapTimeoutRef = useRef<number | null>(null)
+  const [isVisible, setIsVisible] = useState(hero)
   const holdTimeoutRef = useRef<number | null>(null)
   const isHoldingRef = useRef(false)
   const startPosRef = useRef({ x: 0, y: 0 })
@@ -428,30 +425,10 @@ export function BlockyPlayer({ player, hero = false, onTripleTap, onHold }: Bloc
       e.stopPropagation()
       return
     }
-
-    if (hero || !onTripleTap) return
-
-    tapCountRef.current += 1
-    if (tapCountRef.current >= 3) {
-      onTripleTap(player)
-      tapCountRef.current = 0
-      return
-    }
-
-    if (tapTimeoutRef.current) {
-      window.clearTimeout(tapTimeoutRef.current)
-    }
-
-    tapTimeoutRef.current = window.setTimeout(() => {
-      tapCountRef.current = 0
-    }, 1000)
   }
 
   useEffect(() => {
     return () => {
-      if (tapTimeoutRef.current) {
-        window.clearTimeout(tapTimeoutRef.current)
-      }
       if (holdTimeoutRef.current) {
         window.clearTimeout(holdTimeoutRef.current)
       }
@@ -459,11 +436,8 @@ export function BlockyPlayer({ player, hero = false, onTripleTap, onHold }: Bloc
   }, [])
 
   useEffect(() => {
-    // Only use observer on guest players (Wiswis the hero is always on screen/centered)
-    if (hero) {
-      setIsVisible(true)
-      return undefined
-    }
+    // Hero players are always visible — no IntersectionObserver needed.
+    if (hero) return undefined
 
     const observer = new IntersectionObserver(
       ([entry]) => {

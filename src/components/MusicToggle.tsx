@@ -41,10 +41,6 @@ export function MusicToggle() {
   }, [])
 
   useEffect(() => {
-    controlRef.current?.style.setProperty('z-index', '9100', 'important')
-  }, [])
-
-  useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
 
