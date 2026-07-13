@@ -23,6 +23,21 @@ const modelOptions: { id: CharacterModel; label: string }[] = [
   { id: 'buff-steve', label: 'Buff Steve' },
 ]
 
+const AUTO_MODELS: CharacterModel[] = [
+  'minecraft-boy',
+  'minecraft-girl',
+  'roblox-bacon-hair',
+  'roblox-noob',
+  'roblox-girl',
+  'ispeed',
+  'tung',
+  'buff-steve',
+]
+
+function pickRandomModel(): CharacterModel {
+  return AUTO_MODELS[Math.floor(Math.random() * AUTO_MODELS.length)]
+}
+
 export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNames }: RSVPModalProps) {
   const [name, setName] = useState('')
   const [selectedModel, setSelectedModel] = useState<CharacterModel | 'default'>('default')
@@ -52,12 +67,13 @@ export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNam
     const hash = nameUpper.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
     const assignedColor = avatarChoices[hash % avatarChoices.length].id
 
+    const resolvedModel: CharacterModel =
+      selectedModel === 'default' ? pickRandomModel() : selectedModel
+
     const finalStyle: CharacterStyle =
-      selectedModel === 'minecraft-girl' || selectedModel === 'roblox-girl'
+      resolvedModel === 'minecraft-girl' || resolvedModel === 'roblox-girl'
         ? 'girl'
-        : selectedModel === 'default'
-          ? (hash % 2 === 0 ? 'girl' : 'boy')
-          : 'boy'
+        : 'boy'
 
     try {
       await onSubmit({
@@ -65,7 +81,7 @@ export function RSVPModal({ isOpen, onClose, onNameChange, onSubmit, existingNam
         characterColor: assignedColor,
         avatar: assignedColor,
         characterStyle: finalStyle,
-        characterModel: selectedModel === 'default' ? undefined : selectedModel,
+        characterModel: resolvedModel,
         message: '',
       })
       setName('')

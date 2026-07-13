@@ -28,7 +28,7 @@ export function InvitationHero({ onRsvp, active = true }: InvitationHeroProps) {
           <span>7th Birthday</span>
         </h1>
         <p className="hero-subtitle" data-reveal>Spawn into Level 7 on Louis&apos; server quest!</p>
-        <p className="hero-copy" data-reveal><strong>McDo Sta. Ana | August 7 @ 5:00 PM</strong></p>
+        <p className="hero-copy" data-reveal><strong>McDo Sta. Ana | August 7 | 5:00 PM</strong></p>
         <p className="hero-copy muted" data-reveal>Claim your username and join the party lobby!</p>
         <button className="primary-button" type="button" onClick={onRsvp} data-reveal>
           Join the Server!
